@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Search Task</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="static/css/styles.css" rel="stylesheet" />
+        <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+tr, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+        </style>
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">Explore Project</div>
+                <div class="list-group list-group-flush">
+
+
+
+                    <form action="{% url 'info' %}" method="post">
+                    {% csrf_token %}
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
+                    </form>
+
+
+
+                    <form action="{% url 'taskview1' %}" method="post">
+                    {% csrf_token %}
+
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">
+                    </form>
+
+                    <form action="{% url 'taskreport' %}" method="post">
+                     {% csrf_token %}
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">
+                    </form>
+
+
+
+                    <form action="{% url 'report' %}" method="post">
+                    {% csrf_token %}
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">
+                    </form>
+
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 6px;border-radius: 3px;cursor: pointer;" class="btn btn-primary" id="sidebarToggle">Press To Full Screen</button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active"><a class="nav-link" href="#!">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#!">Action</a>
+                                        <a class="dropdown-item" href="#!">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#!">Something else here</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <p>
+  <h3><center>Here is our Details:</center> </h3>
+  <hr>
+  <p>
+  <p>
+<table style="width:100%">
+      <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
+          <td>ID</td>
+          <td>Updated Date</td>
+
+         <td>latest Update</td>
+
+      </tr>
+{% for item in data %}
+      <tr>
+          <td>{{ forloop.counter }}</td>
+         <td>{{ item.3 }}</td>
+<!--          <td>{{ item.work_stream}}</td>-->
+<!--          <td>{{ item.task}}</td>-->
+<!--          <td>{{ item.value_hml}}</td>-->
+<!--          <td>{{ item.urgent_yn}}</td>-->
+          <td>{{ item.1 }}</td>
+
+
+      </tr>
+{% endfor %}
+  </table>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="static/js/scripts.js"></script>
+    </body>
+</html>

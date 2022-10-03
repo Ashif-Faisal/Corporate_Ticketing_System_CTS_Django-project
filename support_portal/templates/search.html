@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Form</title>
+</head>
+<body>
+
+ <form action="{% url 'info' %}" method="post">
+        {% csrf_token %}
+    <input type="submit" name="" value="Entry Task Here">
+</form><p></p>
+ <form action="{% url 'report' %}" method="post">
+        {% csrf_token %}
+    <input type="submit" name="" value="Total Report Here">
+</form>
+<br><br>
+  <form action="{% url 'taskview' %}" method="post">
+        {% csrf_token %}
+    <label for="task">Enter Task Name: </label>
+    <input id="task" type="text" name="task" value="" placeholder="Enter Task Name Here..">
+    <input type="submit" value="Show">
+</form>
+  <br>
+
+
+
+  <br>
+  <form action="{% url 'searchview' %}" method="post">
+    {% csrf_token %}
+    <label for="status"><b>Task Status:</b> Choose a Options:</label>
+  <select name="status" id="status">
+      <option value="" selected>--Choose Option--</option>
+    <option value="Pending">Pending</option>
+    <option value="Done">Done</option>
+  </select>
+  <input type="submit" value="Submit">
+</form>
+  <br>
+<form action="{% url 'pendingtask' %}" method="post">
+    {% csrf_token %}
+    <label for="sr_name"><b>Pending Task:</b> Choose a Person:</label>
+  <select name="sr_name" id="sr_name">
+      <option value="" selected>--Choose Option--</option>
+    <option value="Faisal">Faisal</option>
+    <option value="Rimi Apu">Rimi Apu</option>
+    <option value="Adib Bhai">Adib Bhai</option>
+    <option value="Nazmul Bhai">Nazmul Bhai</option>
+    <option value="Azmir Bhai">Azmir Bhai</option>
+
+  </select>
+  <input type="submit" value="Submit">
+</form>
+<br>
+<table border="1">
+
+    <p><h4>Report Here...</h4></p>
+    <hr>
+<!--    <tr>-->
+<!--        <td><h4>ID</h4></td>-->
+<!--        <td><h4>sr_name</h4></td>-->
+<!--        <td><h4>task</h4></td>-->
+<!--        <td><h4>request_date</h4></td>-->
+<!--        <td><h4>needed_date</h4></td>-->
+<!--        <td><h4>status</h4></td>-->
+<!--    </tr>-->
+    {% for item in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ item.20 }}</td>
+        <td>{{ item.22 }}</td>
+        <td>{{ item.19 }}</td>
+        <td>{{ item.14 }}</td>
+        <td>{{ item.21 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

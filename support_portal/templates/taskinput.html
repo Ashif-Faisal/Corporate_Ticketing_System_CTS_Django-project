@@ -1,0 +1,162 @@
+
+<html>
+<head>
+
+<title>Input Task</title>
+<style>
+
+body{ background:#dee9ff;}
+.con{
+  width: 600px;
+  background:#FFFFFF;
+  margin:0 auto;
+  padding-top:30px;
+  padding-bottom:30px;
+}
+
+h1{
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: bold;
+  color:#6f6f6f;
+  text-align: center;
+
+}
+
+table{
+  font-family: Calibri;
+  color:#6f6f6f;
+  font-size: 11pt;
+  font-style: normal;
+  font-weight: bold;
+  background-color: #FFFFFF;
+  border-collapse: collapse;
+  border-radius:10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+}
+
+.submit{
+
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #5791ff;
+    border: none;
+    color: white;
+	width:400px;
+}
+
+</style>
+</head>
+
+<body>
+<form action="{% url 'info' %}" method="POST">
+	{% csrf_token %}
+  <h1>Task Input FORM</h1>
+  <div class="con">
+  <table align="center" cellpadding = "10">
+
+    <tr>
+      <td>Sr. Name</td>
+      <td><input name="sr_name" type="text" /></td>
+      <td>Work Stream</td>
+      <td><input name="work_stream" type="text" /></td>
+    </tr>
+
+  <tr>
+      <td>Task</td>
+      <td><input name="task" type="text" /></td>
+      <td>Value (H.M.L)</td>
+      <td><input name="value_hml" type="text" /></td>
+    </tr>
+    <tr>
+<!--      <td>Gender</td>-->
+<!--      <td><select name="">-->
+<!--      <option>Male</option>-->
+<!--       <option>Female</option>-->
+<!--      </select></td>-->
+      <td>Urgent (Y.N)</td>
+      <td><input name="urgent_yn" type="text" /></td>
+      <td>Requested by (Actor)</td>
+      <td><input name="request_by_actor" type="text" /></td>
+    </tr>
+
+    <tr>
+      <td>Request Date</td>
+      <td><input name="request_date" type="date" /></td>
+      <td>Needed Date</td>
+      <td><input name="needed_date" type="date" /></td>
+    </tr>
+    <tr>
+      <td>ETD</td>
+      <td><input name="etd" type="date" /></td>
+      <td>ACD</td>
+      <td><input name="acd" type="date" /></td>
+    </tr>
+
+      <tr>
+      <td>Prog %</td>
+      <td><input name="prog" type="text" /></td>
+      <td>Status</td>
+      <td><input name="status" type="text" /></td>
+    </tr>
+
+      <tr>
+      <td>Maker-1</td>
+      <td><input name="maker1" type="text" /></td>
+      <td>Maker-2</td>
+      <td><input name="maker2" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Checker</td>
+      <td><input name="checker" type="text" /></td>
+      <td>Maker 1 Time</td>
+      <td><input name="maker1time" type="text" /></td>
+    </tr>
+
+      <tr>
+      <td>Maker 2 Time</td>
+      <td><input name="maker2time" type="text" /></td>
+      <td>Checker Time</td>
+      <td><input name="checker_time" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Mahid Time(hr)</td>
+      <td><input name="mahid_time" type="text" /></td>
+      <td>Outside Office Time</td>
+      <td><input name="outside_office_time" type="text" /></td>
+    </tr>
+
+      <tr>
+      <td>URL</td>
+      <td><input name="url" type="text" /></td>
+      <td>Remarks</td>
+      <td><input name="remarks" type="text" /></td>
+    </tr>
+    <tr>
+      <td>Task Details</td>
+      <td><input name="task_details" type="text" /></td>
+      <td>Email</td>
+      <td><input name="email" type="text" /></td>
+    </tr>
+      <tr>
+      <td>Add To Google Calender</td>
+      <td><input name="add_to_google" type="text" /></td>
+      <td>Comments</td>
+      <td><input name="" type="text" /></td>
+    </tr>
+{{form.errors}}
+    <tr>
+      <td></td>
+      <td colspan="4"><input type="submit" value="Submit" class="submit"></td>
+
+    </tr>
+
+  </table>
+
+ </div>
+    </form>
+</body>
+</html>

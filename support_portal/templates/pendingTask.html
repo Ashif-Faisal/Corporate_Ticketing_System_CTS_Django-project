@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Task</title>
+</head>
+<body>
+<p>
+<table border="1">
+    <tr>
+        <td><h4>ID</h4></td>
+        <td><h4>sr_name</h4></td>
+        <td><h4>task</h4></td>
+        <td><h4>request_date</h4></td>
+        <td><h4>needed_date</h4></td>
+        <td><h4>status</h4></td>
+    </tr>
+    {% for item in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ item.20 }}</td>
+        <td>{{ item.22 }}</td>
+        <td>{{ item.19 }}</td>
+        <td>{{ item.14 }}</td>
+        <td>{{ item.21 }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+</body>
+</html>

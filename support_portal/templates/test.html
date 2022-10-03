@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: 1px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.heading{
+		background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+		border: 5px solid #CAF0F8;
+ 		padding: 25px;
+		}
+
+</style>
+</head>
+<body>
+
+<b><h1 class="heading"style="color:white;"><center>Progoti systems ltd. (Tickting)</center></h1></b>
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'Home')" id="defaultOpen">Home</button>
+	<button class="tablinks" name="" onclick="openCity(event, 'entrytask')">Entry Task</button>
+  <button class="tablinks" onclick="openCity(event, 'searchtask')">Search Task</button>
+  <button class="tablinks" onclick="openCity(event, 'taskstatus')">Task Status</button>
+  <button class="tablinks" onclick="openCity(event, 'pendingtask')">Pending Task (Person)</button>
+  <button class="tablinks" onclick="openCity(event, 'totalreport')">Total Report</button>
+
+</div>
+
+
+
+<div id="Home" class="tabcontent">
+  <h3>Hello</h3>
+  <p>Wellcome to Progoti System Ticketing System</p>
+</div>
+
+
+
+<div id="entrytask" class="tabcontent">
+  <form action="{% url 'info' %}" method="post">
+        {% csrf_token %}
+   <br> <br> <center><input type="submit" name="" value="Entry Task Here"></center> <br> <br>
+</form>
+</div>
+
+
+
+<div id="searchtask" class="tabcontent">
+  <form action="{% url 'taskview' %}" method="post">
+        {% csrf_token %}
+    <label for="task">Enter Task Name: </label>
+    <br> <br><input id="task" type="text" name="task" value="" placeholder="Enter Task Name Here.."><br> <br>
+    <input type="submit" value="Show">
+</form>
+</div>
+
+
+<div id="taskstatus" class="tabcontent">
+  <form action="{% url 'searchview' %}" method="post">
+    {% csrf_token %}
+   <br> <br> <label for="status"><b>Task Status:</b> Choose a Options:</label><br> <br>
+  <select name="status" id="status">
+      <option value="" selected>--Choose Option--</option>
+    <option value="Pending">Pending</option>
+    <option value="Done">Done</option>
+  </select>
+  <input type="submit" value="Submit">
+</form>
+</div>
+
+
+<div id="pendingtask" class="tabcontent">
+  <form action="{% url 'pendingtask' %}" method="post">
+    {% csrf_token %}
+   <br> <br> <label for="sr_name"><b>Pending Task:</b> Choose a Person:</label><br> <br>
+  <select name="sr_name" id="sr_name">
+      <option value="" selected>--Choose Option--</option>
+    <option value="Faisal">Faisal</option>
+    <option value="Rimi Apu">Rimi Apu</option>
+    <option value="Adib Bhai">Adib Bhai</option>
+    <option value="Nazmul Bhai">Nazmul Bhai</option>
+    <option value="Azmir Bhai">Azmir Bhai</option>
+
+  </select>
+  <input type="submit" value="Submit">
+</form>
+</div>
+
+
+<div id="totalreport" class="tabcontent">
+  <form action="{% url 'report' %}" method="post">
+        {% csrf_token %}
+   <br> <br> <input type="submit" name="" value="Total Report Here"><br> <br>
+</form>
+</div>
+
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>

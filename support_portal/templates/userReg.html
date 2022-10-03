@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up Page</title>
+</head>
+<body>
+    <form method="POST" action="">
+        {% csrf_token %}
+        User Name:         {{form.username}}</br><p>
+        Email:             {{form.email}}</br><p>
+        Password:          {{form.password1}}</br><p>
+        Confirm Password:  {{form.password2}}</br></br><p>
+        <input type="submit" name="Create User"></br></br>
+        {{form.errors}}
+    </form>
+</body>
+</html>
