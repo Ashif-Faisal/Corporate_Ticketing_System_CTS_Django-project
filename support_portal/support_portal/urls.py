@@ -63,8 +63,10 @@ urlpatterns = [
     path('customerTicketStatus', views.customerTicketStatus, name='customerTicketStatus'),
     path('customerTicketInfo', views.customerTicketInfo, name='customerTicketInfo'),
     path('customerTaskView', views.customerTaskView, name='customerTaskView'),
-    #path('task_id', views.task_id, name='task_id'),
-    # path('admin/', admin.site.urls),
-    # path('', include('main.urls'))
+    path('customerTicketApproval', views.customerTicketApproval, name='customerTicketApproval'),
+    path('unassignTask', views.unassignTask, name='unassignTask'),
+    path('pendingTicket', views.pendingTicket, name='pendingTicket'),
+    path('allTask', views.allTask, name='allTask'),
+
 ]
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

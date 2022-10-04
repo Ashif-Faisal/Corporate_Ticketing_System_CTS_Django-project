@@ -64,7 +64,6 @@ def editupdate(request):
         value_hml = request.POST.get("value_hml")
         urgent_yn = request.POST.get("urgent_yn")
         request_by_actor = request.POST.get("request_by_actor")
-        request_date = request.POST.get("request_date")
         needed_date = request.POST.get("needed_date")
         etd = request.POST.get("etd")
         status = request.POST.get("status")
@@ -73,6 +72,7 @@ def editupdate(request):
         checker = request.POST.get("checker")
         outside_office_time = request.POST.get("outside_office_time")
         add_to_google = request.POST.get("add_to_google")
+        approval = request.POST.get("approval")
         # print(sr_name)
         # print(work_stream)
         # print(task)
@@ -89,7 +89,7 @@ def editupdate(request):
         # print(outside_office_time)
         # print(add_to_google)
         cursor = connection.cursor()
-        x = cursor.execute("UPDATE support_portal_userprofile SET sr_name= %s,work_stream= %s, task= %s, value_hml= %s, urgent_yn= %s,request_by_actor= %s,request_date= %s,needed_date= %s,etd= %s,status= %s,maker1= %s,maker2= %s,checker= %s,outside_office_time= %s,add_to_google= %s  WHERE id= %s", [sr_name, work_stream,task, value_hml,urgent_yn,request_by_actor,request_date,needed_date,etd,status,maker1,maker2,checker,outside_office_time,add_to_google, id])
+        x = cursor.execute("UPDATE support_portal_userprofile SET sr_name= %s,work_stream= %s, task= %s, value_hml= %s, urgent_yn= %s,request_by_actor= %s,needed_date= %s,etd= %s,status= %s,maker1= %s,maker2= %s,checker= %s,outside_office_time= %s,add_to_google= %s,approval= %s  WHERE id= %s", [sr_name, work_stream,task, value_hml,urgent_yn,request_by_actor,needed_date,etd,status,maker1,maker2,checker,outside_office_time,add_to_google,approval, id])
         # y = cursor.execute('SELECT * FROM support_portal_userprofile WHERE task_id=')
         print(x)
         return render(request, 'report.html')
@@ -259,8 +259,9 @@ def searchview(request):
     if request.method == 'POST':
 
         status=request.POST.get("status")
+        print(status)
         cursor = connection.cursor()
-        cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
+        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
         data = cursor.fetchall()
 
         cursor.execute('SELECT username FROM auth_user')
@@ -279,24 +280,13 @@ def diff_time(created_date, cursor):
 
 @login_required
 def pendingTask(request):
-    # if request.method == 'POST':
-    #
-    #     pendingTask = request.POST.get("sr_name")
-    #     print(pendingTask)
-    #     cursor = connection.cursor()
-    #     cursor.execute("SELECT * FROM support_portal_userprofile WHERE sr_name = %s and status='Pending'", [pendingTask])
-    #     data = cursor.fetchall()
-    #     cursor.execute('SELECT username FROM auth_user')
-    #     x = cursor.fetchall()
-    #     context = {'info': data, 'data': x}
-    #     return render(request,'taskstatusPerson.html', context)
     if request.method == 'POST':
 
 
-        sr_name=request.POST.get("sr_name")
-        print(sr_name)
+        employee_id=request.POST.get("employee_id")
+        print(employee_id)
         cursor = connection.cursor()
-        cursor.execute("SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE sr_name = %s and status='Pending'", [sr_name])
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE employee_id = %s and status='Pending'", [employee_id])
         data = cursor.fetchall()
 
         cursor.execute('SELECT username FROM auth_user')
@@ -462,13 +452,15 @@ def saveticket(request):
         comment = request.POST.get("comment")
         # attachment = request.POST.get("attachment")
         request_date = request.POST.get("request_date")
+        approval = request.POST.get("approval")
         print(employee_id)
         print(task)
         print(comment)
         # print(attachment)
         print(request_date)
+        print(approval)
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date) VALUES (%s, %s,  %s, %s)",[employee_id, task, comment,request_date])
+        cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval) VALUES (%s, %s,  %s, %s, %s)",[employee_id, task, comment,request_date,approval])
         # if y:
         #     with open('media', 'wb+') as destination:
         #         for chunk in f.chunks():
@@ -517,7 +509,7 @@ def datewiseticket(request):
         print(form_date)
         print(to_date)
         cursor = connection.cursor()
-        cursor.execute("select * from support_portal_userprofile where request_date>= %s and request_date<= %s order by request_date",[form_date, to_date])
+        cursor.execute('select * from support_portal_userprofile where request_date>= %s and request_date<= %s and approval= "Waiting_For_Appoval" order by request_date ',[form_date, to_date])
         data = cursor.fetchall()
         print(data)
         context = {'data': data}
@@ -535,10 +527,12 @@ def customerTicketInfo(request):
         status=request.POST.get("status")
         print(status)
         task_id=request.POST.get("id")
-        print(task_id)
+        employee_id=request.POST.get("employee_id")
+        print(employee_id)
+
         cursor = connection.cursor()
         #cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
-        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
+        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and employee_id= %s', [status,employee_id])
         data = cursor.fetchall()
 
         cursor.execute('SELECT latest_update FROM support_portal_infoupdate where task_id= %s',[task_id])
@@ -574,3 +568,52 @@ def customerTaskView(request):
 
         return render(request, 'customerTaskView.html', context)
        # return render(request,'customerTaskView.html')
+
+
+def customerTicketApproval(request):
+    if request.method == 'POST':
+        employee_id = request.POST.get("employee_id")
+        print(employee_id)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" and employee_id= %s',[employee_id])
+        data = cursor.fetchall()
+        print(data)
+        context = {'approval': data}
+        return render(request, 'customerTicketStatus.html', context)
+
+
+def unassignTask(request):
+    if request.method == 'POST':
+        # form_date = request.POST.get("form_date")
+        # to_date = request.POST.get("to_date")
+        # print(form_date)
+        # print(to_date)
+        cursor = connection.cursor()
+        cursor.execute('select * from support_portal_userprofile where approval= "Waiting_For_Appoval" order by request_date')
+        data = cursor.fetchall()
+        print(data)
+        context = {'data': data}
+        return render(request, 'unassignTask.html', context)
+
+
+def pendingTicket(request):
+    if request.method == 'POST':
+
+        status=request.POST.get("status")
+        cursor = connection.cursor()
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status='Pending'")
+        data = cursor.fetchall()
+
+        cursor.execute('SELECT username FROM auth_user')
+        info = cursor.fetchall()
+        context = {'data': data, 'info': info}
+        return render(request, 'pendingTicket.html',  context)
+
+
+def allTask(request):
+    if request.method == 'POST':
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE status= %s')
+        data = cursor.fetchall()
+        context = {'data': data}
+        return render(request, 'taskstatus.html',  context)

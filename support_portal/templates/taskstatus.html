@@ -37,13 +37,22 @@ tr:nth-child(even) {
                 <div class="sidebar-heading border-bottom bg-light">Explore Project</div>
                 <div class="list-group list-group-flush">
 
-
-
-                    <form action="{% url 'info' %}" method="post">
+<form action="{% url 'info' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
                     </form>
 
+                    <form action="{% url 'unassignTask' %}" method="post">
+                    {% csrf_token %}
+
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Unassign Task">
+                    </form>
+
+                    <form action="{% url 'pendingTicket' %}" method="post">
+                    {% csrf_token %}
+
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Pending Task">
+                    </form>
 
 
                     <form action="{% url 'taskview1' %}" method="post">
@@ -54,9 +63,13 @@ tr:nth-child(even) {
 
                     <form action="{% url 'taskreport' %}" method="post">
                      {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                     </form>
 
+                    <form action="{% url 'approved' %}" method="post">
+                    {% csrf_token %}
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Datewise Ticket">
+                    </form>
 
                     <form action="{% url 'report' %}" method="post">
                     {% csrf_token %}
@@ -98,27 +111,54 @@ tr:nth-child(even) {
   <select name="status" id="status">
       <option value="" selected>--Choose Status--</option>
     <option value="Pending">Pending</option>
-    <option value="Done">Done</option>
+    <option value="Done">Complete</option>
+    <option value="Done">All</option>
   </select>
   <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit">
 
 </form>
-</div>
+
+
+<!--        <form action="{% url 'searchview' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--&lt;!&ndash;                <input id="task_id" type="text" name="task_id">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="submit" id="task_id" type="text" name="task_id" value="Done">&ndash;&gt;-->
+<!--                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;width: 20%;" id="status" name="status" type="submit" value="Pending">Pending</button>-->
+<!--            </form>-->
+
+
+<!--        <form action="{% url 'searchview' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--&lt;!&ndash;                <input id="task_id" type="text" name="task_id">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="submit" id="task_id" type="text" name="task_id" value="Done">&ndash;&gt;-->
+<!--                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;width: 20%" name="status" type="submit" value="Done" >Complete</button>-->
+<!--            </form>-->
+
+<!--        <form action="{% url 'report' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--&lt;!&ndash;                <input id="task_id" type="text" name="task_id">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="submit" id="task_id" type="text" name="task_id" value="Done">&ndash;&gt;-->
+<!--                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;width: 20%" name="" type="submit" value="" >All Task</button>-->
+<!--            </form>-->
+
+
+
+<!--</div>-->
 
 <hr>
 
    <div id="pendingtask" class="tabcontent">
   <form action="{% url 'pendingtask' %}" method="post">
     {% csrf_token %}
-    <label for="sr_name"> Choose a Options:</label>
-  <select name="sr_name" id="sr_name">
+    <label for="employee_id"> Choose a Options (only pending task):</label>
+  <select name="employee_id" id="employee_id">
       <option value="" selected>--Choose Person--</option>
       {% for item in info %}
 <!--        <option value="">{{ forloop.counter }}</option>-->
         <option value="{{ item.0}}">{{ item.0}}</option>
       {% endfor %}
   </select>
-  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"> - only pending task</input>
+  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"></input>
 </form>
 </div>
 
@@ -128,46 +168,23 @@ tr:nth-child(even) {
                     <table style="width:115%">
     <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
         <td>ID</td>
-        <td>Sr. Name</td>
-<!--        <td>Work Stream</td>-->
-        <td>Perents Task</td>
-        <td>Child Tasks</td>
-<!--        <td>Value (H.M.L)</td>-->
-<!--        <td>Urgent (Y.N)</td>-->
+        <td>Employee Name</td>
+        <td>Task</td>
         <td>Created Date</td>
-<!--        <td>ETD</td>-->
-<!--        <td>ACD</td>-->
-<!--        <td>Requested by (Actor)</td>-->
-<!--        <td>Prog %</td>-->
         <td>Status</td>
-                        <td>Pending Days</td>
-
+        <td>Remaining Days</td>
          <td>Action</td>
          <td>Update</td>
-<!--        <td>Maker-1</td>-->
-<!--        <td>Maker-2</td>-->
-<!--        <td>Checker</td>-->
-<!--        <td>Maker 1 Time</td>-->
-<!--        <td>Maker 2 Time</td>-->
-<!--        <td>Checker Time</td>-->
-<!--        <td>Mahid Time(hr)</td>-->
-<!--        <td>Outside Office Time</td>-->
-<!--        <td>URL</td>-->
-<!--        <td>Remarks</td>-->
-<!--        <td>Task Details</td>-->
-<!--        <td>Email</td>-->
-<!--        <td>Add To Google Calender</td>-->
     </tr>
     {% for item in data %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{ item.11 }}</td>
-        <td>{{ item.17 }}</td>
+        <td>{{ item.20 }}</td>
         <td>{{ item.13 }}</td>
         <td>{{ item.10 }}</td>
         <td>{{ item.12 }}</td>
         <td style="background-color: #EE6F57;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
-           {{ item.21 }} Days
+           {{ item.22 }} Days
         </td>
         <td>
         <form action="{% url 'edit' %}" method="post">
@@ -192,6 +209,7 @@ tr:nth-child(even) {
 
 </table>
 </div>
+                        </div>
                 </div>
             </div>
         </div>

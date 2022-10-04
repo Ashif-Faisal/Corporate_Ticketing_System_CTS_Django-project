@@ -47,6 +47,7 @@ class newticket(forms.ModelForm):
             "task",
             "comment",
             "attachment",
+            "approval",
 
 
         ]
@@ -59,4 +60,5 @@ class infoUpdate(forms.ModelForm):
             "latest_update",
             "update_date",
             "task_id",
+
         ]

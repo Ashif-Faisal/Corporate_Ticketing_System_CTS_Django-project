@@ -64,28 +64,34 @@ table{
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'info' %}" method="post">
+                    <form action="{% url 'newticket' %}" method="post">
                     {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
                     </form>
 
-
-
-                    <form action="{% url 'taskview1' %}" method="post">
+                    <form action="{% url 'customerTicketStatus' %}" method="post">
                     {% csrf_token %}
 
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Ticket Status">
                     </form>
 
-                    <form action="{% url 'taskreport' %}" method="post">
-                     {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">
-                    </form>
 
-                    <form action="{% url 'report' %}" method="post">
-                    {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">
-                    </form>
+
+<!--                    <form action="{% url 'taskview1' %}" method="post">-->
+<!--                    {% csrf_token %}-->
+
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">-->
+<!--                    </form>-->
+
+<!--                    <form action="{% url 'taskreport' %}" method="post">-->
+<!--                     {% csrf_token %}-->
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">-->
+<!--                    </form>-->
+
+<!--                    <form action="{% url 'report' %}" method="post">-->
+<!--                    {% csrf_token %}-->
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">-->
+<!--                    </form>-->
 
                 </div>
             </div>
@@ -127,19 +133,20 @@ table{
 
     <tr>
       <td>Employee ID</td>
-      <td> {{ user }} </td>
+<!--      <td>  </td>-->
+        <td><input name="employee_id" type="text" value="{{ user }}" readonly /></td>
         </tr>
       <tr>
-      <td>Task</td>
+      <td>Ticket Name</td>
       <td><textarea name="task" type="text" rows="2" cols="56"></textarea></td>
     </tr>
 
   <tr>
       <td>Comment </td>
       <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
+      <td><input type="hidden" name="approval" type="text" value="Waiting_For_Appoval" readonly /></td>
       </tr>
-
-       <tr>
+  <tr>
 
 
 <!--      <tr>-->
@@ -149,7 +156,7 @@ table{
 <!--  </tr>-->
 
 
-      <td><input type="hidden" name="request_date" type="date" value="{{current_datetime}}"/></td>
+      <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>
       </tr>
 
       <tr>

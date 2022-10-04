@@ -24,6 +24,7 @@ class userprofile(models.Model):
     employee_id = models.CharField(max_length=30, null=True)
     comment = models.CharField(max_length=400, null=True)
     attachment = models.FileField(max_length=100, null=True)
+    approval = models.CharField(max_length=50, null=True)
     #attachment = models.FileField(upload_to='media/')
     #attachment = models.ImageField(upload_to='media',null=True)
 
@@ -35,6 +36,7 @@ class infoUpdate(models.Model):
     latest_update = models.CharField(max_length=500, null=True)
     task_id = models.CharField(max_length=50, null=True)
     update_date = models.DateTimeField(max_length=50, null=True)
+
 
 
     def __str__(self):

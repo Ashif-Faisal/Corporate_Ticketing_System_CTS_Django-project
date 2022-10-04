@@ -64,11 +64,22 @@ table{
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'info' %}" method="post">
+                   <form action="{% url 'info' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
                     </form>
 
+                    <form action="{% url 'unassignTask' %}" method="post">
+                    {% csrf_token %}
+
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Unassign Task">
+                    </form>
+
+                    <form action="{% url 'pendingTicket' %}" method="post">
+                    {% csrf_token %}
+
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Pending Task">
+                    </form>
 
 
                     <form action="{% url 'taskview1' %}" method="post">
@@ -79,9 +90,13 @@ table{
 
                     <form action="{% url 'taskreport' %}" method="post">
                      {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                     </form>
 
+                    <form action="{% url 'approved' %}" method="post">
+                    {% csrf_token %}
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Datewise Ticket">
+                    </form>
 
                     <form action="{% url 'report' %}" method="post">
                     {% csrf_token %}
@@ -124,31 +139,32 @@ table{
   <table align="center" cellpadding = "10">
 {% for item in data %}
     <tr>
-      <td>Sr. Name</td>
-      <td>
-          <select name="sr_name" id="sr_name" >
-<!--            <option value="" selected>choose options</option>-->
-              <option value="{{ item.11 }}" selected>{{ item.11 }}</option>-->
-                {% for item in user %}
-            <option value="{{ item.0}}">{{ item.0}}</option>
-                {% endfor %}
-          </select>
-      </td>
-      <td>Perents Tasks</td>
-      <td><input name="work_stream" type="text" value="{{ item.17 }}" /></td>
+      <td>Employee Id</td>
+        <td><input name="employee_id" type="text" value="{{ item.20 }}" readonly /></td>
+<!--      <td>-->
+<!--          <select name="sr_name" id="sr_name" >-->
+<!--&lt;!&ndash;            <option value="" selected>choose options</option>&ndash;&gt;-->
+<!--              <option value="{{ item.11 }}" selected>{{ item.11 }}</option>&ndash;&gt;-->
+<!--                {% for item in user %}-->
+<!--            <option value="{{ item.0}}">{{ item.0}}</option>-->
+<!--                {% endfor %}-->
+<!--          </select>-->
+<!--      </td>-->
+      <td>Ticket Name</td>
+      <td><input name="task" type="text" value="{{ item.13 }}" /></td>
     </tr>
 
   <tr>
-      <td>Childs Tasks</td>
+      <td>Ticket Details</td>
 <!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
-      <td><textarea name="task" type="text" rows="2" cols="20">{{ item.13 }}</textarea></td>
+      <td><textarea name="task" type="text" rows="2" cols="20">{{ item.19 }}</textarea></td>
       <td>Value (H.M.L)</td>
 <!--      <td><input name="value_hml" type="text" value="{{ item.26 }}"/></td>-->
  <td>
       <select name="value_hml" id="value_hml">
-          <option value="{{ item.16 }}" selected>{{ item.16 }}</option>
+          <option value=" selected>{{ item.16 }}</option>
                 <option value="High">High</option>
-                <option value="Low">Low</option>
+                <option value="Low" selected>Low</option>
                 <option value="Medium">Medium</option>
       </select>
 </td>
@@ -160,43 +176,58 @@ table{
 <!--       <option>Female</option>-->
 <!--      </select></td>-->
       <td>Urgent (Y.N)</td>
-      <td><input name="urgent_yn" type="text" value="{{ item.14 }}"/></td>
-      <td>Requested by (Actor)</td>
-<!--      <td><input name="request_by_actor" type="text" value="{{ item.9 }}"/></td>-->
+<!--      <td><input name="urgent_yn" type="text" value="{{ item.14 }}"/></td>-->
         <td>
-          <select name="request_by_actor" id="request_by_actor" >
-<!--            <option value="" selected>choose options</option>-->
-              <option value="{{ item.9 }}" selected>{{ item.9 }}</option>-->
-                {% for item in user %}
-            <option value="{{ item.0}}">{{ item.0}}</option>
-                {% endfor %}
-          </select>
-      </td>
+      <select name="urgent_yn" id="urgent_yn">
+          <option value=""</option>
+                <option value="1">Yes</option>
+                <option value="0"selected>No</option>
+      </select>
+</td>
+
+        <td>ETD</td>
+      <td><input name="etd" type="date"value="" /><br></td>
+<!--      <td>Requested by (Actor)</td>-->
+<!--&lt;!&ndash;      <td><input name="request_by_actor" type="text" value="{{ item.9 }}"/></td>&ndash;&gt;-->
+<!--        <td>-->
+<!--          <select name="request_by_actor" id="request_by_actor" >-->
+<!--&lt;!&ndash;            <option value="" selected>choose options</option>&ndash;&gt;-->
+<!--              <option value="{{ item.9 }}" selected>{{ item.9 }}</option>&ndash;&gt;-->
+<!--                {% for item in user %}-->
+<!--            <option value="{{ item.0}}">{{ item.0}}</option>-->
+<!--                {% endfor %}-->
+<!--          </select>-->
+<!--      </td>-->
     </tr>
 
-    <tr>
-      <td>Request Date</td>
-      <td><input name="request_date" type="date"value="" /><br>{{ item.10 }}</td>
-      <td>Needed Date</td>
-      <td><input name="needed_date" type="date"value="" /><br>{{ item.7 }}</td>
-    </tr>
+<!--    <tr>-->
+<!--      <td>Request Date</td>-->
+<!--      <td><input name="request_date" type="datetime-local"value="{{ item.10 }}" /><br></td>-->
+<!--&lt;!&ndash;      <td>Needed Date</td>&ndash;&gt;-->
+<!--&lt;!&ndash;      <td><input name="needed_date" type="date"value="" /><br>{{ item.7 }}</td>&ndash;&gt;-->
+<!--    </tr>-->
 
-    <tr>
-      <td>ETD</td>
-      <td><input name="etd" type="date"value="" /><br>{{ item.4 }}</td>
-    </tr>
+
 
       <tr>
       <td>Status</td>
-      <td><input name="status" type="text" value="{{ item.12 }}"/></td>
+<!--      <td><input name="status" type="text" value="{{ item.12 }}"/></td>-->
+           <td>
+      <select name="status" id="status">
+          <option value=""></option>
+                <option value="Pending"selected>Pending</option>
+                <option value="Done">Done</option>
+      </select>
+</td>
+
        <td>Maker-1</td>
 <!--      <td><input name="maker1" type="text"value="{{ item.5 }}" /></td>-->
            <td>
           <select name="maker1" id="maker1" >
 <!--            <option value="" selected>choose options</option>-->
-              <option value="{{ item.5 }}" selected>{{ item.5 }}</option>-->
+              <option value=""></option>
                 {% for item in user %}
-            <option value="{{ item.0}}">{{ item.0}}</option>
+            <option>{{ item.0}}</option>
                 {% endfor %}
           </select>
       </td>
@@ -208,9 +239,9 @@ table{
           <td>
           <select name="maker2" id="maker2" >
 <!--            <option value="" selected>choose options</option>-->
-              <option value="{{ item.6 }}" selected>{{ item.6 }}</option>-->
+              <option value="" ></option>
                 {% for item in user %}
-            <option value="{{ item.0}}">{{ item.0}}</option>
+            <option>{{ item.0}}</option>
                 {% endfor %}
           </select>
       </td>
@@ -219,9 +250,9 @@ table{
           <td>
           <select name="checker" id="checker" >
 <!--            <option value="" selected>choose options</option>-->
-              <option value="{{ item.3 }}" selected>{{ item.3 }}</option>-->
+              <option value="" ></option>
                 {% for item in user %}
-            <option value="{{ item.0}}">{{ item.0}}</option>
+            <option value="">{{ item.0}}</option>
                 {% endfor %}
           </select>
       </td>
@@ -229,23 +260,30 @@ table{
 
 
 
-    <tr>
-      <td>Outside Office Time</td>
-      <td><input name="outside_office_time" type="text"value="{{ item.8 }}" /></td>
-      <td>URL</td>
-      <td><input name="url" type="text" value="{{ item.15 }}"/></td>
-    </tr>
+<!--    <tr>-->
+<!--      <td>Outside Office Time</td>-->
+<!--      <td><input name="outside_office_time" type="text"value="{{ item.8 }}" /></td>-->
+<!--      <td>URL</td>-->
+<!--      <td><input name="url" type="text" value="{{ item.15 }}"/></td>-->
+<!--    </tr>-->
 
       <tr>
 
 
       <tr>
-      <td>Add To Google Calender</td>
-      <td><input name="add_to_google" type="date" value="{{ item.2 }}"/></td>
-      <td>ID</td>
-      <td><input name="id" type="text" value="{{ item.0 }}"/><br></td>
+<!--      <td>Add To Google Calender</td>-->
+<!--      <td><input name="add_to_google" type="date" value="{{ item.2 }}"/></td>-->
+<!--      <td>ID</td>-->
+      <td><input type="hidden" name="id" type="text" value="{{ item.0 }}"/><br></td>
 
     </tr>
+
+      <tr>
+             <td>Approval</td>
+<!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
+      <td><input name="approval" type="text" value="Received" readonly/><br></td>
+      </tr>
+
 <!--{{form.errors}}-->
     <tr>
       <td></td>
