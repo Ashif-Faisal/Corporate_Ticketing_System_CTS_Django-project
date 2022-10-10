@@ -518,7 +518,22 @@ def datewiseticket(request):
 
 
 def customerTicketStatus(request):
-    return render(request, 'customerTicketStatus.html')
+    user = request.POST.get("employee_id")
+    print(user)
+
+    status = request.POST.get("status")
+    print(status)
+
+
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" or approval= "Received" and employee_id= %s',[user])
+    #cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" and employee_id= "{{ user }}"')
+    data = cursor.fetchall()
+    print(data)
+    context = {'data': data}
+    #return render(request, 'customerTicketStatus.html', context)
+    return render(request, 'customerTicketStatus.html',context)
 
 
 def customerTicketInfo(request):
