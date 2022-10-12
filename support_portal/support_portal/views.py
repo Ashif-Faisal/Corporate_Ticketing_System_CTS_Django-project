@@ -632,3 +632,7 @@ def allTask(request):
         data = cursor.fetchall()
         context = {'data': data}
         return render(request, 'taskstatus.html',  context)
+
+
+def test2(request):
+    return render(request, 'test2.html')

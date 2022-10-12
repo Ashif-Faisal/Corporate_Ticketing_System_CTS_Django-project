@@ -67,6 +67,7 @@ urlpatterns = [
     path('unassignTask', views.unassignTask, name='unassignTask'),
     path('pendingTicket', views.pendingTicket, name='pendingTicket'),
     path('allTask', views.allTask, name='allTask'),
+    path('test2', views.test2, name='test2'),
 
 ]
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
