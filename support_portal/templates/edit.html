@@ -64,7 +64,8 @@ table{
                 <div class="list-group list-group-flush">
 
 
-                   <form action="{% url 'info' %}" method="post">
+
+                    <form action="{% url 'info' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
                     </form>
@@ -75,33 +76,34 @@ table{
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Unassign Task">
                     </form>
 
-                    <form action="{% url 'pendingTicket' %}" method="post">
-                    {% csrf_token %}
+<!--                    <form action="{% url 'pendingTicket' %}" method="post">-->
+<!--                    {% csrf_token %}-->
 
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Pending Task">
-                    </form>
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Pending Task">-->
+<!--                    </form>-->
 
 
-                    <form action="{% url 'taskview1' %}" method="post">
-                    {% csrf_token %}
+<!--                    <form action="{% url 'taskview1' %}" method="post">-->
+<!--                    {% csrf_token %}-->
 
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">
-                    </form>
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">-->
+<!--                    </form>-->
 
-                    <form action="{% url 'taskreport' %}" method="post">
-                     {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
-                    </form>
+<!--                    <form action="{% url 'taskreport' %}" method="post">-->
+<!--                     {% csrf_token %}-->
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">-->
+<!--                    </form>-->
 
                     <form action="{% url 'approved' %}" method="post">
                     {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Datewise Ticket">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Ticket">
                     </form>
 
-                    <form action="{% url 'report' %}" method="post">
-                    {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">
-                    </form>
+<!--                    <form action="{% url 'report' %}" method="post">-->
+<!--                    {% csrf_token %}-->
+<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">-->
+<!--                    </form>-->
+
 
                 </div>
             </div>
@@ -267,7 +269,7 @@ table{
 <!--      <td><input name="url" type="text" value="{{ item.15 }}"/></td>-->
 <!--    </tr>-->
 
-      <tr>
+
 
 
       <tr>
@@ -279,9 +281,9 @@ table{
     </tr>
 
       <tr>
-             <td>Approval</td>
+<!--             <td>Approval</td>-->
 <!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
-      <td><input name="approval" type="text" value="Received" readonly/><br></td>
+      <td><input type="hidden" name="approval" type="text" value="On Going" readonly/><br></td>
       </tr>
 
 <!--{{form.errors}}-->
