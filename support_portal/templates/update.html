@@ -38,15 +38,16 @@ tr:nth-child(even) {
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'info' %}" method="post">
+
+                      <form action="{% url 'sysnewticket' %}" method="post">
                     {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
                     </form>
 
                     <form action="{% url 'unassignTask' %}" method="post">
                     {% csrf_token %}
 
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Unassign Task">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                     </form>
 
 <!--                    <form action="{% url 'pendingTicket' %}" method="post">-->
@@ -71,12 +72,6 @@ tr:nth-child(even) {
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Ticket">
                     </form>
-
-<!--                    <form action="{% url 'report' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">-->
-<!--                    </form>-->
-
 
                 </div>
             </div>

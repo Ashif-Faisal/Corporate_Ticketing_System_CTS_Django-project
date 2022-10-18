@@ -69,6 +69,8 @@ urlpatterns = [
     path('allTask', views.allTask, name='allTask'),
     path('test2', views.test2, name='test2'),
     path('TicketStatus', views.TicketStatus, name='TicketStatus'),
+    path('sysnewticket', views.sysnewticket, name='sysnewticket'),
+    path('SysTicketSaved', views.SysTicketSaved, name='SysTicketSaved'),
 
 ]
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

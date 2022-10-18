@@ -91,6 +91,9 @@ def editupdate(request):
         cursor = connection.cursor()
         x = cursor.execute("UPDATE support_portal_userprofile SET sr_name= %s,work_stream= %s, task= %s, value_hml= %s, urgent_yn= %s,request_by_actor= %s,needed_date= %s,etd= %s,status= %s,maker1= %s,maker2= %s,checker= %s,outside_office_time= %s,add_to_google= %s,approval= %s  WHERE id= %s", [sr_name, work_stream,task, value_hml,urgent_yn,request_by_actor,needed_date,etd,status,maker1,maker2,checker,outside_office_time,add_to_google,approval, id])
         # y = cursor.execute('SELECT * FROM support_portal_userprofile WHERE task_id=')
+        if x:
+            messages.success(request, "Assigned successfully..!!")
+
         print(x)
         return render(request, 'edit.html')
 
@@ -164,6 +167,15 @@ def lastupdate(request):
         #cursor.execute("UPDATE support_portal_userprofile SET sr_name='sr_name' WHERE task_id= %s", [task_id])
 
         return render(request, 'update.html', context)
+
+
+# def ticketLastUpdate(request):
+#     cursor = connection.cursor()
+#     cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s ORDER BY update_date DESC limit 1', [task_id])
+#     report = cursor.fetchall()
+#     print(report)
+#     context = {'info': report}
+#     return render(request, 'customerTicketStatus.html',context)
 
 
 def updateinfo(request):
@@ -521,16 +533,21 @@ def customerTicketStatus(request):
     user = request.POST.get("employee_id")
     print(user)
 
-    status = request.POST.get("status")
-    print(status)
+    id = request.POST.get("id")
+    print(id)
 
 
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going") and employee_id= %s',[user])
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going") and employee_id= %s order by request_date DESC',[user])
     #cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" and employee_id= "{{ user }}"')
     data = cursor.fetchall()
     print(data)
+
+    # cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s ORDER BY update_date DESC limit 1',[id])
+    # lastupdate= cursor.fetchall()
+    # print("Lastdate"+lastupdate)
+
     context = {'data': data}
     #return render(request, 'customerTicketStatus.html', context)
     return render(request, 'customerTicketStatus.html',context)
@@ -627,7 +644,7 @@ def unassignTask(request):
         # print(form_date)
         # print(to_date)
         cursor = connection.cursor()
-        cursor.execute('select *,datediff(etd,current_date) as pending_days from support_portal_userprofile where approval= "Not Started yet" or approval="On Going" order by request_date')
+        cursor.execute('select *,datediff(etd,current_date) as pending_days from support_portal_userprofile where approval= "Not Started yet" or approval="On Going" order by request_date DESC')
         data = cursor.fetchall()
         print(data)
         context = {'data': data}
@@ -655,6 +672,41 @@ def allTask(request):
         data = cursor.fetchall()
         context = {'data': data}
         return render(request, 'taskstatus.html',  context)
+
+
+def sysnewticket(request):
+    currentdate = datetime.now()
+    current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+    context = {'current_datetime': current_datetime}
+    return render(request, 'sysnewticket.html', context)
+
+
+def SysTicketSaved(request):
+    if request.method == 'POST':
+        employee_id = request.POST.get("employee_id")
+        task = request.POST.get("task")
+        comment = request.POST.get("comment")
+        # attachment = request.POST.get("attachment")
+        request_date = request.POST.get("request_date")
+        approval = request.POST.get("approval")
+        print(employee_id)
+        print(task)
+        print(comment)
+        # print(attachment)
+        print(request_date)
+        print(approval)
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval) VALUES (%s, %s,  %s, %s, %s)",[employee_id, task, comment,request_date,approval])
+        # if y:
+        #     with open('media', 'wb+') as destination:
+        #         for chunk in f.chunks():
+        #             destination.write(chunk)
+        # task_id= cursor.execute('select id from support_portal_userprofile where id= %s')
+
+        messages.success(request, "Ticket entry successfully..!!")
+
+        return render(request, 'sysnewticket.html')
 
 
 def test2(request):

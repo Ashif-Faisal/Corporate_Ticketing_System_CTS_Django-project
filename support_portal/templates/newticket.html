@@ -74,7 +74,7 @@ table{
 
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                         <td><input type="hidden" name="employee_id" type="text" value="{{ user }}"/></td>
-<!--                        <td><input type="hidden" name="status" type="text" value="Pending" /></td>-->
+                        <td><input type="hidden" name="id" type="text" value="5" /></td>
                     </form>
 
 <!--                    <form action="{% url 'customerTicketStatus' %}" method="post">-->
@@ -128,7 +128,7 @@ table{
                     <form action="{% url 'saveticket' %}" method="POST">
 	{% csrf_token %}
 
-                        <h2 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h2>
+                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
                         <hr>&emsp;
 
   <div class="con">
@@ -175,9 +175,8 @@ table{
 {% for msg in messages %}
                         <div class="alert alert-success" role="alert">
   <h4 class="alert-heading">Well done!</h4>
-  <p> {{task_id}} {{ msg }}</p>
-  <hr>
-  <p class="mb-0">If You Want To Be More Sure, Please Check The Total Task Box.</p>
+  <p> {{ msg }}</p>
+
 </div>
 
 {% endfor %}
