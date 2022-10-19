@@ -189,7 +189,7 @@ table{
       </select>
 </td>
 
-        <td>ETD</td>
+        <td>ETD*</td>
       <td><input name="etd" type="date"value="" /><br></td>
 <!--      <td>Requested by (Actor)</td>-->
 <!--&lt;!&ndash;      <td><input name="request_by_actor" type="text" value="{{ item.9 }}"/></td>&ndash;&gt;-->
@@ -224,10 +224,10 @@ table{
       </select>
 </td>
 
-       <td>Maker-1</td>
+       <td>Maker-1*</td>
 <!--      <td><input name="maker1" type="text"value="{{ item.5 }}" /></td>-->
            <td>
-          <select name="maker1" id="maker1" >
+          <select name="maker1" id="maker1" required>
 <!--            <option value="" selected>choose options</option>-->
               <option value=""></option>
                 {% for item in user %}
