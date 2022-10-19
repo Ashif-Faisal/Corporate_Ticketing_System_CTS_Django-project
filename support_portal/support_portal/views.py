@@ -10,6 +10,7 @@ from .forms import userProfileForm, createUserForm
 from .functions import handle_uploaded_file
 from .models import userprofile
 from .serializers import PatientSerializer
+from django.contrib.auth import logout
 
 
 def Tasksearch(request):
@@ -18,7 +19,7 @@ def Tasksearch(request):
     return render(request, 'taskview1.html', {'filter': user_filter})
 
 
-
+@login_required
 def action(request):
     if request.method == 'POST':
         id = request.POST.get("id")
@@ -143,7 +144,7 @@ def editupdate(request):
 #         print(z)
 #         return render(request, 'report.html')
 
-
+@login_required
 def lastupdate(request):
     if request.method == 'POST':
         id = request.POST.get("id")
@@ -177,19 +178,24 @@ def lastupdate(request):
 #     context = {'info': report}
 #     return render(request, 'customerTicketStatus.html',context)
 
-
+@login_required
 def updateinfo(request):
     if request.method == 'POST':
         latest_update = request.POST.get("task_details")
         task_id = request.POST.get("id")
         update_date = request.POST.get("update_Date")
-        print(latest_update)
-        print(task_id)
-        print(update_date)
+        user = request.POST.get("employee_id")
+        print(user)
+        # print(latest_update)
+        # print(task_id)
+        # print(update_date)
         cursor = connection.cursor()
         y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
         if y:
             messages.success(request, "Last update entry successfully..!!")
+
+        cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
+
         context = {'updatedata': y}
         return render(request, 'update.html', context)
 
@@ -242,7 +248,7 @@ def taskstatusPerson(request):
         print(data)
         return render(request, 'taskstatusPerson.html',context)
 
-
+@login_required
 def taskstatus(request):
     if request.method == 'POST':
         cursor = connection.cursor()
@@ -323,7 +329,7 @@ def search(request):
 def wellcome(request):
     return render(request, 'wellcome.html')
 
-
+@login_required
 def get_all_patient_info(request):
     # get all data from database
     all_patient_info = userprofile.objects.all()
@@ -410,7 +416,7 @@ def testpage(request):
 def errorpage(request):
     return render(request, 'error.html')
 
-
+@login_required
 def newticket(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
@@ -526,7 +532,7 @@ def todayticket(request):
         return render(request, 'approved.html',context)
 
 
-
+@login_required
 def datewiseticket(request):
     if request.method == 'POST':
         form_date = request.POST.get("form_date")
@@ -541,7 +547,7 @@ def datewiseticket(request):
         return render(request, 'approved.html',context)
 
 
-
+@login_required
 def customerTicketStatus(request):
     user = request.POST.get("employee_id")
     print(user)
@@ -565,7 +571,7 @@ def customerTicketStatus(request):
     #return render(request, 'customerTicketStatus.html', context)
     return render(request, 'customerTicketStatus.html',context)
 
-
+@login_required
 def customerTicketInfo(request):
     if request.method == 'POST':
 
@@ -588,7 +594,7 @@ def customerTicketInfo(request):
         # return render(request, 'approved.html', context)
         return render(request, 'customerTicketStatus.html',context)
 
-
+@login_required
 def TicketStatus(request):
     if request.method == 'POST':
 
@@ -611,7 +617,7 @@ def TicketStatus(request):
         # return render(request, 'approved.html', context)
         return render(request, 'unassignTask.html',context)
 
-
+@login_required
 def customerTaskView(request):
     if request.method == 'POST':
         id = request.POST.get("id")
@@ -637,7 +643,7 @@ def customerTaskView(request):
         return render(request, 'customerTaskView.html', context)
        # return render(request,'customerTaskView.html')
 
-
+@login_required
 def customerTicketApproval(request):
     if request.method == 'POST':
         employee_id = request.POST.get("employee_id")
@@ -649,7 +655,7 @@ def customerTicketApproval(request):
         context = {'approval': data}
         return render(request, 'customerTicketStatus.html', context)
 
-
+@login_required
 def unassignTask(request):
     if request.method == 'POST':
         # form_date = request.POST.get("form_date")
@@ -663,7 +669,7 @@ def unassignTask(request):
         context = {'data': data}
         return render(request, 'unassignTask.html', context)
 
-
+@login_required
 def pendingTicket(request):
     if request.method == 'POST':
 
@@ -677,7 +683,7 @@ def pendingTicket(request):
         context = {'data': data, 'info': info}
         return render(request, 'pendingTicket.html',  context)
 
-
+@login_required
 def allTask(request):
     if request.method == 'POST':
         cursor = connection.cursor()
@@ -686,7 +692,7 @@ def allTask(request):
         context = {'data': data}
         return render(request, 'taskstatus.html',  context)
 
-
+@login_required
 def sysnewticket(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
@@ -694,7 +700,7 @@ def sysnewticket(request):
     context = {'current_datetime': current_datetime}
     return render(request, 'sysnewticket.html', context)
 
-
+@login_required
 def SysTicketSaved(request):
     if request.method == 'POST':
         employee_id = request.POST.get("employee_id")
@@ -721,6 +727,15 @@ def SysTicketSaved(request):
 
         return render(request, 'sysnewticket.html')
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("login")
+
+
+
 
 def test2(request):
     return render(request, 'test2.html')
+
+

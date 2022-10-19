@@ -71,6 +71,7 @@ urlpatterns = [
     path('TicketStatus', views.TicketStatus, name='TicketStatus'),
     path('sysnewticket', views.sysnewticket, name='sysnewticket'),
     path('SysTicketSaved', views.SysTicketSaved, name='SysTicketSaved'),
+    path('logout_view', views.logout_view, name='logout_view'),
 
 ]
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
