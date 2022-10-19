@@ -377,6 +377,19 @@ def loginview(request):
 
         if user is not None:
             login(request, user)
+            group = None
+            if user.groups.exists():
+                group = user.groups.all()[0].name
+            if group == 'systems':
+                return redirect('sysnewticket')
+
+            if group == 'data':
+                return redirect('newticket')
+
+            # if group == 'systems':
+            #     return redirect('newticket')
+
+            # return redirect('dashboard')
             return redirect('index')
 
         else:
@@ -521,7 +534,7 @@ def datewiseticket(request):
         print(form_date)
         print(to_date)
         cursor = connection.cursor()
-        cursor.execute('select * from support_portal_userprofile where request_date>= %s and request_date<= %s  order by request_date ',[form_date, to_date])
+        cursor.execute('select * from support_portal_userprofile where request_date>= %s and request_date<= %s order by request_date DESC',[form_date, to_date])
         data = cursor.fetchall()
         print(data)
         context = {'data': data}
@@ -539,7 +552,7 @@ def customerTicketStatus(request):
 
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going") and employee_id= %s order by request_date DESC',[user])
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going" or approval= "Complete") and employee_id= %s order by request_date DESC',[user])
     #cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" and employee_id= "{{ user }}"')
     data = cursor.fetchall()
     print(data)

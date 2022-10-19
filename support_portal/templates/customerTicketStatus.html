@@ -122,11 +122,6 @@ tr:nth-child(even) {
 
 <!--</form>-->
 </div>
-
-
-
-<hr>
-
 <div style="overflow-x:auto;">
 
 
@@ -158,16 +153,16 @@ tr:nth-child(even) {
                     <hr>
                     <table style="width:100%">
     <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
-        <td>ID</td>
-        <td>Task ID</td>
-        <td>Date</td>
-        <td>Perents Task</td>
-        <td>Last Update</td>
-        <td>Assign Resource</td>
-        <td>ETD</td>
-        <td>Ticket State</td>
-         <td>Remaining Days</td>
-         <td>Details</td>
+        <th>ID</th>
+        <th>Task ID</th>
+        <th>Date</th>
+        <th>Perents Task</th>
+        <th>Last Update</th>
+        <th>Responsible Person</th>
+        <th>ETD</th>
+        <th style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">Ticket State</th>
+         <th>Remaining Days</th>
+         <th>Details</th>
 
     </tr>
     {% for item in data %}
@@ -179,9 +174,9 @@ tr:nth-child(even) {
         <td></td>
         <td>{{ item.5 }}</td>
         <td>{{ item.4 }}</td>
-        <td>{{ item.21 }}</td>
+        <td style="background-color: #325258;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">{{ item.21 }}</td>
         <td >
-           {{ item.22 }}
+           {{ item.22 }} Days
         </td>
 
         <td>
