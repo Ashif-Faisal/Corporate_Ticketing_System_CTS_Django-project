@@ -752,7 +752,7 @@ def logout_view(request):
 
 
 
-def test2(request):
-    return render(request, 'test2.html')
+def test(request):
+    return render(request, 'test.html')
 
 

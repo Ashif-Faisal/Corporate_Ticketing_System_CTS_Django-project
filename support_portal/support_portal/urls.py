@@ -67,11 +67,12 @@ urlpatterns = [
     path('unassignTask', views.unassignTask, name='unassignTask'),
     path('pendingTicket', views.pendingTicket, name='pendingTicket'),
     path('allTask', views.allTask, name='allTask'),
-    path('test2', views.test2, name='test2'),
+    #path('test2', views.test2, name='test2'),
     path('TicketStatus', views.TicketStatus, name='TicketStatus'),
     path('sysnewticket', views.sysnewticket, name='sysnewticket'),
     path('SysTicketSaved', views.SysTicketSaved, name='SysTicketSaved'),
     path('logout_view', views.logout_view, name='logout_view'),
+    path('test', views.test, name='test'),
     #path('all_id', views.all_id, name='all_id'),
 
 ]
