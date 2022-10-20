@@ -155,14 +155,19 @@ table{
 <!--                {% endfor %}-->
 <!--          </select>-->
 <!--      </td>-->
+    </tr>
+      <tr>
       <td>Ticket Name</td>
-      <td><input name="task" type="text" value="{{ item.13 }}" /></td>
+<!--      <td><input name="task" type="text" value="{{ item.13 }}"  /></td>-->
+           <td><textarea name="task" type="text" rows="2" cols="55">{{ item.13 }}</textarea></td>
     </tr>
 
   <tr>
       <td>Ticket Details</td>
 <!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
-      <td><textarea name="task" type="text" rows="2" cols="20">{{ item.19 }}</textarea></td>
+      <td><textarea name="comment" type="text" rows="2" cols="55">{{ item.19 }}</textarea></td>
+  </tr>
+      <tr>
       <td>Value (H.M.L)</td>
 <!--      <td><input name="value_hml" type="text" value="{{ item.26 }}"/></td>-->
  <td>
@@ -171,8 +176,13 @@ table{
                 <option value="High">High</option>
                 <option value="Low" selected>Low</option>
                 <option value="Medium">Medium</option>
-      </select>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+          ETD*
+     &emsp;&emsp;&ensp; <input name="etd" type="date"value="" required/><br>
 </td>
+
+
+
     </tr>
     <tr>
 <!--      <td>Gender</td>-->
@@ -187,11 +197,23 @@ table{
           <option value=""</option>
                 <option value="1">Yes</option>
                 <option value="0"selected>No</option>
-      </select>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+              Maker-1*
+<!--      <td><input name="maker1" type="text"value="{{ item.5 }}" /></td>-->
+
+          &emsp;<select name="maker1" id="maker1" required>
+<!--            <option value="" selected>choose options</option>-->
+              <option value=""></option>
+                {% for item in user %}
+            <option>{{ item.0}}</option>
+                {% endfor %}
+          </select>
+
 </td>
 
-        <td>ETD*</td>
-      <td><input name="etd" type="date"value="" /><br></td>
+
+<!--        <td>ETD*</td>-->
+<!--      <td><input name="etd" type="date"value="" required/><br></td>-->
 <!--      <td>Requested by (Actor)</td>-->
 <!--&lt;!&ndash;      <td><input name="request_by_actor" type="text" value="{{ item.9 }}"/></td>&ndash;&gt;-->
 <!--        <td>-->
@@ -222,34 +244,26 @@ table{
           <option value=""></option>
                 <option value="Pending"selected>Pending</option>
                 <option value="Done">Done</option>
-      </select>
-</td>
-
-       <td>Maker-1*</td>
-<!--      <td><input name="maker1" type="text"value="{{ item.5 }}" /></td>-->
-           <td>
-          <select name="maker1" id="maker1" required>
-<!--            <option value="" selected>choose options</option>-->
-              <option value=""></option>
-                {% for item in user %}
-            <option>{{ item.0}}</option>
-                {% endfor %}
-          </select>
-      </td>
-    </tr>
-
-      <tr>
-      <td>Maker-2</td>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+               Maker-2
 <!--      <td><input name="maker2" type="text"value="{{ item.6 }}" /></td>-->
-          <td>
-          <select name="maker2" id="maker2" >
+
+          &emsp;&ensp;<select name="maker2" id="maker2" >
 <!--            <option value="" selected>choose options</option>-->
               <option value="" ></option>
                 {% for item in user %}
             <option>{{ item.0}}</option>
                 {% endfor %}
           </select>
-      </td>
+
+</td>
+
+
+
+    </tr>
+
+      <tr>
+
       <td>Checker</td>
 <!--      <td><input name="checker" type="text"value="{{ item.3 }}" /></td>-->
           <td>

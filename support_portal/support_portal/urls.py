@@ -72,6 +72,7 @@ urlpatterns = [
     path('sysnewticket', views.sysnewticket, name='sysnewticket'),
     path('SysTicketSaved', views.SysTicketSaved, name='SysTicketSaved'),
     path('logout_view', views.logout_view, name='logout_view'),
+    #path('all_id', views.all_id, name='all_id'),
 
 ]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

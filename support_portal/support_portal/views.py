@@ -184,8 +184,11 @@ def updateinfo(request):
         latest_update = request.POST.get("task_details")
         task_id = request.POST.get("id")
         update_date = request.POST.get("update_Date")
-        user = request.POST.get("employee_id")
+
+        user=  request.user
         print(user)
+        # user = request.POST.get("{{ user }}")
+        # print("Ok"+user)
         # print(latest_update)
         # print(task_id)
         # print(update_date)
@@ -499,7 +502,6 @@ def saveticket(request):
         # task_id= cursor.execute('select id from support_portal_userprofile where id= %s')
 
         messages.success(request, "Ticket entry successfully..!!")
-
         return render(request, 'newticket.html')
 
 #
@@ -561,8 +563,12 @@ def customerTicketStatus(request):
     cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going" or approval= "Complete") and employee_id= %s order by request_date DESC',[user])
     #cursor.execute('SELECT * FROM support_portal_userprofile WHERE approval="Waiting_For_Appoval" and employee_id= "{{ user }}"')
     data = cursor.fetchall()
-    print(data)
+    # print(data)
 
+
+    # cursor.execute('SELECT latest_update from support_portal_infoupdate where task_id= %s ORDER BY update_date DESC limit 1',)
+    # lastUpdate= cursor.fetchall()
+    # print(lastUpdate)
     # cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s ORDER BY update_date DESC limit 1',[id])
     # lastupdate= cursor.fetchall()
     # print("Lastdate"+lastupdate)
@@ -570,6 +576,17 @@ def customerTicketStatus(request):
     context = {'data': data}
     #return render(request, 'customerTicketStatus.html', context)
     return render(request, 'customerTicketStatus.html',context)
+
+
+# def all_id(request):
+#
+#     cursor = connection.cursor()
+#     # cursor.execute('SELECT id from support_portal_userprofile')
+#     # all_id= cursor.fetchall()
+#     # print(all_id)
+
+
+
 
 @login_required
 def customerTicketInfo(request):
