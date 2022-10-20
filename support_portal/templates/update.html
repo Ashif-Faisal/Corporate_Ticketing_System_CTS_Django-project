@@ -131,15 +131,15 @@ tr:nth-child(even) {
                         {% for item in data %}
 <!--                <input id="task_id" type="text" name="task_id">-->
 <!--            <input type="submit" id="task_id" type="text" name="task_id" value="Done">-->
-                        <p><b>&emsp;Task Closed :</b>&emsp;<button style="background-color: #D96098;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">If This task is complete Then Click Here</button></p>
+                        <p><b>&emsp;Task Closed :</b>&emsp;<button style="background-color: #367E18;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Closed the task</button></p>
                         {% endfor %}
             </form>
                 </div>
 
                 <!-- Report div start -->
-
+<div class="container-fluid">
                 <h5 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>All updates are here</center></h5>
-
+</div>
 <!--    <table style="width:100%">-->
 
 <!--                    <hr>-->
@@ -163,7 +163,7 @@ tr:nth-child(even) {
 
 
 
-        <div style="overflow-x:auto;">
+        <div  class="container-fluid" style="overflow-x:auto;">
 
 
                     <table style="width:100%">

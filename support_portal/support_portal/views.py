@@ -30,7 +30,7 @@ def action(request):
         #print(x)
         if x:
             messages.success(request, "Task Closed Successfully..!!")
-        return render(request, 'update.html')
+    return render(request, 'unassignTask.html')
 
 
 # def taskclosed(request):
