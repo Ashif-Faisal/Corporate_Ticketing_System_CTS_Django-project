@@ -1,134 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <style>
-		body{ background:#dee9ff;}
-.con{
-  width: 600px;
-  background:#FFFFFF;
-  margin:0 auto;
-  padding-top:30px;
-  padding-bottom:30px;
-}
+{% extends 'test.html' %}
 
-h1{
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: bold;
-  color:#6f6f6f;
-  text-align: center;
-
-}
-
-table{
-  font-family: Calibri;
-  color:#6f6f6f;
-  font-size: 11pt;
-  font-style: normal;
-  font-weight: bold;
-  background-color: #FFFFFF;
-  border-collapse: collapse;
-  border-radius:10px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-}
-
-.submit{
-
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #5791ff;
-    border: none;
-    color: white;
-	width:400px;
-}
-
-	</style>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Simple Sidebar - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="static/css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Explore Project</div>
-                <div class="list-group list-group-flush">
-
-
-
-
-                      <form action="{% url 'sysnewticket' %}" method="post">
-                    {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
-                    </form>
-
-                    <form action="{% url 'unassignTask' %}" method="post">
-                    {% csrf_token %}
-
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
-                    </form>
-
-<!--                    <form action="{% url 'pendingTicket' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-
-<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Pending Task">-->
-<!--                    </form>-->
-
-
-<!--                    <form action="{% url 'taskview1' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-
-<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Task">-->
-<!--                    </form>-->
-
-<!--                    <form action="{% url 'taskreport' %}" method="post">-->
-<!--                     {% csrf_token %}-->
-<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">-->
-<!--                    </form>-->
-
-                    <form action="{% url 'approved' %}" method="post">
-                    {% csrf_token %}
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Search Ticket">
-                    </form>
-
-
-                </div>
-            </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 6px;border-radius: 3px;cursor: pointer;" class="btn btn-primary" id="sidebarToggle">Press To Full Screen</button>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-<!--                                <li class="nav-item active"><a class="nav-link" href="#!">Hello {{ user }} </a></li>-->
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-<!--                                        <a class="dropdown-item">Logout</a>-->
-                                        <form action="{%url 'logout_view'%}">
-                                        <input class="dropdown-item" type="submit" value="Logout">
-</form>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Page content-->
+{% block main %}                <!-- Page content-->
                 <div class="container-fluid">            <!-- info start -->
                     <form action="{% url 'editupdate' %}" method="POST">
 	{% csrf_token %}
@@ -141,20 +13,13 @@ table{
 </div>
                         {% endfor %}
   <div class="con">
-  <table align="center" cellpadding = "10">
+  <table id="edit" align="center" cellpadding = "10">
+
 {% for item in data %}
     <tr>
       <td>Employee Id</td>
         <td><input name="employee_id" type="text" value="{{ item.20 }}" readonly /></td>
-<!--      <td>-->
-<!--          <select name="sr_name" id="sr_name" >-->
-<!--&lt;!&ndash;            <option value="" selected>choose options</option>&ndash;&gt;-->
-<!--              <option value="{{ item.11 }}" selected>{{ item.11 }}</option>&ndash;&gt;-->
-<!--                {% for item in user %}-->
-<!--            <option value="{{ item.0}}">{{ item.0}}</option>-->
-<!--                {% endfor %}-->
-<!--          </select>-->
-<!--      </td>-->
+
     </tr>
       <tr>
       <td>Ticket Name</td>
@@ -204,7 +69,7 @@ table{
           &emsp;<select name="maker1" id="maker1" required>
 <!--            <option value="" selected>choose options</option>-->
               <option value=""></option>
-                {% for item in user %}
+                {% for item in owner %}
             <option>{{ item.0}}</option>
                 {% endfor %}
           </select>
@@ -212,19 +77,6 @@ table{
 </td>
 
 
-<!--        <td>ETD*</td>-->
-<!--      <td><input name="etd" type="date"value="" required/><br></td>-->
-<!--      <td>Requested by (Actor)</td>-->
-<!--&lt;!&ndash;      <td><input name="request_by_actor" type="text" value="{{ item.9 }}"/></td>&ndash;&gt;-->
-<!--        <td>-->
-<!--          <select name="request_by_actor" id="request_by_actor" >-->
-<!--&lt;!&ndash;            <option value="" selected>choose options</option>&ndash;&gt;-->
-<!--              <option value="{{ item.9 }}" selected>{{ item.9 }}</option>&ndash;&gt;-->
-<!--                {% for item in user %}-->
-<!--            <option value="{{ item.0}}">{{ item.0}}</option>-->
-<!--                {% endfor %}-->
-<!--          </select>-->
-<!--      </td>-->
     </tr>
 
 <!--    <tr>-->
@@ -251,7 +103,7 @@ table{
           &emsp;&ensp;<select name="maker2" id="maker2" >
 <!--            <option value="" selected>choose options</option>-->
               <option value="" ></option>
-                {% for item in user %}
+                {% for item in owner %}
             <option>{{ item.0}}</option>
                 {% endfor %}
           </select>
@@ -270,11 +122,13 @@ table{
           <select name="checker" id="checker" >
 <!--            <option value="" selected>choose options</option>-->
               <option value="" ></option>
-                {% for item in user %}
+                {% for item in owner %}
             <option value="">{{ item.0}}</option>
                 {% endfor %}
           </select>
       </td>
+          <td><input type="hidden" name="id" type="text" value="{{ item.0 }}"/><br></td>
+          <td><input type="hidden" name="approval" type="text" value="On Going" readonly/><br></td>
     </tr>
 
 
@@ -289,19 +143,8 @@ table{
 
 
 
-      <tr>
-<!--      <td>Add To Google Calender</td>-->
-<!--      <td><input name="add_to_google" type="date" value="{{ item.2 }}"/></td>-->
-<!--      <td>ID</td>-->
-      <td><input type="hidden" name="id" type="text" value="{{ item.0 }}"/><br></td>
 
-    </tr>
 
-      <tr>
-<!--             <td>Approval</td>-->
-<!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
-      <td><input type="hidden" name="approval" type="text" value="On Going" readonly/><br></td>
-      </tr>
 
 <!--{{form.errors}}-->
     <tr>
@@ -317,11 +160,4 @@ table{
                 </div>
 
 
-            </div>
-        </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="static/js/scripts.js"></script>
-    </body>
-</html>
+ {% endblock %}

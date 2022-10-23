@@ -73,6 +73,7 @@ urlpatterns = [
     path('SysTicketSaved', views.SysTicketSaved, name='SysTicketSaved'),
     path('logout_view', views.logout_view, name='logout_view'),
     path('test', views.test, name='test'),
+    path('sample1', views.sample1, name='sample1'),
     #path('all_id', views.all_id, name='all_id'),
 
 ]

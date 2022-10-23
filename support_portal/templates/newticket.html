@@ -1,51 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <style>
-		body{ background:#dee9ff;}
-.con{
-  width: 600px;
-  background:#FFFFFF;
-  margin:0 auto;
-  padding-top:30px;
-  padding-bottom:30px;
-}
 
-h1{
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: bold;
-  color:#6f6f6f;
-  text-align: center;
-
-}
-
-table{
-  font-family: Calibri;
-  color:#6f6f6f;
-  font-size: 11pt;
-  font-style: normal;
-  font-weight: bold;
-  background-color: #FFFFFF;
-  border-collapse: collapse;
-  border-radius:10px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-}
-
-.submit{
-
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #5791ff;
-    border: none;
-    color: white;
-	width:400px;
-}
-
-	</style>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -126,6 +82,10 @@ table{
                     </div>
                 </nav>
                 <!-- Page content-->
+                {% csrf_token %}
+                    {% block main %}
+
+
                 <div class="container-fluid">            <!-- info start -->
                     <form action="{% url 'saveticket' %}" method="POST">
 	{% csrf_token %}
@@ -186,6 +146,7 @@ table{
 
     </form>
                 </div>
+                {% endblock %}
             </div>
         </div>
         <!-- Bootstrap core JS-->

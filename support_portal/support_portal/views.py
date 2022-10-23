@@ -50,7 +50,7 @@ def edit(request):
         cursor.execute('SELECT username FROM auth_user')
         x = cursor.fetchall()
 
-        context = {'data': data,'user':x}
+        context = {'data': data,'owner':x}
         #cursor.execute("UPDATE support_portal_userprofile SET sr_name='sr_name' WHERE task_id= %s", [task_id])
 
         return render(request, 'edit.html', context)
@@ -234,8 +234,8 @@ def homepage(request):
     return render(request, 'home.html')
 
 
-# def sample(request):
-#     return render(request, 'sample.html')
+def sample1(request):
+    return render(request, 'sample1.html')
 
 
 def taskview1(request):

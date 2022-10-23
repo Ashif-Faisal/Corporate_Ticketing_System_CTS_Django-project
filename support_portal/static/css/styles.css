@@ -324,8 +324,9 @@ th {
 thead,
 tbody,
 tfoot,
-tr,
 td,
+tr,
+
 th {
   border-color: inherit;
   border-style: solid;
@@ -11329,4 +11330,41 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -15rem;
   }
+  #tickets {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #tickets td, #tickets th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #tickets tr:nth-child(even){background-color: #f2f2f2;}
+
+  #tickets tr:hover {background-color: #ddd;}
+
+  #tickets th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+
+    #edit{
+      font-family: Calibri;
+      color:#6f6f6f;
+      font-size: 11pt;
+      font-style: normal;
+      font-weight: bold;
+      background-color: #FFFFFF;
+      border-collapse: collapse;
+      border-radius:10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+    }
+
+
 }
