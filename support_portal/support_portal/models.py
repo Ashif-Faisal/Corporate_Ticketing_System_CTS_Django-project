@@ -31,7 +31,6 @@ class userprofile(models.Model):
     def __str__(self):
         return self.sr_name
 
-
 class infoUpdate(models.Model):
     latest_update = models.CharField(max_length=500, null=True)
     task_id = models.CharField(max_length=50, null=True)

@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import os
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,51 @@ from .functions import handle_uploaded_file
 from .models import userprofile
 from .serializers import PatientSerializer
 from django.contrib.auth import logout
+
+import requests
+import mysql.connector
+from bs4 import BeautifulSoup
+from datetime import date
+from tabulate import tabulate
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+from email.mime.base import MIMEBase
+
+
+def _send_mail(my_body,employee,comment,id):
+        message = MIMEMultipart()
+        # filename = ''
+        # # attachment = open(os.path.dirname(os.path.abspath("__file__")), "rb")
+        # attachment = ''
+        # p = MIMEBase('application', 'octet-stream')
+        # p.set_payload((attachment).read())
+        # encoders.encode_base64(p)  # updated
+        # p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+        # message.attach(p)
+        message['Subject'] = '[TT-'+str(id)+'] new trouble ticket genarated'
+        message['From'] = 'sys.support@progoti.com'
+        To_receiver = ['ashif.faisal@surecash.net']
+        Cc_receiver = ['systems@surecash.net']
+
+        message['To'] = ";".join(To_receiver)
+        message['Cc'] = ";".join(Cc_receiver)
+        print(message['Cc'])
+        receiver = To_receiver + Cc_receiver
+
+        body = ''' Ticket Initiated by: '''+ str(employee)+ ''' <br><br>Details: <br>'''+ str(my_body)+'''<br><br><br> Note: '''+str(comment)
+        message.attach(MIMEText(body, "html"))
+        msg_body = message.as_string()
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(message['From'], 'dzyofyvrmljnseby')
+        server.sendmail(message['From'], receiver, msg_body)
+        server.quit()
+        return "Mail sent successfully."
+
+    # # Send email via calling the function
+    #     send_mail(my_subject)
 
 
 def Tasksearch(request):
@@ -494,14 +539,29 @@ def saveticket(request):
         print(request_date)
         print(approval)
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval) VALUES (%s, %s,  %s, %s, %s)",[employee_id, task, comment,request_date,approval])
+        x= cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval) VALUES (%s, %s,  %s, %s, %s)",[employee_id, task, comment,request_date,approval])
         # if y:
         #     with open('media', 'wb+') as destination:
         #         for chunk in f.chunks():
         #             destination.write(chunk)
         # task_id= cursor.execute('select id from support_portal_userprofile where id= %s')
+        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+        thistuple = cursor.fetchall()
+        for i in thistuple:
+            print(i[0])
 
+        id= i[0]
+        print(id)
+
+        # for i in range(len(thistuple)):
+        #     print(thistuple[i])
+        #     print(type(thistuple[i]))
+
+
+        # for i in range(0, len(arr)):
+        #     print(arr[i]),
         messages.success(request, "Ticket entry successfully..!!")
+        _send_mail(task,employee_id,comment,id)
         return render(request, 'newticket.html')
 
 #
@@ -748,6 +808,7 @@ def SysTicketSaved(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
 
 
 

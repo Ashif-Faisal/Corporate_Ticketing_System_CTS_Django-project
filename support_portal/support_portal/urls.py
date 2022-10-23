@@ -74,7 +74,8 @@ urlpatterns = [
     path('logout_view', views.logout_view, name='logout_view'),
     path('test', views.test, name='test'),
     path('sample1', views.sample1, name='sample1'),
-    #path('all_id', views.all_id, name='all_id'),
+    path('_send_mail', views._send_mail, name='_send_mail'),
+
 
 ]
 
