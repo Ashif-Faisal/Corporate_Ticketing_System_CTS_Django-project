@@ -1,5 +1,10 @@
-from datetime import datetime
 import os
+import requests
+import mysql.connector
+from bs4 import BeautifulSoup
+from datetime import date
+from tabulate import tabulate
+from datetime import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -11,19 +16,13 @@ from .functions import handle_uploaded_file
 from .models import userprofile
 from .serializers import PatientSerializer
 from django.contrib.auth import logout
-
-import requests
-import mysql.connector
-from bs4 import BeautifulSoup
-from datetime import date
-from tabulate import tabulate
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 from email.mime.base import MIMEBase
 
 
-def _send_mail(my_body,employee,comment,id,team,creatoremail):
+def _send_mail(my_body, employee, comment, id, team, creatoremail):
         message = MIMEMultipart()
         # filename = ''
         # # attachment = open(os.path.dirname(os.path.abspath("__file__")), "rb")
@@ -60,10 +59,8 @@ def _send_mail(my_body,employee,comment,id,team,creatoremail):
         server.quit()
         return "Mail sent successfully."
 
-    # # Send email via calling the function
-    #     send_mail(my_subject)
 
-
+@login_required
 def Tasksearch(request):
     task_list = userprofile.objects.all()
     user_filter = userprofile(request.GET, work_Stream=task_list)
@@ -77,7 +74,7 @@ def action(request):
         print("ok")
         cursor = connection.cursor()
        # cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s', [task])
-        x= cursor.execute("UPDATE support_portal_userprofile set status='Done', approval='Complete'  WHERE id= %s", [id])
+        x = cursor.execute("UPDATE support_portal_userprofile set status='Done', approval='Complete'  WHERE id= %s", [id])
         #print(x)
         if x:
             messages.success(request, "Task Closed Successfully..!!")
@@ -125,36 +122,14 @@ def editupdate(request):
         outside_office_time = request.POST.get("outside_office_time")
         add_to_google = request.POST.get("add_to_google")
         approval = request.POST.get("approval")
-        # print(sr_name)
-        # print(work_stream)
-        # print(task)
-        # print(value_hml)
-        # print(request_by_actor)
-        # print(request_date)
-        # print(needed_date)
-        # print(etd)
-        # print(acd)
-        # print(status)
-        # print(maker1)
-        # print(maker2)
-        # print(checker)
-        # print(outside_office_time)
-        # print(add_to_google)
         cursor = connection.cursor()
         x = cursor.execute("UPDATE support_portal_userprofile SET sr_name= %s,work_stream= %s, task= %s, value_hml= %s, urgent_yn= %s,request_by_actor= %s,needed_date= %s,etd= %s,status= %s,maker1= %s,maker2= %s,checker= %s,outside_office_time= %s,add_to_google= %s,approval= %s  WHERE id= %s", [sr_name, work_stream,task, value_hml,urgent_yn,request_by_actor,needed_date,etd,status,maker1,maker2,checker,outside_office_time,add_to_google,approval, id])
         # y = cursor.execute('SELECT * FROM support_portal_userprofile WHERE task_id=')
         if x:
             messages.success(request, "Assigned successfully..!!")
-
         print(x)
         return render(request, 'edit.html')
 
-       # cursor = connection.cursor()
-        #cursor.execute('UPDATE support_portal_userprofile set sr_name=sr_name,work_stream=work_stream,task=task,value_hml=value_hml,urgent_yn=urgent_yn,request_by_actor=request_by_actor,request_date=request_date,needed_date=needed_date,etd=etd,acd=acd,prog=prog,status=status,maker1=maker1,maker2=maker2,checker=checker,maker1time=maker1time,maker2time=maker2time,checker_time=checker_time,mahid_time=mahid_time,outside_office_time=outside_office_time,url=url,remarks=remarks,task_details=task_details,email=email,add_to_google=add_to_google,task_id=task_id  WHERE task_id= %s', [task_id])
-       # cursor.execute('UPDATE support_portal_userprofile SET sr_name= WHERE task_id= %s', [task_id])
-       #  data = cursor.fetchall()
-       #  context = {'data': data}
-       #  return render(request, 'edit.html', context)
 
 # @login_required
 # def lastupdate(request):
