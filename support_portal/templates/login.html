@@ -119,8 +119,8 @@ body {
     <form class="login-form" method="POST" action="">
 
 {% csrf_token %}
-      <input type="text" placeholder="username" id="user" name="username"/>
-      <input type="password" placeholder="password" id="pass" name="password"/>
+      <input type="text" placeholder="username" id="user" name="username" required/>
+      <input type="password" placeholder="password" id="pass" name="password" required/>
       <button>login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>

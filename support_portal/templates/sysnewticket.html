@@ -1,11 +1,14 @@
 {% extends 'test.html' %}
 {% block main %}
                 <!-- Page content-->
+
+
+
                 <div class="container-fluid">            <!-- info start -->
-                    <form action="{% url 'SysTicketSaved' %}" method="POST">
+                    <form action="{% url 'dataTicketSave'%}" method="POST">
 	{% csrf_token %}
 
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
+                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>DataTeam New Ticket: {{current_datetime}} </center></h3>
                         <hr>&emsp;
 
   <div class="con">
@@ -19,7 +22,7 @@
         </tr>
       <tr>
       <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56"></textarea></td>
+      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
     </tr>
 
   <tr>
@@ -29,17 +32,20 @@
       </tr>
   <tr>
 
-
-<!--      <tr>-->
-<!--&lt;!&ndash;      <td><input name="task" type="text" /></td>&ndash;&gt;-->
-<!--      <td>Attachment</td>-->
-<!--      <td><input name="attachment" type="file"></td>-->
-<!--  </tr>-->
-
-
       <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>
       </tr>
-
+<tr>
+    <td>
+    Ticket Send For
+    </td>
+    <td >
+<input type="radio" id="systems" name="team" value="systems" required>
+<label for="systems"><b>Systems</b></label>&emsp;
+<input type="radio" id="TechOps" name="team" value="TechOps">
+<label for="TechOps"><b>TechOps</b></label>&emsp;
+<input type="radio" id="DataTeam" name="team" value="DataTeam">
+<label for="DataTeam"><b>DataTeam</b></label>
+</tr>
       <tr>
       <td></td>
       <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>

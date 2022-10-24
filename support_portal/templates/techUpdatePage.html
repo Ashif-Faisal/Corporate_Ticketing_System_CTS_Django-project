@@ -16,22 +16,24 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Explore Project</div>
+                <div class="sidebar-heading border-bottom bg-light"><B>TallyKhata</B></div>
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'newticket' %}" method="post">
+                    <form action="{% url 'techticket' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
                     </form>
 
-                    <form action="{% url 'customerTicketStatus' %}" method="post">
+                    <form action="{% url 'techTicketStatus' %}" method="post">
                     {% csrf_token %}
 
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                         <td><input type="hidden" name="employee_id" type="text" value="{{ user }}"/></td>
                         <td><input type="hidden" name="id" type="text" value="22" /></td>
                     </form>
+
+
 
 <!--                    <form action="{% url 'customerTicketStatus' %}" method="post">-->
 <!--                        <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
@@ -82,75 +84,151 @@
                     </div>
                 </nav>
                 <!-- Page content-->
-                {% csrf_token %}
-                    {% block main %}
 
 
                 <div class="container-fluid">            <!-- info start -->
-                    <form action="{% url 'saveticket'%}" method="POST">
+                    <form action="{% url 'techEditUpdate' %}" method="POST">
 	{% csrf_token %}
-
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
-                        <hr>&emsp;
-
+                        <br><h5 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>Task details is here</center> </h5>
+                        <hr>
   <div class="con">
-
   <table align="center" cellpadding = "10">
+{% for item in data %}
 
-    <tr>
-      <td>Employee ID</td>
-<!--      <td>  </td>-->
-        <td><input name="employee_id" type="text" value="{{ user }}" readonly /></td>
-        </tr>
-      <tr>
-      <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
-    </tr>
-
-  <tr>
-      <td>Comment </td>
-      <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
-      <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>
-      </tr>
-  <tr>
-
-      <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>
-      </tr>
-<tr>
-    <td>
-    Ticket Send For
-    </td>
-    <td >
-<input type="radio" id="systems" name="team" value="systems" required>
-<label for="systems"><b>Systems</b></label>&emsp;
-<input type="radio" id="TechOps" name="team" value="TechOps">
-<label for="TechOps"><b>TechOps</b></label>&emsp;
-<input type="radio" id="DataTeam" name="team" value="DataTeam">
-<label for="DataTeam"><b>DataTeam</b></label>
-</tr>
-      <tr>
-      <td></td>
-      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
-
-    </tr>
+       <p><b> &emsp;Sr. Name : </b> {{ item.11 }} </p>
+      <p> <b> &emsp;Perents Tasks : </b> {{ item.17 }} </p>
+      <p> <b> &emsp;Request Date : </b> {{ item.10 }} </p>
+      <p> <b> &emsp;needed_date : </b> {{ item.4 }} </p>
+      <p> <b> &emsp;Assign Person : </b> {{ item.5 }} </p>
 
 
+<!--{{form.errors}}-->
+{% endfor %}
   </table>
-<br>
-{% for msg in messages %}
+
+ </div>
+    </form>
+
+                    <form action="{% url 'action' %}" method="post">
+            {% csrf_token %}
+                        {% for item in data %}
+<!--                <input id="task_id" type="text" name="task_id">-->
+<!--            <input type="submit" id="task_id" type="text" name="task_id" value="Done">-->
+                        <p><b>&emsp;Task Closed :</b>&emsp;<button style="background-color: #367E18;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Closed the task</button></p>
+                        {% endfor %}
+            </form>
+                </div>
+
+                <!-- Report div start -->
+<div class="container-fluid">
+                <h5 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>All updates are here</center></h5>
+</div>
+<!--    <table style="width:100%">-->
+
+<!--                    <hr>-->
+<!--                    <table style="width:99%">-->
+<!--&lt;!&ndash;    <tr>&ndash;&gt;-->
+<!--        <td>ID</td>-->
+<!--        <td>Date</td>-->
+<!--        <td>Updates</td>-->
+
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--    {% for item in report %}-->
+<!--    <tr>-->
+<!--        <td>{{forloop.counter}}</td>-->
+<!--        <td>{{ item.3 }}</td>-->
+<!--        <td>{{ item.1 }}</td>-->
+<!--&lt;!&ndash;        <td>{{ item.2 }}</td>&ndash;&gt;-->
+
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table>-->
+
+
+
+        <div  class="container-fluid" style="overflow-x:auto;">
+
+
+                    <table id="tickets" style="width:100%">
+<!--    <tr>-->
+        <td>ID</td>
+        <td>Date</td>
+        <td>Update</td>
+<!--        <td>Work Stream</td>-->
+
+
+
+<!--    </tr>-->
+    {% for item in report %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ item.3 }}</td>
+        <td>{{ item.1 }}</td>
+
+
+    </tr>
+    {% endfor %}
+
+</table>
+</div>
+
+ {% for msg in messages %}
                         <div class="alert alert-success" role="alert">
   <h4 class="alert-heading">Well done!</h4>
   <p> {{ msg }}</p>
-
 </div>
 
 {% endfor %}
- </div>
 
+                <!-- update div start -->
+
+                <div class="container-fluid">            <!-- info start -->
+                    <form action="{% url 'techUpdatePage' %}" method="POST">
+	{% csrf_token %}
+                        <br><br><center><h5 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">Entry Update Write Here</h5></center>
+                        <hr>
+
+  <div class="con">
+  <table align="center" cellpadding = "10">
+{% for item in data %}
+
+<!--      Last Update Write Here: <input name="task_details" type="text" value="" />-->
+      &emsp;Update Write Here : <br><br>
+      &emsp;<textarea name="task_details" type="text" rows="2" cols="40"></textarea>
+<!--      <br><label for="update_Date">Date: </label>-->
+<!--    <input id="update_Date" type="text" name="update_date" value="{{current_datetime}}">-->
+     <input type="hidden" name="update_Date" type="text" value="{{current_datetime}}"/>
+<!--     <input  name="{{ user }}" type="text" value="{{ user }}"/>-->
+
+      <input type="hidden" name="id" type="text" value="{{ item.0 }}"/> <p>
+            <br> &emsp;<input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Save" class="submit">
+
+<!--  <tr>-->
+<!--&lt;!&ndash;      <td>Latest Update</td>&ndash;&gt;-->
+<!--&lt;!&ndash;      <td><textarea name="task" type="text" rows="2" cols="20"></textarea></td>&ndash;&gt;-->
+<!--      <td>Latest Update</td>-->
+<!--&lt;!&ndash;      <td><input name="task" type="text" value="{{ item.22 }}"/></td>&ndash;&gt;-->
+<!--      <td><input name="task_details" type="text" value="" /></td>-->
+<!--       <td>ID</td>-->
+<!--      <td><input name="id" type="text" value="{{ item.0 }}"/></td>-->
+<!--    </tr>-->
+
+<!--{{form.errors}}-->
+<!--    <tr>-->
+<!--      <td></td>-->
+<!--      <td colspan="4"><input type="submit" value="Save" class="submit"></td>-->
+<!--    </tr>-->
+ {% endfor %}
+  </table>
+
+ </div>
     </form>
                 </div>
-                {% endblock %}
-            </div>
+
+
+                                <!-- update div end -->
+
+  </div>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

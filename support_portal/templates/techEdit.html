@@ -16,22 +16,24 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">Explore Project</div>
+                <div class="sidebar-heading border-bottom bg-light"><B>TallyKhata</B></div>
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'newticket' %}" method="post">
+                    <form action="{% url 'techticket' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
                     </form>
 
-                    <form action="{% url 'customerTicketStatus' %}" method="post">
+                    <form action="{% url 'techTicketStatus' %}" method="post">
                     {% csrf_token %}
 
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                         <td><input type="hidden" name="employee_id" type="text" value="{{ user }}"/></td>
                         <td><input type="hidden" name="id" type="text" value="22" /></td>
                     </form>
+
+
 
 <!--                    <form action="{% url 'customerTicketStatus' %}" method="post">-->
 <!--                        <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
@@ -81,76 +83,166 @@
                         </div>
                     </div>
                 </nav>
-                <!-- Page content-->
-                {% csrf_token %}
-                    {% block main %}
-
-
+            <!-- Page content-->
                 <div class="container-fluid">            <!-- info start -->
-                    <form action="{% url 'saveticket'%}" method="POST">
+                    <form action="{% url 'techEditUpdate' %}" method="POST">
 	{% csrf_token %}
-
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
-                        <hr>&emsp;
-
-  <div class="con">
-
-  <table align="center" cellpadding = "10">
-
-    <tr>
-      <td>Employee ID</td>
-<!--      <td>  </td>-->
-        <td><input name="employee_id" type="text" value="{{ user }}" readonly /></td>
-        </tr>
-      <tr>
-      <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
-    </tr>
-
-  <tr>
-      <td>Comment </td>
-      <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
-      <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>
-      </tr>
-  <tr>
-
-      <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>
-      </tr>
-<tr>
-    <td>
-    Ticket Send For
-    </td>
-    <td >
-<input type="radio" id="systems" name="team" value="systems" required>
-<label for="systems"><b>Systems</b></label>&emsp;
-<input type="radio" id="TechOps" name="team" value="TechOps">
-<label for="TechOps"><b>TechOps</b></label>&emsp;
-<input type="radio" id="DataTeam" name="team" value="DataTeam">
-<label for="DataTeam"><b>DataTeam</b></label>
-</tr>
-      <tr>
-      <td></td>
-      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
-
-    </tr>
-
-
-  </table>
-<br>
-{% for msg in messages %}
+                        <h2 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>Task Assign form</center></h2>
+                        <hr>
+                        {% for msg in messages %}
                         <div class="alert alert-success" role="alert">
   <h4 class="alert-heading">Well done!</h4>
   <p> {{ msg }}</p>
-
 </div>
+                        {% endfor %}
+  <div class="con">
+  <table id="edit" align="center" cellpadding = "10">
 
-{% endfor %}
+{% for item in data %}
+    <tr>
+      <td>Employee Id</td>
+        <td><input name="employee_id" type="text" value="{{ item.20 }}" readonly /></td>
+
+    </tr>
+      <tr>
+      <td>Ticket Name</td>
+<!--      <td><input name="task" type="text" value="{{ item.13 }}"  /></td>-->
+           <td><textarea name="task" type="text" rows="2" cols="55">{{ item.13 }}</textarea></td>
+    </tr>
+
+  <tr>
+      <td>Ticket Details</td>
+<!--      <td><input name="task" type="text" value="{{ item.22 }}"/></td>-->
+      <td><textarea name="comment" type="text" rows="2" cols="55">{{ item.19 }}</textarea></td>
+  </tr>
+      <tr>
+      <td>Value (H.M.L)</td>
+<!--      <td><input name="value_hml" type="text" value="{{ item.26 }}"/></td>-->
+ <td>
+      <select name="value_hml" id="value_hml">
+          <option value=" selected>{{ item.16 }}</option>
+                <option value="High">High</option>
+                <option value="Low" selected>Low</option>
+                <option value="Medium">Medium</option>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+          ETD*
+     &emsp;&emsp;&ensp; <input name="etd" type="date"value="" required/><br>
+</td>
+
+
+
+    </tr>
+    <tr>
+<!--      <td>Gender</td>-->
+<!--      <td><select name="">-->
+<!--      <option>Male</option>-->
+<!--       <option>Female</option>-->
+<!--      </select></td>-->
+      <td>Urgent (Y.N)</td>
+<!--      <td><input name="urgent_yn" type="text" value="{{ item.14 }}"/></td>-->
+        <td>
+      <select name="urgent_yn" id="urgent_yn">
+          <option value=""</option>
+                <option value="1">Yes</option>
+                <option value="0"selected>No</option>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+              Maker-1*
+<!--      <td><input name="maker1" type="text"value="{{ item.5 }}" /></td>-->
+
+          &emsp;<select name="maker1" id="maker1" required>
+<!--            <option value="" selected>choose options</option>-->
+              <option value=""></option>
+                {% for item in owner %}
+            <option>{{ item.0}}</option>
+                {% endfor %}
+          </select>
+
+</td>
+
+
+    </tr>
+
+<!--    <tr>-->
+<!--      <td>Request Date</td>-->
+<!--      <td><input name="request_date" type="datetime-local"value="{{ item.10 }}" /><br></td>-->
+<!--&lt;!&ndash;      <td>Needed Date</td>&ndash;&gt;-->
+<!--&lt;!&ndash;      <td><input name="needed_date" type="date"value="" /><br>{{ item.7 }}</td>&ndash;&gt;-->
+<!--    </tr>-->
+
+
+
+      <tr>
+      <td>Status</td>
+<!--      <td><input name="status" type="text" value="{{ item.12 }}"/></td>-->
+           <td>
+      <select name="status" id="status">
+          <option value=""></option>
+                <option value="Pending"selected>Pending</option>
+                <option value="Done">Done</option>
+      </select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+               Maker-2
+<!--      <td><input name="maker2" type="text"value="{{ item.6 }}" /></td>-->
+
+          &emsp;&ensp;<select name="maker2" id="maker2" >
+<!--            <option value="" selected>choose options</option>-->
+              <option value="" ></option>
+                {% for item in owner %}
+            <option>{{ item.0}}</option>
+                {% endfor %}
+          </select>
+
+</td>
+
+
+
+    </tr>
+
+      <tr>
+
+      <td>Checker</td>
+<!--      <td><input name="checker" type="text"value="{{ item.3 }}" /></td>-->
+          <td>
+          <select name="checker" id="checker" >
+<!--            <option value="" selected>choose options</option>-->
+              <option value="" ></option>
+                {% for item in owner %}
+            <option value="">{{ item.0}}</option>
+                {% endfor %}
+          </select>
+      </td>
+          <td><input type="hidden" name="id" type="text" value="{{ item.0 }}"/><br></td>
+          <td><input type="hidden" name="approval" type="text" value="On Going" readonly/><br></td>
+    </tr>
+
+
+
+<!--    <tr>-->
+<!--      <td>Outside Office Time</td>-->
+<!--      <td><input name="outside_office_time" type="text"value="{{ item.8 }}" /></td>-->
+<!--      <td>URL</td>-->
+<!--      <td><input name="url" type="text" value="{{ item.15 }}"/></td>-->
+<!--    </tr>-->
+
+
+
+
+
+
+
+<!--{{form.errors}}-->
+    <tr>
+      <td></td>
+      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Update" class="submit"></td>
+
+    </tr>
+ {% endfor %}
+  </table>
+
  </div>
-
     </form>
                 </div>
-                {% endblock %}
-            </div>
+
+ </div>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

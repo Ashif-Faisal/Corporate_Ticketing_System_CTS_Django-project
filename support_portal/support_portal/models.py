@@ -25,11 +25,13 @@ class userprofile(models.Model):
     comment = models.CharField(max_length=400, null=True)
     attachment = models.FileField(max_length=100, null=True)
     approval = models.CharField(max_length=50, null=True)
+    team = models.CharField(max_length=50, null=True)
     #attachment = models.FileField(upload_to='media/')
     #attachment = models.ImageField(upload_to='media',null=True)
 
     def __str__(self):
         return self.sr_name
+
 
 class infoUpdate(models.Model):
     latest_update = models.CharField(max_length=500, null=True)

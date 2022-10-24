@@ -20,18 +20,19 @@
                 <div class="list-group list-group-flush">
 
 
-                    <form action="{% url 'newticket' %}" method="post">
+                    <form action="{% url 'techticket' %}" method="post">
                     {% csrf_token %}
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="New Ticket">
                     </form>
 
-                    <form action="{% url 'customerTicketStatus' %}" method="post">
+                    <form action="{% url 'techTicketStatus' %}" method="post">
                     {% csrf_token %}
 
                     <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
                         <td><input type="hidden" name="employee_id" type="text" value="{{ user }}"/></td>
                         <td><input type="hidden" name="id" type="text" value="22" /></td>
                     </form>
+
 
 <!--                    <form action="{% url 'customerTicketStatus' %}" method="post">-->
 <!--                        <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
@@ -82,75 +83,112 @@
                     </div>
                 </nav>
                 <!-- Page content-->
-                {% csrf_token %}
-                    {% block main %}
+                <div class="container-fluid">
+                    <div id="taskstatus" class="tabcontent"> <!-- Start -->
+  <form action="{% url 'techTicketState' %}" method="post">
+    {% csrf_token %}
+   <br> <label for="status"> Choose a Options:</label>
+  <select name="status" id="status">
+      <option value="" selected>--Choose Status--</option>
+    <option value="Pending">Pending</option>
+    <option value="Done">Complete</option>
+  </select>
+<td><input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly /></td>
+  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit">
+
+</form>
+
+<!--  <form action="{% url 'customerTicketApproval' %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--   <br> <label for="approval"> Waiting for approval:</label>-->
+<!--  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
+<!--      <td><input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly /></td>-->
+
+<!--</form>-->
+</div>
+<div style="overflow-x:auto;">
 
 
-                <div class="container-fluid">            <!-- info start -->
-                    <form action="{% url 'saveticket'%}" method="POST">
-	{% csrf_token %}
+                    <table style="width:100%">
+<!--    <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">-->
+<!--        <td>ID</td>-->
+<!--        <td>Date</td>-->
+<!--        <td>Ticket</td>-->
 
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
-                        <hr>&emsp;
 
-  <div class="con">
 
-  <table align="center" cellpadding = "10">
 
+<!--    </tr>-->
+    {% for data in approval %}
     <tr>
-      <td>Employee ID</td>
-<!--      <td>  </td>-->
-        <td><input name="employee_id" type="text" value="{{ user }}" readonly /></td>
-        </tr>
-      <tr>
-      <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
-    </tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ data.10 }}</td>
+        <td>{{ data.13 }}</td>
 
-  <tr>
-      <td>Comment </td>
-      <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
-      <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>
-      </tr>
-  <tr>
-
-      <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>
-      </tr>
-<tr>
-    <td>
-    Ticket Send For
-    </td>
-    <td >
-<input type="radio" id="systems" name="team" value="systems" required>
-<label for="systems"><b>Systems</b></label>&emsp;
-<input type="radio" id="TechOps" name="team" value="TechOps">
-<label for="TechOps"><b>TechOps</b></label>&emsp;
-<input type="radio" id="DataTeam" name="team" value="DataTeam">
-<label for="DataTeam"><b>DataTeam</b></label>
-</tr>
-      <tr>
-      <td></td>
-      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
 
     </tr>
+    {% endfor %}
 
-
-  </table>
-<br>
-{% for msg in messages %}
-                        <div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Well done!</h4>
-  <p> {{ msg }}</p>
-
+</table>
 </div>
 
-{% endfor %}
- </div>
+<div style="overflow-x:auto;">
 
-    </form>
-                </div>
-                {% endblock %}
-            </div>
+                    <hr>
+                    <table id="tickets" style="width:100%">
+    <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
+        <td>ID</td>
+        <td>Task ID</td>
+        <td>Date</td>
+        <td>Task</td>
+        <td>Creator</td>
+<!--        <td>Last Update</td>-->
+        <td>Assignee</td>
+        <td>ETD</td>
+        <td style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">Ticket State</td>
+
+         <td>History</td>
+
+    </tr>
+    {% for item in data %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{ item.0 }}</td>
+        <td>{{ item.10 }}</td>
+        <td>{{ item.13 }}</td>
+        <td>{{ item.20 }}</td>
+<!--        <td></td>-->
+        <td>{{ item.5 }}</td>
+        <td>{{ item.4 }}</td>
+        <td style="background-color: #325258;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">{{ item.21 }}</td>
+
+        <td>
+        <form action="{% url 'customerTaskView' %}" method="post">
+            {% csrf_token %}
+<!--                <input id="task_id" type="text" name="task_id">-->
+<!--            <input type="submit" id="task_id" type="text" name="task_id" value="Done">-->
+                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">History</button>
+            </form>
+        </td>
+
+
+
+<!--        <td>-->
+<!--        <form action="{% url 'customerTaskView' %}" method="post">-->
+<!--            {% csrf_token %}-->
+<!--&lt;!&ndash;                <input id="task_id" type="text" name="task_id">&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="submit" id="task_id" type="text" name="task_id" value="Done">&ndash;&gt;-->
+<!--                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">History</button>-->
+<!--            </form>-->
+<!--        </td>-->
+
+
+    </tr>
+    {% endfor %}
+
+</table>
+</div>
+ </div>
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
