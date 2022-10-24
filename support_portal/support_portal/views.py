@@ -251,7 +251,7 @@ def updateinfo(request):
         cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
 
         context = {'updatedata': y}
-        return render(request, 'update.html', context)
+        return render(request, 'unassignTask.html', context)
 
 
 @login_required
@@ -444,7 +444,7 @@ def loginview(request):
                 return redirect('sysnewticket')
 
             if group == 'DataTeam':
-                return redirect('techticket')
+                return redirect('dataticket')
 
             if group == 'TechOps':
                 return redirect('techticket')
@@ -663,7 +663,7 @@ def customerTicketInfo(request):
 
         cursor = connection.cursor()
         #cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
-        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and employee_id= %s', [status,employee_id])
+        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and employee_id= %s and team="systems"', [status,employee_id])
         data = cursor.fetchall()
 
         cursor.execute('SELECT latest_update FROM support_portal_infoupdate where task_id= %s',[task_id])
@@ -737,17 +737,18 @@ def customerTicketApproval(request):
 
 @login_required
 def unassignTask(request):
-    if request.method == 'POST':
-        # form_date = request.POST.get("form_date")
-        # to_date = request.POST.get("to_date")
-        # print(form_date)
-        # print(to_date)
-        cursor = connection.cursor()
-        cursor.execute('select *,datediff(etd,current_date) as pending_days from support_portal_userprofile where approval= "Not Started yet" or approval="On Going" order by request_date DESC')
-        data = cursor.fetchall()
-        print(data)
-        context = {'data': data}
-        return render(request, 'unassignTask.html', context)
+    user = request.POST.get("employee_id")
+    print(user)
+
+    id = request.POST.get("id")
+    print(id)
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team="systems" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',[user])
+    data = cursor.fetchall()
+    context = {'data': data}
+    return render(request, 'unassignTask.html', context)
+
 
 @login_required
 def pendingTicket(request):
@@ -843,19 +844,12 @@ def techTicketStatus(request):
     print(user)
 
     id = request.POST.get("id")
-    print("okkk"+id)
+    print(id)
 
     cursor = connection.cursor()
-
-    cursor.execute('select name from auth_group where id = (select group_id from auth_user_groups where user_id = (select id from auth_user where username = %s))',[user])
-    teamName = cursor.fetchall()
-    for i in teamName:
-        print(i[0])
-
-    teamName = i[0]
-    print(teamName)
-
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team= %s or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',[teamName,user])
+    cursor.execute(
+        'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team="TechOps" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',
+        [user])
     data = cursor.fetchall()
     context = {'data': data}
     return render(request, 'techTicketStatus.html', context)
@@ -1038,7 +1032,7 @@ def techUpdatePage(request):
         cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
 
         context = {'updatedata': y}
-        return render(request, 'techUpdatePage.html', context)
+        return render(request, 'techTicketStatus.html', context)
 
 
 def dataTicketSave(request):
@@ -1193,7 +1187,7 @@ def dataUpdatePage(request):
         cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
 
         context = {'updatedata': y}
-        return render(request, 'dataUpdatePage.html', context)
+        return render(request, 'dataTicketStatus.html', context)
 
 
 
@@ -1208,7 +1202,7 @@ def techTicketState(request):
 
         cursor = connection.cursor()
         #cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
-        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and employee_id= %s', [status,employee_id])
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and team='TechOps'", [status])
         data = cursor.fetchall()
 
         cursor.execute('SELECT latest_update FROM support_portal_infoupdate where task_id= %s',[task_id])
@@ -1231,7 +1225,7 @@ def dataTicketState(request):
 
         cursor = connection.cursor()
         #cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
-        cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and employee_id= %s', [status,employee_id])
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and team='DataTeam'", [status])
         data = cursor.fetchall()
 
         cursor.execute('SELECT latest_update FROM support_portal_infoupdate where task_id= %s',[task_id])
@@ -1241,3 +1235,53 @@ def dataTicketState(request):
         context = {'data': data}
         # return render(request, 'approved.html', context)
         return render(request, 'dataTicketState.html',context)
+
+
+
+def sysTicketState(request):
+    if request.method == 'POST':
+
+        status=request.POST.get("status")
+        print(status)
+        task_id=request.POST.get("id")
+        employee_id=request.POST.get("employee_id")
+        print(employee_id)
+
+        cursor = connection.cursor()
+        #cursor.execute('SELECT *,datediff(current_date,request_date) as pending_days FROM support_portal_userprofile WHERE status= %s', [status])
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status= %s and team='systems'", [status])
+        data = cursor.fetchall()
+
+        cursor.execute('SELECT latest_update FROM support_portal_infoupdate where task_id= %s',[task_id])
+        last_update = cursor.fetchall()
+        print(last_update)
+
+        context = {'data': data}
+        # return render(request, 'approved.html', context)
+        return render(request, 'sysTicketState.html',context)
+
+
+def actionForData(request):
+    if request.method == 'POST':
+        id = request.POST.get("id")
+        print("ok")
+        cursor = connection.cursor()
+       # cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s', [task])
+        x= cursor.execute("UPDATE support_portal_userprofile set status='Done', approval='Complete'  WHERE id= %s", [id])
+        #print(x)
+        if x:
+            messages.success(request, "Task Closed Successfully..!!")
+    return render(request, 'dataTicketStatus.html')
+
+
+def actionForTech(request):
+    if request.method == 'POST':
+        id = request.POST.get("id")
+        print("ok")
+        cursor = connection.cursor()
+       # cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s', [task])
+        x= cursor.execute("UPDATE support_portal_userprofile set status='Done', approval='Complete'  WHERE id= %s", [id])
+        #print(x)
+        if x:
+            messages.success(request, "Task Closed Successfully..!!")
+    return render(request, 'techTicketStatus.html')

@@ -93,6 +93,10 @@ urlpatterns = [
     path('dataUpdatePage', views.dataUpdatePage, name='dataUpdatePage'),
     path('techTicketState', views.techTicketState, name='techTicketState'),
     path('dataTicketState', views.dataTicketState, name='dataTicketState'),
+    path('sysTicketState', views.sysTicketState, name='sysTicketState'),
+    path('actionForData', views.actionForData, name='actionForData'),
+    path('actionForTech', views.actionForTech, name='actionForTech'),
+
 
 
 ]

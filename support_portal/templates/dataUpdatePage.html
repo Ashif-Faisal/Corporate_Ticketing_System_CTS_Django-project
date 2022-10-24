@@ -109,7 +109,7 @@
  </div>
     </form>
 
-                    <form action="{% url 'action' %}" method="post">
+                    <form action="{% url 'actionForData' %}" method="post">
             {% csrf_token %}
                         {% for item in data %}
 <!--                <input id="task_id" type="text" name="task_id">-->
@@ -172,13 +172,7 @@
 </table>
 </div>
 
- {% for msg in messages %}
-                        <div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Well done!</h4>
-  <p> {{ msg }}</p>
-</div>
 
-{% endfor %}
 
                 <!-- update div start -->
 
