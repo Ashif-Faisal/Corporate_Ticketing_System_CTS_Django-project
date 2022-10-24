@@ -32,7 +32,6 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail):
         # encoders.encode_base64(p)  # updated
         # p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
         # message.attach(p)
-
         sample_str = str(my_body)
         require_chars = sample_str[0:50]
         print(team)
