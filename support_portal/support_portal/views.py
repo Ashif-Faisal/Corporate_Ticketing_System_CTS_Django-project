@@ -42,7 +42,6 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail):
         message['From'] = 'sys.support@progoti.com'
         To_receiver = [team]
         Cc_receiver = [creatoremail]
-
         message['To'] = ";".join(To_receiver)
         message['Cc'] = ";".join(Cc_receiver)
         print(message['Cc'])
