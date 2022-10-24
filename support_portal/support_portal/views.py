@@ -33,10 +33,13 @@ def _send_mail(my_body,employee,comment,id,team,creatoremail):
         # encoders.encode_base64(p)  # updated
         # p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
         # message.attach(p)
+
+        sample_str = str(my_body)
+        require_chars = sample_str[0:50]
         print(team)
         creatorEmail= creatoremail
         task_id = id
-        message['Subject'] = '[TT-'+str(task_id)+'] new trouble ticket genarated'
+        message['Subject'] = '[TT-'+require_chars+']'
         message['From'] = 'sys.support@progoti.com'
         To_receiver = [team]
         Cc_receiver = [creatoremail]
@@ -46,7 +49,7 @@ def _send_mail(my_body,employee,comment,id,team,creatoremail):
         print(message['Cc'])
         receiver = To_receiver + Cc_receiver
 
-        body = ''' Ticket Initiated by: '''+ str(employee)+ ''' <br><br>Details: <br>'''+ str(my_body)+'''<br><br><br> Comments: '''+str(comment)
+        body = ''' Ticket Initiated by: <br>'''+ str(employee)+ ''' <br><br>Details: <br>'''+ sample_str+'''<br><br> Comments: <br>'''+str(comment)
         message.attach(MIMEText(body, "html"))
         msg_body = message.as_string()
 
@@ -440,8 +443,8 @@ def loginview(request):
             if group == 'systems':
                 return redirect('sysnewticket')
 
-            if group == 'data':
-                return redirect('dataticket')
+            if group == 'DataTeam':
+                return redirect('techticket')
 
             if group == 'TechOps':
                 return redirect('techticket')
@@ -450,7 +453,7 @@ def loginview(request):
             #     return redirect('newticket')
 
             # return redirect('dashboard')
-            return redirect('index')
+            return redirect('newticket')
 
         else:
             messages.success(request, "Incorrect Username or Password..")
@@ -786,6 +789,8 @@ def SysTicketSaved(request):
         # attachment = request.POST.get("attachment")
         request_date = request.POST.get("request_date")
         approval = request.POST.get("approval")
+        team = request.POST.get("team")
+        print(team)
         print(employee_id)
         print(task)
         print(comment)
@@ -793,15 +798,34 @@ def SysTicketSaved(request):
         print(request_date)
         print(approval)
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval) VALUES (%s, %s,  %s, %s, %s)",[employee_id, task, comment,request_date,approval])
-        # if y:
-        #     with open('media', 'wb+') as destination:
-        #         for chunk in f.chunks():
-        #             destination.write(chunk)
-        # task_id= cursor.execute('select id from support_portal_userprofile where id= %s')
+        x = cursor.execute(
+            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
+            [employee_id, task, comment, request_date, approval, team])
+
+        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+        thistuple = cursor.fetchall()
+        for i in thistuple:
+            print(i[0])
+
+        id = i[0]
+        print(id)
+
+        cursor.execute('select email from auth_user where username= %s', [employee_id])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        creatoremail = email[0]
+        print("creatoremailll" + creatoremail)
 
         messages.success(request, "Ticket entry successfully..!!")
-
+        if team == 'systems':
+            team = 'systems@surecash.net'
+        elif team == 'TechOps':
+            team = 'tech_ops@surecash.net'
+        elif team == 'DataTeam':
+            team = 'data@surecash.net'
+        _send_mail(task, employee_id, comment, id, team, creatoremail)
         return render(request, 'sysnewticket.html')
 
 @login_required
@@ -819,10 +843,19 @@ def techTicketStatus(request):
     print(user)
 
     id = request.POST.get("id")
-    print(id)
+    print("okkk"+id)
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team="TechOps" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',[user])
+
+    cursor.execute('select name from auth_group where id = (select group_id from auth_user_groups where user_id = (select id from auth_user where username = %s))',[user])
+    teamName = cursor.fetchall()
+    for i in teamName:
+        print(i[0])
+
+    teamName = i[0]
+    print(teamName)
+
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team= %s or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',[teamName,user])
     data = cursor.fetchall()
     context = {'data': data}
     return render(request, 'techTicketStatus.html', context)
