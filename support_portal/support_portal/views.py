@@ -37,7 +37,7 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail):
         print(team)
         creatorEmail= creatoremail
         task_id = id
-        message['Subject'] = '[TT-'+require_chars+']'
+        message['Subject'] = '[TT- '+str(task_id)+'] ''' +require_chars
         message['From'] = 'sys.support@progoti.com'
         To_receiver = [team]
         Cc_receiver = [creatoremail]
@@ -77,12 +77,6 @@ def action(request):
         if x:
             messages.success(request, "Task Closed Successfully..!!")
     return render(request, 'unassignTask.html')
-
-
-# def taskclosed(request):
-#     if request.method == 'POST':
-#         id = request.POST.get("id")
-#         print(id)
 
 @login_required
 def edit(request):
@@ -128,45 +122,6 @@ def editupdate(request):
         print(x)
         return render(request, 'edit.html')
 
-
-# @login_required
-# def lastupdate(request):
-#     if request.method == 'POST':
-#         sr_name = request.POST.get("sr_name")
-#         work_stream = request.POST.get("work_stream")
-#         remarks = request.POST.get("remarks")
-#         task = request.POST.get("task")
-#         value_hml = request.POST.get("value_hml")
-#         urgent_yn = request.POST.get("urgent_yn")
-#         request_date = request.POST.get("request_date")
-#         needed_date = request.POST.get("needed_date")
-#         etd = request.POST.get("etd")
-#         acd = request.POST.get("acd")
-#         request_by_actor = request.POST.get("request_by_actor")
-#         prog = request.POST.get("prog")
-#         status = request.POST.get("status")
-#         maker1 = request.POST.get("maker1")
-#         maker2 = request.POST.get("maker2")
-#         checker = request.POST.get("checker")
-#         maker1time = request.POST.get("maker1time")
-#         maker2time = request.POST.get("maker2time")
-#         checker_time = request.POST.get("checker_time")
-#         mahid_time = request.POST.get("mahid_time")
-#         outside_office_time = request.POST.get("outside_office_time")
-#         url = request.POST.get("url")
-#         task_details = request.POST.get("task_details")
-#         email = request.POST.get("email")
-#         add_to_google = request.POST.get("add_to_google")
-#         task_id = request.POST.get("task_id")
-#         print(email)
-#         print(task_details)
-#         print(work_stream)
-#         cursor = connection.cursor()
-#         #x = cursor.execute("UPDATE support_portal_userprofile SET sr_name= %s,remarks= %s WHERE task_id= %s", [update_data1, latest_update, update_data2])
-#         #y = cursor.execute("INSERT INTO support_portal_userprofile (acd= %s, add_to_google= %s, checker= %s, checker_time= %s, email= %s, etd= %s, mahid_time= %s, maker1= %s, maker1time= %s, maker2= %s, maker2time= %s, needed_date= %s, outside_office_time= %s, prog= %s, remarks= %s, request_by_actor= %s, request_date= %s, sr_name= %s, status= %s, task= %s, task_details= %s, urgent_yn= %s, url= %s, value_hml= %s, work_stream= %s, task_id= %s)", [acd, add_to_google, checker, checker_time, email, etd, mahid_time, maker1, maker1time, maker2, maker2time, needed_date, outside_office_time, prog, remarks, request_by_actor, request_date, sr_name, status, task, task_details, urgent_yn, url, value_hml, work_stream, task_id])
-#         z = cursor.execute("INSERT INTO support_portal_userprofile (acd, add_to_google, checker, checker_time, email, etd, mahid_time, maker1, maker1time, maker2, maker2time, needed_date, outside_office_time, prog, remarks, request_by_actor, request_date, sr_name, status, task, task_details, urgent_yn, url, value_hml, work_stream, task_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", [acd, add_to_google, checker, checker_time, email, etd, mahid_time, maker1, maker1time, maker2, maker2time, needed_date, outside_office_time, prog, remarks, request_by_actor, request_date, sr_name, status, task, task_details, urgent_yn, url, value_hml, work_stream, task_id])
-#         print(z)
-#         return render(request, 'report.html')
 
 @login_required
 def lastupdate(request):
@@ -525,9 +480,6 @@ def saveticket(request):
         cursor = connection.cursor()
         x= cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",[employee_id, task, comment,request_date,approval, team])
 
-
-
-
         cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
         thistuple = cursor.fetchall()
         for i in thistuple:
@@ -667,7 +619,6 @@ def TicketStatus(request):
         print(last_update)
 
         context = {'data': data}
-        # return render(request, 'approved.html', context)
         return render(request, 'unassignTask.html',context)
 
 @login_required
