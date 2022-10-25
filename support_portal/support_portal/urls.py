@@ -26,10 +26,10 @@ from .import views
 from .views import infoview
 
 urlpatterns = [
+    path('', views.loginview, name='login'),
     path('admin/', admin.site.urls),
     path('info', views.infoview, name='info'),
     path('test',views.testpage, name='test'),
-    path('',views.loginview, name='login'),
     path('error', views.errorpage, name='errorpage'),
     path('report', views.report, name='report'),
     path('reg', views.regview, name='regpage'),
@@ -93,11 +93,5 @@ urlpatterns = [
     path('dataUpdatePage', views.dataUpdatePage, name='dataUpdatePage'),
     path('techTicketState', views.techTicketState, name='techTicketState'),
     path('dataTicketState', views.dataTicketState, name='dataTicketState'),
-    path('sysTicketState', views.sysTicketState, name='sysTicketState'),
-    path('actionForData', views.actionForData, name='actionForData'),
-    path('actionForTech', views.actionForTech, name='actionForTech'),
-
-
-
 ]
 
