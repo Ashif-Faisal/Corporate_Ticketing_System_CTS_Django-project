@@ -15,7 +15,7 @@ class userprofile(models.Model):
     acd = models.DateTimeField(max_length=30, null=True)
     request_by_actor = models.CharField(max_length=30, null=True)
     status = models.CharField(max_length=30, null=True)
-    maker1 = models.CharField(max_length=30)
+    maker1 = models.CharField(max_length=30, null= True)
     maker2 = models.CharField(max_length=30, null=True)
     checker = models.CharField(max_length=30, null=True)
     outside_office_time = models.CharField(max_length=30, null=True)
