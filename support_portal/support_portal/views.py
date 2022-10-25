@@ -669,7 +669,7 @@ def unassignTask(request):
 
     cursor = connection.cursor()
     cursor.execute(
-        'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join myappdb.support_portal_infoupdate b on a.id = b.task_id WHERE team="systems" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',
+        'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join myappdb.support_portal_infoupdate b on a.id = b.task_id WHERE team="systems" or (approval="Not Started yet" or approval= "On Going")  and employee_id= %s order by request_date DESC',
         [user])
     data = cursor.fetchall()
 
