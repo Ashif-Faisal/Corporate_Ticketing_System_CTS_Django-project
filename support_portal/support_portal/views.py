@@ -282,17 +282,16 @@ def diff_time(created_date, cursor):
 def pendingTask(request):
     if request.method == 'POST':
 
-
         employee_id=request.POST.get("employee_id")
         print(employee_id)
         cursor = connection.cursor()
-        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE employee_id = %s and status='Pending'", [employee_id])
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE maker1 = %s and status='Pending'", [employee_id])
         data = cursor.fetchall()
 
         cursor.execute('SELECT username FROM auth_user')
-        info = cursor.fetchall()
-        context = {'data': data, 'info': info}
-        return render(request, 'taskstatus.html',  context)
+        alluser = cursor.fetchall()
+        context = {'data': data, 'alluser': alluser}
+        return render(request, 'unassignTask.html',  context)
 
 
 # def pendingTask(request):
@@ -661,6 +660,7 @@ def customerTicketApproval(request):
 
 @login_required
 def unassignTask(request):
+
     user = request.POST.get("employee_id")
     print(user)
 
@@ -668,9 +668,25 @@ def unassignTask(request):
     print(id)
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team="systems" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',[user])
+    cursor.execute(
+        'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE team="systems" or (approval="Not Started yet" or approval= "On Going" or approval= "Complete")  and employee_id= %s order by request_date DESC',
+        [user])
     data = cursor.fetchall()
-    context = {'data': data}
+
+    cursor.execute('select username from auth_user')
+    alluser = cursor.fetchall();
+    print(alluser)
+
+    context = {'data': data,'alluser': alluser}
+    return render(request, 'unassignTask.html', context)
+
+
+
+    cursor.execute('select username from auth_user')
+    alluser = cursor.fetchall();
+    print(alluser)
+
+    context = {'data': data,'alluser': alluser}
     return render(request, 'unassignTask.html', context)
 
 
@@ -1180,7 +1196,11 @@ def sysTicketState(request):
         last_update = cursor.fetchall()
         print(last_update)
 
-        context = {'data': data}
+        cursor.execute('select username from auth_user')
+        alluser = cursor.fetchall();
+        print(alluser)
+
+        context = {'data': data,'alluser':alluser}
         # return render(request, 'approved.html', context)
         return render(request, 'sysTicketState.html',context)
 

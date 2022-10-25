@@ -1,37 +1,84 @@
 {% extends 'test.html' %}
 {% block main %}
+
+<style>
+      * {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+
+.column {
+  float: left;
+  width: 40%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+td, tr {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+</style>
                 <!-- Page content-->
-                <div class="container-fluid">
-                    <div id="taskstatus" class="tabcontent"> <!-- Start -->
+<hr>
+<div class="row">
+    <div class="column"> <!-- Start -->
+
   <form action="{% url 'sysTicketState' %}" method="post">
     {% csrf_token %}
-   <br> <label for="status"> Choose a Options:</label>
+   <label for="status"> Status Filter</label>
   <select name="status" id="status">
       <option value="" selected>--Choose Status--</option>
     <option value="Pending">Pending</option>
     <option value="Done">Complete</option>
   </select>
-<td><input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly /></td>
+<input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly />
   <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit">
 
 </form>
+    </div>
+    <div class="column">
+  <form action="{% url 'pendingtask' %}" method="post">
+    {% csrf_token %}
+    <label for="employee_id"> Person Filter</label>
+  <select name="employee_id" id="employee_id">
+      <option value="" selected>--Choose Person--</option>
+      {% for alluser in alluser %}
+<!--        <option value="">{{ forloop.counter }}</option>-->
+        <option value="{{ alluser.0}}">{{ alluser.0 }}</option>
+      {% endfor %}
+  </select>
+  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"></input>
+</form>
 
-<!--  <form action="{% url 'customerTicketApproval' %}" method="post">-->
-<!--    {% csrf_token %}-->
-<!--   <br> <label for="approval"> Waiting for approval:</label>-->
-<!--  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
-<!--      <td><input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly /></td>-->
-
-<!--</form>-->
 </div>
+    </div>
 <div style="overflow-x:auto;">
 
 
                     <table style="width:100%">
-<!--    <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">-->
-<!--        <td>ID</td>-->
-<!--        <td>Date</td>-->
-<!--        <td>Ticket</td>-->
+
 
 
 
