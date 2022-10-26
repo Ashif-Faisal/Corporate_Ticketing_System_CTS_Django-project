@@ -715,7 +715,10 @@ def pendingTicket(request):
         status=request.POST.get("status")
         cursor = connection.cursor()
         # cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status='Pending'")
-        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE a.status='Pending' order by request_date DESC;")
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left "
+                       "join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from "
+                       "support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate "
+                       "spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE a.status='Pending' order by a.request_date DESC;")
         data = cursor.fetchall()
         cursor.execute('SELECT username FROM auth_user')
         info = cursor.fetchall()
@@ -732,6 +735,7 @@ def allTask(request):
         context = {'data': data}
         return render(request, 'taskstatus.html',  context)
 
+
 @login_required
 def sysnewticket(request):
     currentdate = datetime.now()
@@ -739,6 +743,7 @@ def sysnewticket(request):
 
     context = {'current_datetime': current_datetime}
     return render(request, 'sysnewticket.html', context)
+
 
 @login_required
 def SysTicketSaved(request):
@@ -790,6 +795,7 @@ def SysTicketSaved(request):
         _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
 
+
 @login_required
 def logout_view(request):
     logout(request)
@@ -839,6 +845,7 @@ def techticket(request):
 
     context = {'current_datetime': current_datetime}
     return render(request, 'techticket.html', context)
+
 
 def techTicketsave(request):
     if request.method == 'POST':
