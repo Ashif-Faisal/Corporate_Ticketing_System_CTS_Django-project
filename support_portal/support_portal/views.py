@@ -665,7 +665,6 @@ def unassignTask(request):
 
     user = request.POST.get("employee_id")
     print(user)
-
     id = request.POST.get("id")
     print(id)
 
