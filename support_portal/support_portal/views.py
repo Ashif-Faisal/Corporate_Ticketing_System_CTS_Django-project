@@ -24,7 +24,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
 
-def _send_mail(my_body, employee, comment, id, team, creatoremail):
+def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update):
         message = MIMEMultipart()
         # filename = ''
         # # attachment = open(os.path.dirname(os.path.abspath("__file__")), "rb")
@@ -48,7 +48,7 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail):
         print(message['Cc'])
         receiver = To_receiver + Cc_receiver
 
-        body = ''' Ticket Initiated by: <br>'''+ str(employee)+ ''' <br><br>Details: <br>'''+ sample_str+'''<br><br> Comments: <br>'''+str(comment)
+        body = ''' Ticket Initiated by: <br>'''+ str(employee)+ ''' <br><br>Details: <br>'''+ sample_str+'''<br><br> Comments: <br>'''+str(comment)+'''<br><br> Last Updae: <br>'''+str(latest_update)
         message.attach(MIMEText(body, "html"))
         msg_body = message.as_string()
 
@@ -163,8 +163,10 @@ def lastupdate(request):
 def updateinfo(request):
     if request.method == 'POST':
         latest_update = request.POST.get("task_details")
+        task = request.POST.get("task")
         task_id = request.POST.get("id")
         update_date = request.POST.get("update_Date")
+        comment = request.POST.get("comment")
 
         user=  request.user
         print(user)
@@ -180,6 +182,29 @@ def updateinfo(request):
 
         cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
 
+        user = request.user
+        print(user)
+
+
+        cursor.execute('select email from auth_user where username= %s', [user])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+        creatoremail = email[0]
+        print("creatoremailll" + creatoremail)
+
+        team='systems@surecash.net'
+
+
+
+
+        print(latest_update)
+        print(user)
+        print(task_id)
+        print(creatoremail)
+        print(comment)
+
+        _send_mail(task, user,comment, task_id,team, creatoremail,latest_update)
         context = {'updatedata': y}
         return render(request, 'unassignTask.html', context)
 
@@ -762,7 +787,9 @@ def SysTicketSaved(request):
             team = 'tech_ops@surecash.net'
         elif team == 'DataTeam':
             team = 'data@surecash.net'
-        _send_mail(task, employee_id, comment, id, team, creatoremail)
+
+        latest_update=''
+        _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
 
 @login_required
