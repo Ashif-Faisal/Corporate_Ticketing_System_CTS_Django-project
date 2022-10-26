@@ -668,7 +668,7 @@ def unassignTask(request):
     print(id)
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join myappdb.support_portal_infoupdate b on a.id = b.task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going")  and employee_id= (select id from myappdb.auth_user where username = %s) order by request_date DESC',[user])
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join myappdb.support_portal_infoupdate b on a.id = b.task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by request_date DESC;')
     data = cursor.fetchall()
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
@@ -676,8 +676,6 @@ def unassignTask(request):
 
     context = {'data': data,'alluser': alluser}
     return render(request, 'unassignTask.html', context)
-
-
 
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
