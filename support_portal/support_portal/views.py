@@ -21,7 +21,7 @@ from email.mime.text import MIMEText
 import smtplib
 from email.mime.base import MIMEBase
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update):
@@ -583,32 +583,22 @@ def datewiseticket(request):
 def customerTicketStatus(request):
     user = request.user
     print(user)
-
-
-
-
-
     cursor = connection.cursor()
     cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going" or approval= "Complete") and employee_id= %s order by request_date DESC',[user])
     data = cursor.fetchall()
     context = {'data': data}
     return render(request, 'customerTicketStatus.html',context)
 
-
 # def all_id(request):
-#
 #     cursor = connection.cursor()
 #     # cursor.execute('SELECT id from support_portal_userprofile')
 #     # all_id= cursor.fetchall()
 #     # print(all_id)
 
 
-
-
 @login_required
 def customerTicketInfo(request):
     if request.method == 'POST':
-
         status=request.POST.get("status")
         print(status)
         task_id=request.POST.get("id")
@@ -626,7 +616,8 @@ def customerTicketInfo(request):
 
         context = {'data': data}
         # return render(request, 'approved.html', context)
-        return render(request, 'customerTicketStatus.html',context)
+        return render(request, 'customerTicketStatus.html', context)
+
 
 @login_required
 def TicketStatus(request):
@@ -648,7 +639,8 @@ def TicketStatus(request):
         print(last_update)
 
         context = {'data': data}
-        return render(request, 'unassignTask.html',context)
+        return render(request, 'unassignTask.html', context)
+
 
 @login_required
 def customerTaskView(request):
@@ -659,22 +651,19 @@ def customerTaskView(request):
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM support_portal_userprofile WHERE id= %s ORDER BY request_date DESC limit 1', [id])
         data = cursor.fetchall()
-
         cursor.execute('SELECT username FROM auth_user')
         x = cursor.fetchall()
-
         cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
         report = cursor.fetchall()
         print(report)
-
         currentdate = datetime.now()
         current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
-
-        context = {'data': data,'user':x, 'report': report, 'current_datetime':current_datetime}
+        context = {'data': data,'user':x, 'report': report, 'current_datetime': current_datetime}
         #cursor.execute("UPDATE support_portal_userprofile SET sr_name='sr_name' WHERE task_id= %s", [task_id])
 
         return render(request, 'customerTaskView.html', context)
        # return render(request,'customerTaskView.html')
+
 
 @login_required
 def customerTicketApproval(request):
@@ -688,9 +677,9 @@ def customerTicketApproval(request):
         context = {'approval': data}
         return render(request, 'customerTicketStatus.html', context)
 
+
 @login_required
 def unassignTask(request):
-
     user = request.POST.get("employee_id")
     print(user)
     id = request.POST.get("id")
@@ -703,16 +692,26 @@ def unassignTask(request):
     alluser = cursor.fetchall();
     print(alluser)
 
-    context = {'data': data,'alluser': alluser}
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 10)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+    context = {'data': data, 'alluser': alluser}
     return render(request, 'unassignTask.html', context)
+
+    # context = {'data': data,'alluser': alluser}
+    # return render(request, 'unassignTask.html', context)
 
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
     print(alluser)
 
-    context = {'data': data,'alluser': alluser}
+    context = {'data': data, 'alluser': alluser}
     return render(request, 'unassignTask.html', context)
-
 
 @login_required
 def pendingTicket(request):
@@ -720,7 +719,8 @@ def pendingTicket(request):
 
         status=request.POST.get("status")
         cursor = connection.cursor()
-        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status='Pending'")
+        # cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status='Pending'")
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE status='Pending' order by request_date DESC;")
         data = cursor.fetchall()
 
         cursor.execute('SELECT username FROM auth_user')

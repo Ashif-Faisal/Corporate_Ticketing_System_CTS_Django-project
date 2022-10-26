@@ -65,7 +65,6 @@ tr:nth-child(even) {
       {% for alluser in alluser %}
 <!--        <option value="">{{ forloop.counter }}</option>-->
         <option value="{{ alluser.0}}">{{ alluser.0 }}</option>
-
       {% endfor %}
   </select>
   <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"></input>
@@ -114,7 +113,6 @@ tr:nth-child(even) {
         <td>{{ item.13 }}</td>
         <td>{{ item.26 }}</td>
         <td>{{ item.20 }}</td>
-<!--        <td></td>-->
         <td>{{ item.5 }}</td>
         <td>{{ item.4 }}</td>
         <td style="background-color: #325258;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">{{ item.21 }}</td>
@@ -124,17 +122,13 @@ tr:nth-child(even) {
         <td>
         <form action="{% url 'edit' %}" method="post">
             {% csrf_token %}
-<!--                <input id="task_id" type="text" name="task_id">-->
-<!--            <input type="submit" id="task_id" type="text" name="task_id" value="Done">-->
-                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Assign to user</button>
-            </form>
+            <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Assign to user</button>
+        </form>
         </td>
         <td>
         <form action="{% url 'lastupdate' %}" method="post">
             {% csrf_token %}
-<!--                <input id="task_id" type="text" name="task_id">-->
-<!--            <input type="submit" id="task_id" type="text" name="task_id" value="Done">-->
-                <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Update/ View</button>
+            <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Update/ View</button>
             </form>
         </td>
     </tr>
