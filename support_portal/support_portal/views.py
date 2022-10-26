@@ -669,7 +669,7 @@ def unassignTask(request):
     print(id)
 
     cursor = connection.cursor()
-    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.new_task_id) b on a.id = b.max_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by request_date DESC;')
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by request_date DESC;')
     data = cursor.fetchall()
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
