@@ -684,14 +684,12 @@ def unassignTask(request):
     print(user)
     id = request.POST.get("id")
     print(id)
-
     cursor = connection.cursor()
     cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by request_date DESC;')
     data = cursor.fetchall()
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
     print(alluser)
-
     page = request.GET.get('page', 1)
     paginator = Paginator(data, 10)
     try:
@@ -702,31 +700,28 @@ def unassignTask(request):
         data = paginator.page(paginator.num_pages)
     context = {'data': data, 'alluser': alluser}
     return render(request, 'unassignTask.html', context)
-
     # context = {'data': data,'alluser': alluser}
     # return render(request, 'unassignTask.html', context)
-
     cursor.execute('select username from auth_user')
     alluser = cursor.fetchall();
     print(alluser)
-
     context = {'data': data, 'alluser': alluser}
     return render(request, 'unassignTask.html', context)
+
 
 @login_required
 def pendingTicket(request):
     if request.method == 'POST':
-
         status=request.POST.get("status")
         cursor = connection.cursor()
         # cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE status='Pending'")
-        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE status='Pending' order by request_date DESC;")
+        cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select	* from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE a.status='Pending' order by request_date DESC;")
         data = cursor.fetchall()
-
         cursor.execute('SELECT username FROM auth_user')
         info = cursor.fetchall()
         context = {'data': data, 'info': info}
         return render(request, 'pendingTicket.html',  context)
+
 
 @login_required
 def allTask(request):
