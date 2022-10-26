@@ -39,6 +39,23 @@ td, tr {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+div.a {
+  text-align: center;
+  font-style: italic;
+}
+
+div.b {
+  text-align: left;
+}
+
+div.c {
+  text-align: right;
+}
+
+div.d {
+  text-align: justify;
+}
 </style>
 <hr>
 <!--Dropdown button: Choose status-->
@@ -101,9 +118,9 @@ tr:nth-child(even) {
         <td>Assignee</td>
         <td>ETD</td>
         <td style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">Ticket State</td>
-         <td>Pending</td>
-         <td>Actions</td>
-         <td>History</td>
+        <td>Pending</td>
+        <td>Actions</td>
+        <td>History</td>
     </tr>
     {% for item in data %}
     <tr>
@@ -135,9 +152,9 @@ tr:nth-child(even) {
     {% endfor %}
 </table>
 <br>
-    <!--pagination section start-->
+<!--pagination section start-->
 {% if data.paginator.num_pages > 1 %}
-   <nav aria-label="Page navigation">
+<nav aria-label="Page navigation">
        <ul class="pagination justify-content-center">
            {% if data.has_previous %}
                <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">First</a></li>
@@ -170,9 +187,9 @@ tr:nth-child(even) {
    </nav>
 {% endif %}
 <!--pagination section end-->
-    <hr>
-    <div style="overflow-x:auto;">
-    Ticket portal developed by Systems Team | v1.0
-    </div><br>
+<hr>
+<div class="c" >
+Ticket Portal - v1.0
+</div><br>
 </div>
 {% endblock %}
