@@ -522,6 +522,8 @@ def saveticket(request):
         creatoremail= email[0]
         print("creatoremailll"+creatoremail)
 
+        latest_update=''
+
         messages.success(request, "Ticket entry successfully..!!")
         if team == 'systems':
             team = 'systems@surecash.net'
@@ -529,7 +531,7 @@ def saveticket(request):
             team = 'tech_ops@surecash.net'
         elif team=='DataTeam':
             team = 'data@surecash.net'
-        _send_mail(task, employee_id, comment, id, team,creatoremail)
+        _send_mail(task, employee_id, comment, id, team,creatoremail,latest_update)
         return render(request, 'newticket.html')
 
 #
@@ -579,11 +581,12 @@ def datewiseticket(request):
 
 @login_required
 def customerTicketStatus(request):
-    user = request.POST.get("employee_id")
+    user = request.user
     print(user)
 
-    id = request.POST.get("id")
-    print(id)
+
+
+
 
     cursor = connection.cursor()
     cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE (approval="Not Started yet" or approval= "On Going" or approval= "Complete") and employee_id= %s order by request_date DESC',[user])

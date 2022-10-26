@@ -1,34 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Task Status</title>
+        <title>New Ticket</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="static/assets/favicon.jfif" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="static/css/styles.css" rel="stylesheet" />
-        <style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-tr, td {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-</style>
-</head>
-</style>
     </head>
     <body>
         <div class="d-flex" id="wrapper">
@@ -46,16 +28,15 @@ tr:nth-child(even) {
                     <form action="{% url 'customerTicketStatus' %}" method="post">
                     {% csrf_token %}
 
-                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Ticket Status">
+                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Status">
+<!--                        <td><input type="hidden" name="employee_id" type="text" value="{{ user }}"/></td>-->
+<!--                        <td><input type="hidden" name="id" type="text" value="22" /></td>-->
                     </form>
 
-
-<!--                    <form action="{% url 'newticket' %}" method="post">-->
-<!--                    {% csrf_token %}-->
-<!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Entry Task">-->
+<!--                    <form action="{% url 'customerTicketStatus' %}" method="post">-->
+<!--                        <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Click Here">-->
+<!--                        <td><input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly /></td>-->
 <!--                    </form>-->
-
-
 
 <!--                    <form action="{% url 'taskview1' %}" method="post">-->
 <!--                    {% csrf_token %}-->
@@ -68,7 +49,6 @@ tr:nth-child(even) {
 <!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Task Report">-->
 <!--                    </form>-->
 
-
 <!--                    <form action="{% url 'report' %}" method="post">-->
 <!--                    {% csrf_token %}-->
 <!--                    <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" class="list-group-item list-group-item-action list-group-item-light p-3" type="submit" name="" value="Total Task">-->
@@ -79,7 +59,7 @@ tr:nth-child(even) {
             <!-- Page content wrapper-->
             <div id="page-content-wrapper">
                 <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                     <div class="container-fluid">
                         <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 6px;border-radius: 3px;cursor: pointer;" class="btn btn-primary" id="sidebarToggle">Press To Full Screen</button>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -101,6 +81,7 @@ tr:nth-child(even) {
                         </div>
                     </div>
                 </nav>
+
                 <!-- Page content-->
 
 
