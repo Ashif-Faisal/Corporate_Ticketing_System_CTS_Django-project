@@ -208,7 +208,6 @@ def updateinfo(request):
         context = {'updatedata': y}
         return render(request, 'unassignTask.html', context)
 
-
 @login_required
 def details(request):
     if request.method == 'POST':
