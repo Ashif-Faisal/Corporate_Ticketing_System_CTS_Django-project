@@ -64,7 +64,9 @@ urlpatterns = [
     path('customerTicketInfo', views.customerTicketInfo, name='customerTicketInfo'),
     path('customerTaskView', views.customerTaskView, name='customerTaskView'),
     path('customerTicketApproval', views.customerTicketApproval, name='customerTicketApproval'),
+    # path('unassignTask', views.unassignTask, name='unassignTask'),
     path('unassignTask', views.unassignTask, name='unassignTask'),
+    path('unassignTaskV2', views.filterTask, name='unassignTaskV2'),
     path('pendingTicket', views.pendingTicket, name='pendingTicket'),
     path('allTask', views.allTask, name='allTask'),
     #path('test2', views.test2, name='test2'),
@@ -94,5 +96,6 @@ urlpatterns = [
     path('techTicketState', views.techTicketState, name='techTicketState'),
     path('dataTicketState', views.dataTicketState, name='dataTicketState'),
     path('sysTicketState', views.sysTicketState, name='sysTicketState'),
+    path('filterTask', views.filterTask, name='filterTask'),
 ]
 

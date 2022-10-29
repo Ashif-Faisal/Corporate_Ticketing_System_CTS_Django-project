@@ -180,7 +180,7 @@ def updateinfo(request):
         if y:
             messages.success(request, "Last update entry successfully..!!")
 
-        cursor.execute("UPDATE support_portal_userprofile SET approval= 'On Going', maker1= %s WHERE id= %s", [user,task_id])
+        cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', maker1= '%s', status= 'Pending' WHERE id= %s""" % (user, task_id))
 
         user = request.user
         print(user)
@@ -194,10 +194,6 @@ def updateinfo(request):
         print("creatoremailll" + creatoremail)
 
         team='systems@surecash.net'
-
-
-
-
         print(latest_update)
         print(user)
         print(task_id)
@@ -206,7 +202,7 @@ def updateinfo(request):
 
         _send_mail(task, user,comment, task_id,team, creatoremail,latest_update)
         context = {'updatedata': y}
-        return render(request, 'unassignTask.html', context)
+        return render(request, 'unassignTaskV2.html', context)
 
 
 @login_required
@@ -308,7 +304,7 @@ def diff_time(created_date, cursor):
 @login_required
 def pendingTask(request):
     if request.method == 'POST':
-        employee_id=request.POST.get("employee_id")
+        employee_id = request.POST.get("employee_id")
         print(employee_id)
         cursor = connection.cursor()
         # cursor.execute("SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE maker1 = %s and status='Pending'", [employee_id])
@@ -323,6 +319,53 @@ def pendingTask(request):
         context = {'data': data, 'alluser': alluser}
         return render(request, 'unassignTask.html',  context)
 
+
+def filterTask(request):
+    if request.method == 'POST':
+        employee_id = request.POST.get("employee_id")
+        task_status = request.POST.get("task_status")
+        print(employee_id)
+        print(task_status)
+        # task_status = ''
+        if employee_id != '' and task_status == 'null':
+            cursor = connection.cursor()
+            cursor.execute(
+                'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by a.id DESC;')
+            data = cursor.fetchall()
+            # user dropdown menu
+            cursor.execute('SELECT username FROM auth_user')
+            alluser = cursor.fetchall()
+            context = {'data': data, 'alluser': alluser}
+            return render(request, 'unassignTaskV2.html', context)
+        elif employee_id != '' and task_status == 'Pending':
+            cursor = connection.cursor()
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (employee_id, task_status,))
+            data = cursor.fetchall()
+            # user dropdown menu
+            cursor.execute('SELECT username FROM auth_user')
+            alluser = cursor.fetchall()
+            context = {'data': data, 'alluser': alluser}
+            return render(request, 'unassignTaskV2.html', context)
+        elif employee_id != '' and task_status == 'Done':
+            print("employee_id not null and task_status equal Done")
+            cursor = connection.cursor()
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' and a.status = '%s' order by a.id DESC """ % (employee_id, task_status,))
+            data = cursor.fetchall()
+            # user dropdown menu
+            cursor.execute('SELECT username FROM auth_user')
+            alluser = cursor.fetchall()
+            context = {'data': data, 'alluser': alluser}
+            return render(request, 'unassignTaskV2.html', context)
+        elif employee_id != '' and task_status == 'all':
+            cursor = connection.cursor()
+            # cursor.execute("SELECT * FROM myappdb.support_portal_userprofile s WHERE status = '%s' order by s.id DESC", [task_status])
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' order by a.id DESC """ % (employee_id))
+            data = cursor.fetchall()
+            # user dropdown menu
+            cursor.execute('SELECT username FROM auth_user')
+            alluser = cursor.fetchall()
+            context = {'data': data, 'alluser': alluser}
+            return render(request, 'unassignTaskV2.html', context)
 
 # def pendingTask(request):
 #     if request.method == 'POST':
@@ -424,7 +467,7 @@ def bootstrap(request):
 
 
 def testpage(request):
-    return render(request, 'test.html')
+    return render(request, 'base.html')
 
 
 def errorpage(request):
@@ -806,7 +849,7 @@ def logout_view(request):
 
 
 def test(request):
-    return render(request, 'test.html')
+    return render(request, 'base.html')
 
 
 def techTicketStatus(request):
