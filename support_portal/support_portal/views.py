@@ -78,7 +78,7 @@ def action(request):
         #print(x)
         if x:
             messages.success(request, "Task Closed Successfully..!!")
-    return render(request, 'unassignTask.html')
+    return render(request, 'unassignTaskV2.html')
 
 @login_required
 def edit(request):
