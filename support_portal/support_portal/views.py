@@ -48,7 +48,7 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update)
         print(message['Cc'])
         receiver = To_receiver + Cc_receiver
 
-        body = ''' Ticket Initiated by: <br>'''+ str(employee)+ ''' <br><br>Details: <br>'''+ sample_str+'''<br><br> Comments: <br>'''+str(comment)+'''<br><br> Last Updae: <br>'''+str(latest_update)
+        body = ''' Ticket Initiated by: <br>'''+ str(employee)+ ''' <br><br>Details: <br>'''+ sample_str+'''<br><br> Comments: <br>'''+str(comment)+'''<br><br> Last Update: <br>'''+str(latest_update)
         message.attach(MIMEText(body, "html"))
         msg_body = message.as_string()
 
@@ -356,10 +356,22 @@ def filterTask(request):
             alluser = cursor.fetchall()
             context = {'data': data, 'alluser': alluser}
             return render(request, 'unassignTaskV2.html', context)
+
+        elif employee_id != '' and task_status == 'Not Started yet':
+            print("employee_id not null and task_status equal Done")
+            cursor = connection.cursor()
+            cursor.execute(
+                """ SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems"and a.approval = '%s' order by a.id DESC """ % (task_status,))
+            data = cursor.fetchall()
+            # user dropdown menu
+            cursor.execute('SELECT username FROM auth_user')
+            alluser = cursor.fetchall()
+            context = {'data': data, 'alluser': alluser}
+            return render(request, 'unassignTaskV2.html', context)
         elif employee_id != '' and task_status == 'all':
             cursor = connection.cursor()
             # cursor.execute("SELECT * FROM myappdb.support_portal_userprofile s WHERE status = '%s' order by s.id DESC", [task_status])
-            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' order by a.id DESC """ % (employee_id))
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" order by a.id DESC """ )
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
