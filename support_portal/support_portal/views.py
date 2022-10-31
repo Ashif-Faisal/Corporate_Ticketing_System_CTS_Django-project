@@ -378,7 +378,6 @@ def filterTask(request):
             alluser = cursor.fetchall()
             context = {'data': data, 'alluser': alluser}
             return render(request, 'unassignTaskV2.html', context)
-
         elif employee_id != '' and task_status == 'Pending':
             cursor = connection.cursor()
             cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE (employee_id='%s' or a.maker1 = '%s') and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (employee_id,employee_id, task_status,))
