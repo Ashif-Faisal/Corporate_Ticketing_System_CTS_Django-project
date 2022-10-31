@@ -388,7 +388,6 @@ def filterTask(request):
             alluser = cursor.fetchall()
             context = {'data': data, 'alluser': alluser}
             return render(request, 'unassignTaskV2.html', context)
-
         elif employee_id != '' and task_status == 'Done':
             print("employee_id not null and task_status equal Done")
             cursor = connection.cursor()
