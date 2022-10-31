@@ -162,6 +162,8 @@ def lastupdate(request):
 @login_required
 def updateinfo(request):
     if request.method == 'POST':
+        value = request.POST.get("value")
+        print(value)
         latest_update = request.POST.get("task_details")
         task = request.POST.get("task")
         task_id = request.POST.get("id")
@@ -175,34 +177,64 @@ def updateinfo(request):
         # print(latest_update)
         # print(task_id)
         # print(update_date)
-        cursor = connection.cursor()
-        y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
-        if y:
-            messages.success(request, "Last update entry successfully..!!")
 
-        cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', maker1= '%s', status= 'Pending' WHERE id= %s""" % (user, task_id))
+        if value=='Save':
+            cursor = connection.cursor()
+            y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            if y:
+                messages.success(request, "Last update entry successfully..!!")
 
-        user = request.user
-        print(user)
+            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', maker1= '%s', status= 'Pending' WHERE id= %s""" % (user, task_id))
 
+            user = request.user
+            print(user)
 
-        cursor.execute('select email from auth_user where username= %s', [user])
-        email = cursor.fetchall()
-        for email in email:
-            print(email[0])
-        creatoremail = email[0]
-        print("creatoremailll" + creatoremail)
+            cursor.execute('select email from auth_user where username= %s', [user])
+            email = cursor.fetchall()
+            for email in email:
+                print(email[0])
+            creatoremail = email[0]
+            print("creatoremailll" + creatoremail)
 
-        team='systems@surecash.net'
-        print(latest_update)
-        print(user)
-        print(task_id)
-        print(creatoremail)
-        print(comment)
+            team = 'systems@surecash.net'
+            print(latest_update)
+            print(user)
+            print(task_id)
+            print(creatoremail)
+            print(comment)
 
-        _send_mail(task, user,comment, task_id,team, creatoremail,latest_update)
-        context = {'updatedata': y}
-        return render(request, 'unassignTaskV2.html', context)
+            _send_mail(task, user, comment, task_id, team, creatoremail, latest_update)
+            context = {'updatedata': y}
+            return render(request, 'unassignTaskV2.html', context)
+
+        elif value=='Save & Closed':
+            cursor = connection.cursor()
+            y = cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            if y:
+                messages.success(request, "Last update entry successfully..!!")
+
+            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'Complete', maker1= '%s', status= 'Done' WHERE id= %s""" % (user, task_id))
+
+            user = request.user
+            print(user)
+
+            cursor.execute('select email from auth_user where username= %s', [user])
+            email = cursor.fetchall()
+            for email in email:
+                print(email[0])
+            creatoremail = email[0]
+            print("creatoremailll" + creatoremail)
+
+            team='systems@surecash.net'
+            print(latest_update)
+            print(user)
+            print(task_id)
+            print(creatoremail)
+            print(comment)
+
+            _send_mail(task, user,comment, task_id,team, creatoremail,latest_update)
+            context = {'updatedata': y}
+            return render(request, 'unassignTaskV2.html', context)
 
 
 @login_required
