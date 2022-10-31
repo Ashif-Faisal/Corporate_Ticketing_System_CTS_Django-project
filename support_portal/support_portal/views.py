@@ -381,7 +381,7 @@ def filterTask(request):
 
         elif employee_id != '' and task_status == 'Pending':
             cursor = connection.cursor()
-            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s' or employee_id='%s' and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (group,employee_id, task_status,))
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE (team='%s' or employee_id='%s') and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (group,employee_id, task_status,))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
@@ -494,19 +494,19 @@ def loginview(request):
             group = None
             if user.groups.exists():
                 group = user.groups.all()[0].name
-            if group == 'systems':
-                return redirect('sysnewticket')
-
-            if group == 'DataTeam':
-                return redirect('sysnewticket')
-
-            if group == 'TechOps':
-                return redirect('sysnewticket')
-
             # if group == 'systems':
-            #     return redirect('newticket')
+                return redirect('sysnewticket')
 
-            # return redirect('dashboard')
+            # if group == 'DataTeam':
+            #     return redirect('sysnewticket')
+            #
+            # if group == 'TechOps':
+            #     return redirect('sysnewticket')
+            #
+            # # if group == 'systems':
+            # #     return redirect('newticket')
+            #
+            # # return redirect('dashboard')
             return redirect('newticket')
 
         else:
