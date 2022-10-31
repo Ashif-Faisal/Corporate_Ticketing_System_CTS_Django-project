@@ -357,30 +357,42 @@ def filterTask(request):
         task_status = request.POST.get("task_status")
         print(employee_id)
         print(task_status)
+
+        # groupname=request.user.groups.name
+        getGroupName = request.user.groups.values_list('name', flat=True).first()
+        print("This is group name")
+        group=getGroupName
+
+        print(getGroupName)
+
+
+
         # task_status = ''
         if employee_id != '' and task_status == 'null':
             cursor = connection.cursor()
             cursor.execute(
-                'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile  a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and (approval="Not Started yet" or approval= "On Going") order by a.id DESC;')
+                """SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile  a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s' or employee_id='%s'  and (approval="Not Started yet" or approval= "On Going") order by a.id DESC;""" % (group,employee_id))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
             alluser = cursor.fetchall()
             context = {'data': data, 'alluser': alluser}
             return render(request, 'unassignTaskV2.html', context)
+
         elif employee_id != '' and task_status == 'Pending':
             cursor = connection.cursor()
-            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (employee_id, task_status,))
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s' or employee_id='%s' and a.maker1 = '%s' and a.status = '%s' and (a.approval="Not Started yet" or a.approval= "On Going") order by a.id DESC """ % (group,employee_id,employee_id, task_status,))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
             alluser = cursor.fetchall()
             context = {'data': data, 'alluser': alluser}
             return render(request, 'unassignTaskV2.html', context)
+
         elif employee_id != '' and task_status == 'Done':
             print("employee_id not null and task_status equal Done")
             cursor = connection.cursor()
-            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' and a.status = '%s' order by a.id DESC """ % (employee_id, task_status,))
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s' and a.maker1 = '%s' and a.status = '%s' order by a.id DESC """ % (group,employee_id, task_status,))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
@@ -392,7 +404,7 @@ def filterTask(request):
             print("employee_id not null and task_status equal Done")
             cursor = connection.cursor()
             cursor.execute(
-                """ SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems"and a.approval = '%s' order by a.id DESC """ % (task_status,))
+                """ SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s'and a.approval = '%s' order by a.id DESC """ % (group,task_status,))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
@@ -402,7 +414,7 @@ def filterTask(request):
         elif employee_id != '' and task_status == 'all':
             cursor = connection.cursor()
             # cursor.execute("SELECT * FROM myappdb.support_portal_userprofile s WHERE status = '%s' order by s.id DESC", [task_status])
-            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team="systems" and a.maker1 = '%s' order by a.id DESC """ % (employee_id))
+            cursor.execute(""" SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile a left join (select * from (select	MAX(id) as max_id, s.task_id as new_task_id	from support_portal_infoupdate s group by s.task_id ) as tt inner join support_portal_infoupdate spi on spi.id = tt.max_id) b on a.id = b.new_task_id WHERE team='%s' and a.maker1 = '%s' order by a.id DESC """ % (group,employee_id))
             data = cursor.fetchall()
             # user dropdown menu
             cursor.execute('SELECT username FROM auth_user')
@@ -487,10 +499,10 @@ def loginview(request):
                 return redirect('sysnewticket')
 
             if group == 'DataTeam':
-                return redirect('dataticket')
+                return redirect('sysnewticket')
 
             if group == 'TechOps':
-                return redirect('techticket')
+                return redirect('sysnewticket')
 
             # if group == 'systems':
             #     return redirect('newticket')
@@ -510,6 +522,8 @@ def bootstrap(request):
 
 
 def testpage(request):
+    # cursor = connection.cursor()
+    # cursor.execute('SELECT username FROM auth_user')
     return render(request, 'base.html')
 
 
