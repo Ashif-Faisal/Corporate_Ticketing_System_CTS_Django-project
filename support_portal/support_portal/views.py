@@ -22,6 +22,9 @@ import smtplib
 from email.mime.base import MIMEBase
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.shortcuts import render
+from django.db.models import Q
+from models import userprofile
 
 
 def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update):
@@ -363,8 +366,6 @@ def filterTask(request):
         print("This is group name")
         group=getGroupName
         print(getGroupName)
-
-
 
 
         # task_status = ''
@@ -1372,3 +1373,17 @@ def searchResult(request):
 
         context = {'data': data}
         return render(request, 'unassignTaskV2.html',  context)
+
+def searchResultV2(request):
+    if request.method == 'POST':
+        query = request.GET.get('q')
+        submitbutton = request.GET.get('submit')
+        if query is not None:
+            lookups = Q(title__icontains=query) | Q(content__icontains=query)
+
+            results = userprofile.objects.filter(lookups).distinct()
+
+            context={'results': results, 'submitbutton': submitbutton}
+        return render(request, 'unassignTaskV2.html',  context)
+    else:
+        return render(request, 'unassignTaskV2.html')
