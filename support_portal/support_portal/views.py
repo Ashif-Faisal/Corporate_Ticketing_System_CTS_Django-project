@@ -299,14 +299,14 @@ def taskstatus(request):
 def taskview(request):
     if request.method == 'POST':
 
-        work_stream=request.POST.get("work_stream")
-        print(work_stream)
+        work_stream=request.POST.get("task")
+        print(task)
         cursor = connection.cursor()
-        cursor.execute('SELECT * FROM support_portal_userprofile WHERE work_stream= %s ', [work_stream])
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s ', [task])
         data = cursor.fetchall()
 
         context = {'data': data}
-        return render(request, 'taskview1.html',  context)
+        return render(request, 'unassignTaskV2.html',  context)
 
 @login_required
 def searchview(request):
@@ -894,7 +894,7 @@ def SysTicketSaved(request):
             team = 'data@surecash.net'
 
         latest_update=''
-        _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+       # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
 
 
@@ -1359,3 +1359,16 @@ def actionForTech(request):
         if x:
             messages.success(request, "Task Closed Successfully..!!")
     return render(request, 'techTicketStatus.html')
+
+
+def searchResult(request):
+    if request.method == 'POST':
+
+        task=request.POST.get("task")
+        print(task)
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s ', [task])
+        data = cursor.fetchall()
+
+        context = {'data': data}
+        return render(request, 'unassignTaskV2.html',  context)

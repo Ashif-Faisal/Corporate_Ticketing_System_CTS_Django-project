@@ -97,5 +97,6 @@ urlpatterns = [
     path('dataTicketState', views.dataTicketState, name='dataTicketState'),
     path('sysTicketState', views.sysTicketState, name='sysTicketState'),
     path('filterTask', views.filterTask, name='filterTask'),
+    path('searchResult', views.searchResult, name='searchResult'),
 ]
 
