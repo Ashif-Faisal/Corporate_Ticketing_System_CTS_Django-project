@@ -48,6 +48,12 @@ class newticket(forms.ModelForm):
             "comment",
             "attachment",
             "approval",
+            "application_project_name",
+            "access_environtment",
+            "access_privilege_type",
+            "access_Duaration",
+            "why_access_needed",
+            "approved_by",
 
 
         ]

@@ -5,9 +5,8 @@
 
 
                 <div class="container-fluid">            <!-- info start -->
+                    <form action="{% url 'DbTicketSaved'%}" method="POST">
 
-
-                    <form action="{% url 'SysTicketSaved'%}" method="POST">
 	{% csrf_token %}
 
                         <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
@@ -15,7 +14,7 @@
 
   <div class="con">
 
-  <table align="left" cellpadding = "10">
+  <table align="center" cellpadding = "10">
 
     <tr>
       <td>Employee ID</td>
@@ -24,8 +23,49 @@
         </tr>
       <tr>
       <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
+<!--      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>-->
+          <td><input name="task" type="text" value="Access Database" readonly /></td>
     </tr>
+      <tr>
+      <td>Application Project Name*</td>
+          <td><input name="application_project_name" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+      <td>Access Environtment*</td>
+          <td>
+      <select name="access_environtment" id="access_environtment">
+          <option value="" selected></option>
+                <option value="live" selected>Live</option>
+                <option value="staging">Staging</option>
+                <option value="local">Local</option>
+
+      </select>&emsp;&emsp;
+          </td>
+      </tr>
+
+      <tr>
+      <td>Access Privilege type*</td>
+          <td><input name="access_privilege_type" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+      <td>Access Duaration*</td>
+          <td><input name="access_Duaration" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+       <td>Why is this access needed*</td>
+          <td><input name="why_access_needed" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+       <td>Approved by*</td>
+          <td><input name="approved_by" type="text" value="" required /></td>
+      </tr>
+
+
+
 
   <tr>
       <td>Comment </td>
@@ -67,16 +107,6 @@
 {% endfor %}
  </div>
 
- </form>
+    </form>
                 </div>
-
-<!-- Db Access Form Start -->
-
-<table align="center" cellpadding = "10">
-<form action="{% url 'dbAccess'%}" method="POST">
-    {% csrf_token %}
-<button class="button button2" style="background-color: #325288; border: none;color: white;padding: 7px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin: -25px 5px; margin-left: 27%;border-radius: 8px;" type="submit">Request to Database access</button>
-</form>
-</table>
-
            {% endblock %}

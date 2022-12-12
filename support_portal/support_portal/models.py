@@ -28,6 +28,13 @@ class userprofile(models.Model):
     team = models.CharField(max_length=50, null=True)
     #attachment = models.FileField(upload_to='media/')
     #attachment = models.ImageField(upload_to='media',null=True)
+    application_project_name = models.CharField(max_length=150, null=True)
+    access_environtment = models.CharField(max_length=50, null=True)
+    access_privilege_type = models.CharField(max_length=200, null=True)
+    access_Duaration = models.CharField(max_length=50, null=True)
+    why_access_needed = models.CharField(max_length=200, null=True)
+    approved_by = models.CharField(max_length=50, null=True)
+
 
     def __str__(self):
         return self.sr_name

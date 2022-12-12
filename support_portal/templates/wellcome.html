@@ -2,9 +2,194 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Wellcome</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Registration Card</title>
+
+    <style>
+        *{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    margin: 40px 200px auto;
+}
+.header-container{
+    text-align: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.header-container img{
+    width: 100px;
+}
+.reg-container{
+    border: 2px solid gray;
+    background-color: rgb(187, 178, 178);
+    height: 40px;
+    padding: 10px;
+
+}
+.student-info-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+.table-container table{
+    margin-top: 30px;
+    width: 100%;
+    border: 1px solid black;
+}
+.table-container th{
+    border: 1px solid black;
+
+}
+.table-container td{
+    border: 1px solid black;
+
+}
+
+.footer{
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+    </style>
+
 </head>
 <body>
-Wellcome
+    <header class="header-container">
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/BUBT_logo.jpg" alt="">
+        </div>
+        <div class="reg-container">
+            <p><b>Registration Card</b></p>
+            <p><small>(Student Copy)</small></p>
+        </div>
+        <div style="margin-top: 70px;">
+            <p>Print date: 29-12-2022</p>
+        </div>
+    </header>
+    <main>
+        <div style="text-align: center">
+            <h2>Bangladesh University of Business and Technology</h2>
+            <p>Semester: Spring 2022</p>
+        </div>
+        <div class="student-info-container">
+            <div>
+                <p>Name of Student: Asadujjaman</p>
+                <p>ID NO: 23746383973</p>
+                <p>B.Sc Engg in CSE</p>
+            </div>
+            <div>
+                <p>Intake: 32</p>
+            </div>
+            <div>
+                <p>Section: 32</p>
+                <p>Verified By: Masudul Isla <br>
+                    Department of CSE
+                </p>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th rowspan="2">Course No</th>
+                    <th rowspan="2">Course Title</th>
+                    <th rowspan="2">Credit Hour</th>
+                    <th colspan="3">Type of Registration</th>
+                    <th rowspan="2">Intake/Section</th>
+                </tr>
+                <tr>
+                    <th>Regular</th>
+                    <th>Retake</th>
+                    <th>Improvement</th>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+                <tr>
+                    <td>CSE 215</td>
+                    <td>Computer Architechture</td>
+                    <td style="text-align: center">3.00</td>
+                    <td style="text-align: center">***</td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center">32/1</td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+
+            <div >
+                <p style="border-top: 2px solid black "> Student</p>
+                <p>Sign and Date</p>
+            </div>
+            <div>
+                <p style="border-top: 2px solid black "> Intake Incharge</p>
+                <p>Sign and Date</p>
+            </div>
+            <div>
+                <p style="border-top: 2px solid black "> Head of the Dept</p>
+                <p>Sign and Date</p>
+            </div>
+
+        </div>
+    </main>
+
 </body>
 </html>

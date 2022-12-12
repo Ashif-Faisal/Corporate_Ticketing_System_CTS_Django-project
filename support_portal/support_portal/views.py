@@ -24,7 +24,6 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.db.models import Q
-from models import userprofile
 
 
 def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update):
@@ -1368,7 +1367,9 @@ def searchResult(request):
         task=request.POST.get("task")
         print(task)
         cursor = connection.cursor()
-        cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s ', [task])
+        task =  '%'+ task+'%'
+        # cursor.execute('SELECT * FROM support_portal_userprofile WHERE task= %s ', [task])
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE task like %s', [task])
         data = cursor.fetchall()
 
         context = {'data': data}
@@ -1376,14 +1377,93 @@ def searchResult(request):
 
 def searchResultV2(request):
     if request.method == 'POST':
-        query = request.GET.get('q')
-        submitbutton = request.GET.get('submit')
+        query = request.POST.get("task")
+        print(query)
+        submitbutton = request.POST.get("Search")
         if query is not None:
             lookups = Q(title__icontains=query) | Q(content__icontains=query)
 
             results = userprofile.objects.filter(lookups).distinct()
+            print(results)
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM support_portal_userprofile WHERE task like %%s% ', [results])
+            data = cursor.fetchall()
+            print(data)
 
-            context={'results': results, 'submitbutton': submitbutton}
-        return render(request, 'unassignTaskV2.html',  context)
-    else:
-        return render(request, 'unassignTaskV2.html')
+            context={'data': data, 'submitbutton': submitbutton}
+            return render(request, 'unassignTaskV2.html',  context)
+
+        else:
+            return render(request, 'unassignTaskV2.html')
+
+
+def companyReg(request):
+    return render(request, 'companyReg.html')
+
+
+def dbAccess(request):
+    currentdate = datetime.now()
+    current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+    context = {'current_datetime': current_datetime}
+    return render(request, 'dbaccess.html', context)
+
+
+def DbTicketSaved(request):
+    if request.method == 'POST':
+        employee_id = request.POST.get("employee_id")
+        task = request.POST.get("task")
+        comment = request.POST.get("comment")
+        request_date = request.POST.get("request_date")
+        approval = request.POST.get("approval")
+        team = request.POST.get("team")
+        application_project_name = request.POST.get("application_project_name")
+        access_environtment = request.POST.get("access_environtment")
+        access_privilege_type = request.POST.get("access_privilege_type")
+        access_Duaration = request.POST.get("access_Duaration")
+        why_access_needed = request.POST.get("why_access_needed")
+        approved_by = request.POST.get("approved_by")
+        print(team)
+        print(employee_id)
+        print(task)
+        print(comment)
+        print(request_date)
+        print(approval)
+        print(application_project_name)
+        print(access_environtment)
+        print(access_privilege_type)
+        print(access_Duaration)
+        print(why_access_needed)
+        print(approved_by)
+        cursor = connection.cursor()
+        x = cursor.execute(
+            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team, application_project_name, access_environtment, access_privilege_type, access_Duaration, why_access_needed, approved_by) VALUES (%s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            [employee_id, task, comment, request_date, approval, team, application_project_name, access_environtment, access_privilege_type, access_Duaration, why_access_needed, approved_by])
+
+        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+        thistuple = cursor.fetchall()
+        for i in thistuple:
+            print(i[0])
+
+        id = i[0]
+        print(id)
+
+        cursor.execute('select email from auth_user where username= %s', [employee_id])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        creatoremail = email[0]
+        print("creatoremailll" + creatoremail)
+
+        messages.success(request, "Ticket entry successfully..!!")
+        if team == 'systems':
+            team = 'systems@surecash.net'
+        elif team == 'TechOps':
+            team = 'tech_ops@surecash.net'
+        elif team == 'DataTeam':
+            team = 'data@surecash.net'
+
+        latest_update=''
+       # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+        return render(request, 'sysnewticket.html')

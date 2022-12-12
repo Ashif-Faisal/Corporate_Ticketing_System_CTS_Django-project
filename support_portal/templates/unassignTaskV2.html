@@ -59,8 +59,8 @@ div.d {
 </style>
 <hr>
 <!--Dropdown button: Choose status-->
-<div class="row">
-    <div class="column">
+<div.b class="row">
+    <div.b class="column">
         <form action="{% url 'unassignTaskV2' %}" method="post">
         {% csrf_token %}
         <label for="task_status"> Status Filter</label>
@@ -88,17 +88,17 @@ div.d {
 
 
 </form>
-<hr>
+    </div.b>
+<div.c class="column">
    <form action="{% url 'searchResult' %}" method="post">
             {% csrf_token %}
-            <label for="task">Enter Task Name: </label>
+            <label for="task">Search: </label>
             <input id="task" type="text" name="task" value="" placeholder="Enter Task Name..">
             <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Search">
         </form>
 
-    </div>
-</div>
-
+    </div.c>
+</div.b>
 
 
 <!--         <form action="{% url 'taskview' %}" method="post">-->
@@ -151,7 +151,7 @@ div.d {
         <td>{{ item.4 }}</td>
         <td style="background-color: #325258;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">{{ item.21 }}</td>
         <td >
-           {{ item.29 }}
+           {{ item.35 }}
         </td>
         <td>
         <form action="{% url 'edit' %}" method="post">

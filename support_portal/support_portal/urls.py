@@ -98,5 +98,9 @@ urlpatterns = [
     path('sysTicketState', views.sysTicketState, name='sysTicketState'),
     path('filterTask', views.filterTask, name='filterTask'),
     path('searchResult', views.searchResult, name='searchResult'),
+    path('searchResultV2', views.searchResultV2, name='searchResultV2'),
+    path('companyReg', views.companyReg, name='companyReg'),
+    path('dbAccess', views.dbAccess, name='dbAccess'),
+    path('DbTicketSaved', views.DbTicketSaved, name='DbTicketSaved'),
 ]
 
