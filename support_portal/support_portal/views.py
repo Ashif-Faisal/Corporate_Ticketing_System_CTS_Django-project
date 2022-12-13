@@ -1477,3 +1477,7 @@ def DbTicketSaved(request):
 
 def tableFormate(request):
     return render(request, 'tableFormate.html')
+
+
+def ticketDashBoard(request):
+    return render(request, 'ticketDashBoard.html')

@@ -6,6 +6,7 @@
 <style>
 * {
   box-sizing: border-box;
+
 }
 
 .row {
@@ -31,6 +32,7 @@ table {
   border-spacing: 0;
   width: 100%;
   border: 1px solid #ddd;
+   background-color: #F6FBF4;
 }
 
 th, td {
@@ -43,11 +45,22 @@ th, td {
 
 <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
 
+<form action="{% url 'SysTicketSaved'%}" method="POST">
+    {% csrf_token %}
+{% for msg in messages %}
+                        <div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Well done!</h4>
+  <p> {{ msg }}</p>
 
-<div class="row">
+</div>
+
+{% endfor %}
+
+
   <div class="column">
     <table border="1" align="left" cellpadding = "10" style="width:50%">
 
+<center><h4>Support ticket</h4></center>
     <tr>
       <td>Employee ID</td>
 <!--      <td>  </td>-->
@@ -55,12 +68,12 @@ th, td {
         </tr>
       <tr>
       <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
+      <td><textarea name="task" type="text" rows="2" cols="54" required></textarea></td>
     </tr>
 
   <tr>
       <td>Comment </td>
-      <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
+      <td><textarea name="comment" type="text" rows="2" cols="54"></textarea></td>
       <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>
       </tr>
   <tr>
@@ -88,9 +101,15 @@ th, td {
 
   </table>
   </div>
+</form>
+                            <!-- Dbacces Form Start -->
+<form action="{% url 'DbTicketSaved'%}" method="POST">
+
+	{% csrf_token %}
   <div class="column">
     <table border="1" align="center" cellpadding = "10">
 
+<center><h4>App/DB access ticket</h4></center>
     <tr>
       <td>Employee ID</td>
 <!--      <td>  </td>-->
@@ -172,7 +191,7 @@ th, td {
 
   </table>
   </div>
-</div>
+</form>
 
 
 {% endblock %}

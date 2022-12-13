@@ -4,13 +4,67 @@
 
 
 
-                <div class="container-fluid">            <!-- info start -->
+
+
+
+<style>
+.button {
+  background-color: #325288; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  clear: both;
+  float: left;
+
+
+}
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+.button2 {
+width: 100%;
+}
+
+
+
+</style>
+
+<body>
+
+<div>
+<div class="column">
+  <form action="{% url 'sysnewticket'%}" method="POST">
+
+	{% csrf_token %}
+<button class="button button2">Support ticket</button>
+  </form>
+</div>
+
+<div class="column">
+    <form action="{% url 'dbAccess'%}" method="POST">
+
+	{% csrf_token %}
+<button  class="button button2">App/DB access ticket</button>
+    </form>
+</div>
+</div>
+<hr>
+
+
+
+  <div class="container-fluid">            <!-- info start -->
                     <form action="{% url 'DbTicketSaved'%}" method="POST">
 
 	{% csrf_token %}
-
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>New Ticket: {{current_datetime}} </center></h3>
-                        <hr>&emsp;
 
   <div class="con">
 
@@ -97,14 +151,7 @@
 
   </table>
 <br>
-{% for msg in messages %}
-                        <div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Well done!</h4>
-  <p> {{ msg }}</p>
 
-</div>
-
-{% endfor %}
  </div>
 
     </form>

@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% block main %}
-                <!-- Page content-->
 
-
-
-                          <!-- info start -->
 
 <style>
 .button {
@@ -33,13 +29,16 @@
 width: 100%;
 }
 
+
+
 </style>
 
-
+<body>
 
 <div>
 <div class="column">
   <form action="{% url 'sysnewticket'%}" method="POST">
+
 	{% csrf_token %}
 <button class="button button2">Support ticket</button>
   </form>
@@ -47,22 +46,16 @@ width: 100%;
 
 <div class="column">
     <form action="{% url 'dbAccess'%}" method="POST">
+
 	{% csrf_token %}
 <button  class="button button2">App/DB access ticket</button>
     </form>
 </div>
 </div>
-<hr>
-{% for msg in messages %}
-
-  <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>
-  <center><p style="color:green;"> {{ msg }}</p></center>
 
 
 
-{% endfor %}
-
-                    <form action="{% url 'SysTicketSaved'%}" method="POST">
+<form action="{% url 'SysTicketSaved'%}" method="POST">
 	{% csrf_token %}
 
 
@@ -108,18 +101,21 @@ width: 100%;
 
   </table>
 <br>
+<!--{% for msg in messages %}-->
+<!--                        <div class="alert alert-success" role="alert">-->
+<!--  <h4 class="alert-heading">Well done!</h4>-->
+<!--  <p> {{ msg }}</p>-->
 
+<!--</div>-->
+
+<!--{% endfor %}-->
  </div>
 
  </form>
 
-                                                        <!-- Db Access Form Start -->
 
-<!--<table align="center" cellpadding = "10">-->
-<!--<form action="{% url 'dbAccess'%}" method="POST">-->
-<!--    {% csrf_token %}-->
-<!--<button class="button button2" style="background-color: #325288; border: none;color: white;padding: 7px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin: -25px 5px; margin-left: 27%;border-radius: 8px;" type="submit">Request to Database access</button>-->
-<!--</form>-->
-<!--</table>-->
 
-           {% endblock %}
+
+
+
+   {% endblock %}
