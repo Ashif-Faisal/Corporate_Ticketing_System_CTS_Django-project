@@ -894,8 +894,14 @@ def SysTicketSaved(request):
             team = 'data@surecash.net'
 
         latest_update=''
+        currentdate = datetime.now()
+        current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+        context = {'current_datetime': current_datetime}
+        return render(request, 'sysnewticket.html', context)
+
        # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
-        return render(request, 'sysnewticket.html')
+       #  return render(request, 'sysnewticket.html')
 
 
 @login_required
@@ -1467,3 +1473,7 @@ def DbTicketSaved(request):
         latest_update=''
        # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
+
+
+def tableFormate(request):
+    return render(request, 'tableFormate.html')

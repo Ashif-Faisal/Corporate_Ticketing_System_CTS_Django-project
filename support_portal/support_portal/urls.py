@@ -102,5 +102,6 @@ urlpatterns = [
     path('companyReg', views.companyReg, name='companyReg'),
     path('dbAccess', views.dbAccess, name='dbAccess'),
     path('DbTicketSaved', views.DbTicketSaved, name='DbTicketSaved'),
+    path('tableFormate', views.tableFormate, name='tableFormate'),
 ]
 
