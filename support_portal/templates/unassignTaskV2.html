@@ -56,50 +56,63 @@ div.c {
 div.d {
   text-align: justify;
 }
+.tableContainer{
+  float: top;
+  width: 100%;
+  padding: 5px;
+}
+
+                                                /* start search div */
+
+
+.columnForSearchAndFilter1{
+  float: right;
+  width: 50%;
+  padding: 5px;
+  background-color: green;
+}
+
+
+
+
+
 </style>
-<hr>
+<br>
 <!--Dropdown button: Choose status-->
-<div.b class="row">
-    <div.b class="column">
-        <form action="{% url 'unassignTaskV2' %}" method="post">
-        {% csrf_token %}
-        <label for="task_status"> Status Filter</label>
-        <select name="task_status" id="task_status">
-            <option value="Pending" selected>Pending</option>
-            <option value="Done">Complete</option>
-            <option value="Not Started yet">Not Started</option>
-            <option value="all"> All tasks </option>
-        </select>
-        <input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly />
-<!--            <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit">-->
-<!--        </form>-->
+<!--<div>-->
+<!--<div class="columnForSearchAndFilter">-->
+        <form action="{% url 'unassignTaskV2' %}" method="post" style="width: 72%;float: left;">
+            {% csrf_token %}
+            &nbsp;<label for="task_status"> Status Filter</label>
+            <select name="task_status" id="task_status">
+                <option value="Pending" selected>Pending</option>
+                <option value="Done">Complete</option>
+                <option value="Not Started yet">Not Started</option>
+                <option value="all"> All tasks </option>
+            </select>
+            <input type="hidden" name="employee_id" type="text" value="{{ user }}" readonly />&nbsp;&nbsp;
+
+            <label for="employee_id"> Person Filter</label>
+            <select name="employee_id" id="employee_id">
+                <option value="{{ user }}" selected>{{ user }}</option>
+                     {% for alluser in alluser %}
+                <option value="{{ alluser.0}}">{{ alluser.0 }}</option>
+                    {% endfor %}
+            </select>
+            <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"></input>
+        </form>
+<!--</div>-->
 <!--    </div>-->
-<!--&lt;!&ndash;    <div class="column">&ndash;&gt;-->
-<!--    <form action="{% url 'pendingtask' %}" method="post">-->
-<!--    {% csrf_token %}-->
-    <label for="employee_id"> Person Filter</label>
-    <select name="employee_id" id="employee_id">
-      <option value="{{ user }}" selected>{{ user }}</option>
-      {% for alluser in alluser %}
-        <option value="{{ alluser.0}}">{{ alluser.0 }}</option>
-      {% endfor %}
-  </select>
-  <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit"></input>
-
-
-</form>
-    </div.b>
-<div.c class="column">
+<!--<div>-->
+<!--<div class="columnForSearchAndFilter1">-->
    <form action="{% url 'searchResult' %}" method="post">
             {% csrf_token %}
             <label for="task">Search: </label>
             <input id="task" type="text" name="task" value="" placeholder="Enter Task Name..">
             <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Search">
-        </form>
-
-    </div.c>
-</div.b>
-
+   </form>
+<!--</div>-->
+<!--</div>-->
 
 <!--         <form action="{% url 'taskview' %}" method="post">-->
 
@@ -123,6 +136,7 @@ div.d {
         <p> {{ msg }}</p>
     </div>
     {% endfor %}
+  <div class="tableContainer">
     <hr>
     <table id="tickets" style="width:100%">
     <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
@@ -145,7 +159,7 @@ div.d {
         <td>{{ item.0 }}</td>
         <td>{{ item.10 }}</td>
         <td>{{ item.13 }}</td>
-        <td>{{ item.26 }}</td>
+        <td>{{ item.32 }}</td>
         <td>{{ item.20 }}</td>
         <td>{{ item.5 }}</td>
         <td>{{ item.4 }}</td>
@@ -168,6 +182,7 @@ div.d {
     </tr>
     {% endfor %}
 </table>
+      </div>
 <br>
 <!--pagination section start-->
 {% if data.paginator.num_pages > 1 %}

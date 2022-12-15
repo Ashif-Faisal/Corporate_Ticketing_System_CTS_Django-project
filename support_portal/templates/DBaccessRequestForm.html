@@ -110,13 +110,9 @@ width: 100%;
                         </div>
                     </div>
                 </nav>
-                <!-- Page content-->
-                {% csrf_token %}
-                    {% block main %}
 
 
-
-                                                    <!-- Button start -->
+                                            <!-- Button start -->
 
 <div>
 <div class="column">
@@ -142,13 +138,13 @@ width: 100%;
 
 
 {% endfor %}
-                                                <!-- info start -->
 
+                                            <!-- info start -->
 
-                <div class="container-fluid">            <!-- info start -->
-                    <form action="{% url 'saveticket'%}" method="POST">
+  <div class="container-fluid">
+                    <form action="{% url 'NewDbTicketSaved'%}" method="POST">
+
 	{% csrf_token %}
-
 
   <div class="con">
 
@@ -161,8 +157,49 @@ width: 100%;
         </tr>
       <tr>
       <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
+<!--      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>-->
+          <td><input name="task" type="text" value="Access Database" readonly /></td>
     </tr>
+      <tr>
+      <td>Application Project Name*</td>
+          <td><input name="application_project_name" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+      <td>Access Environtment*</td>
+          <td>
+      <select name="access_environtment" id="access_environtment">
+          <option value="" selected></option>
+                <option value="live" selected>Live</option>
+                <option value="staging">Staging</option>
+                <option value="local">Local</option>
+
+      </select>&emsp;&emsp;
+          </td>
+      </tr>
+
+      <tr>
+      <td>Access Privilege type*</td>
+          <td><input name="access_privilege_type" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+      <td>Access Duaration*</td>
+          <td><input name="access_Duaration" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+       <td>Why is this access needed*</td>
+          <td><input name="why_access_needed" type="text" value="" required /></td>
+      </tr>
+
+      <tr>
+       <td>Approved by*</td>
+          <td><input name="approved_by" type="text" value="" required /></td>
+      </tr>
+
+
+
 
   <tr>
       <td>Comment </td>
@@ -199,12 +236,6 @@ width: 100%;
 
     </form>
                 </div>
-                {% endblock %}
+
             </div>
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="static/js/scripts.js"></script>
-    </body>
-</html>

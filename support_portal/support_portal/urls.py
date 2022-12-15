@@ -104,5 +104,7 @@ urlpatterns = [
     path('DbTicketSaved', views.DbTicketSaved, name='DbTicketSaved'),
     path('tableFormate', views.tableFormate, name='tableFormate'),
     path('ticketDashBoard', views.ticketDashBoard, name='ticketDashBoard'),
+    path('DBaccessRequestForm', views.DBaccessRequestForm, name='DBaccessRequestForm'),
+    path('NewDbTicketSaved', views.NewDbTicketSaved, name='NewDbTicketSaved'),
 ]
 

@@ -897,6 +897,8 @@ def SysTicketSaved(request):
         currentdate = datetime.now()
         current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
+        _send_mail(task, employee_id, comment, id, team, creatoremail, latest_update)
+
         context = {'current_datetime': current_datetime}
         return render(request, 'sysnewticket.html', context)
 
@@ -1473,6 +1475,76 @@ def DbTicketSaved(request):
         latest_update=''
        # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
+
+
+
+def DBaccessRequestForm(request):
+    currentdate = datetime.now()
+    current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+    context = {'current_datetime': current_datetime}
+    return render(request, 'DBaccessRequestForm.html', context)
+
+
+def NewDbTicketSaved(request):
+    if request.method == 'POST':
+        employee_id = request.POST.get("employee_id")
+        task = request.POST.get("task")
+        comment = request.POST.get("comment")
+        request_date = request.POST.get("request_date")
+        approval = request.POST.get("approval")
+        team = request.POST.get("team")
+        application_project_name = request.POST.get("application_project_name")
+        access_environtment = request.POST.get("access_environtment")
+        access_privilege_type = request.POST.get("access_privilege_type")
+        access_Duaration = request.POST.get("access_Duaration")
+        why_access_needed = request.POST.get("why_access_needed")
+        approved_by = request.POST.get("approved_by")
+        print(team)
+        print(employee_id)
+        print(task)
+        print(comment)
+        print(request_date)
+        print(approval)
+        print(application_project_name)
+        print(access_environtment)
+        print(access_privilege_type)
+        print(access_Duaration)
+        print(why_access_needed)
+        print(approved_by)
+        cursor = connection.cursor()
+        x = cursor.execute(
+            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team, application_project_name, access_environtment, access_privilege_type, access_Duaration, why_access_needed, approved_by) VALUES (%s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            [employee_id, task, comment, request_date, approval, team, application_project_name, access_environtment, access_privilege_type, access_Duaration, why_access_needed, approved_by])
+
+        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+        thistuple = cursor.fetchall()
+        for i in thistuple:
+            print(i[0])
+
+        id = i[0]
+        print(id)
+
+        cursor.execute('select email from auth_user where username= %s', [employee_id])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        creatoremail = email[0]
+        print("creatoremailll" + creatoremail)
+
+        messages.success(request, "Ticket entry successfully..!!")
+        if team == 'systems':
+            team = 'systems@surecash.net'
+        elif team == 'TechOps':
+            team = 'tech_ops@surecash.net'
+        elif team == 'DataTeam':
+            team = 'data@surecash.net'
+
+        latest_update=''
+       # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+        return render(request, 'newticket.html')
+
 
 
 def tableFormate(request):
