@@ -1473,7 +1473,7 @@ def DbTicketSaved(request):
             team = 'data@surecash.net'
 
         latest_update=''
-       # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+        _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'sysnewticket.html')
 
 
@@ -1542,7 +1542,7 @@ def NewDbTicketSaved(request):
             team = 'data@surecash.net'
 
         latest_update=''
-       # _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+        _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'newticket.html')
 
 
