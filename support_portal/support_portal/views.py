@@ -1546,7 +1546,6 @@ def NewDbTicketSaved(request):
         return render(request, 'newticket.html')
 
 
-
 def tableFormate(request):
     return render(request, 'tableFormate.html')
 
