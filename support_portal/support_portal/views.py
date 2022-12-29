@@ -512,6 +512,12 @@ def loginview(request):
         else:
             messages.success(request, "Incorrect Username or Password..")
 
+    if request.user.is_authenticated:
+        user = request.user
+        if user.groups.exists():
+            group = user.groups.all()[0].name
+            return redirect('sysnewticket')
+        return redirect('newticket')
     context = {}
     return render(request, 'login.html', context)
 
@@ -887,7 +893,7 @@ def SysTicketSaved(request):
 
         messages.success(request, "Ticket entry successfully..!!")
         if team == 'systems':
-            team = 'systems@surecash.net'
+            team = 'ashif.faisal0@gmail.com'
         elif team == 'TechOps':
             team = 'tech_ops@surecash.net'
         elif team == 'DataTeam':
@@ -1383,6 +1389,7 @@ def searchResult(request):
         context = {'data': data}
         return render(request, 'unassignTaskV2.html',  context)
 
+
 def searchResultV2(request):
     if request.method == 'POST':
         query = request.POST.get("task")
@@ -1466,7 +1473,7 @@ def DbTicketSaved(request):
 
         messages.success(request, "Ticket entry successfully..!!")
         if team == 'systems':
-            team = 'systems@surecash.net'
+            team = 'ashif.faisal0@gmail.com'
         elif team == 'TechOps':
             team = 'tech_ops@surecash.net'
         elif team == 'DataTeam':
