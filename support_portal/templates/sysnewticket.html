@@ -58,13 +58,10 @@ width: 100%;
 </div>
 </div>
 <hr>
-{% for msg in messages %}
 
+{% for msg in messages %}
   <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>
   <center><p style="color:green;"> {{ msg }}</p></center>
-
-
-
 {% endfor %}
 
                     <form action="{% url 'SysTicketSaved'%}" method="POST">
@@ -72,7 +69,8 @@ width: 100%;
 
 
   <div class="con">
-  <table  align="center" cellpadding = "10" style="width:50%">
+  <table  align="center" cellpadding = "10" style="width:45%">
+
     <tr>
       <td>Employee ID</td>
 <!--      <td>  </td>-->
@@ -80,12 +78,12 @@ width: 100%;
         </tr>
       <tr>
       <td>Ticket Name</td>
-      <td><textarea name="task" type="text" rows="2" cols="56" required></textarea></td>
+      <td><textarea name="task" type="text" rows="2" cols="54" required></textarea></td>
     </tr>
 
   <tr>
       <td>Comment </td>
-      <td><textarea name="comment" type="text" rows="2" cols="56"></textarea></td>
+      <td><textarea name="comment" type="text" rows="2" cols="54"></textarea></td>
       <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>
       </tr>
   <tr>
@@ -96,13 +94,22 @@ width: 100%;
     <td>
     Ticket Send For
     </td>
-    <td >
-<input type="radio" id="systems" name="team" value="systems" required>
-<label for="systems"><b>Systems</b></label>&emsp;
-<input type="radio" id="TechOps" name="team" value="TechOps">
-<label for="TechOps"><b>TechOps</b></label>&emsp;
-<input type="radio" id="DataTeam" name="team" value="DataTeam">
-<label for="DataTeam"><b>DataTeam</b></label>
+<!--    <td >-->
+<!--<input type="radio" id="systems" name="team" value="systems" required>-->
+<!--<label for="systems"><b>Systems</b></label>&emsp;-->
+<!--<input type="radio" id="TechOps" name="team" value="TechOps">-->
+<!--<label for="TechOps"><b>TechOps</b></label>&emsp;-->
+<!--<input type="radio" id="DataTeam" name="team" value="DataTeam">-->
+<!--<label for="DataTeam"><b>DataTeam</b></label>-->
+<!--    </td>-->
+
+    <td>
+        {% for item in get_group %}
+        <input type="radio" id="{{ item.0 }}" name="team" value="{{ item.0 }}" required>
+            <label for="{{ item.0 }}"><b>{{ item.0 }}</b></label>&emsp;
+        {% endfor %}
+    </td>
+
 </tr>
       <tr>
       <td></td>

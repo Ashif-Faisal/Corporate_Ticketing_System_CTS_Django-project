@@ -34,6 +34,9 @@ class userprofile(models.Model):
     access_Duaration = models.CharField(max_length=50, null=True)
     why_access_needed = models.CharField(max_length=200, null=True)
     approved_by = models.CharField(max_length=50, null=True)
+    latest_update = models.CharField(max_length=500, null=True)
+    Updated_task_id = models.CharField(max_length=50, null=True)
+    update_date = models.DateTimeField(max_length=50, null=True)
 
 
     def __str__(self):
@@ -44,8 +47,16 @@ class infoUpdate(models.Model):
     latest_update = models.CharField(max_length=500, null=True)
     task_id = models.CharField(max_length=50, null=True)
     update_date = models.DateTimeField(max_length=50, null=True)
+    def __str__(self):
+        return self.latest_update
+
+
+class companyinfo(models.Model):
+    company_name = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=50, null=True)
+    phonenumber = models.CharField(max_length=16, null=True)
 
 
 
     def __str__(self):
-        return self.latest_update
+        return self.company_name

@@ -1,0 +1,100 @@
+
+                <!-- Page content-->
+
+
+
+                <div class="container-fluid">            <!-- info start -->
+<!--                    <form action="{% url 'SysTicketSaved'%}" method="POST">-->
+                     <div class="con">
+                    <form action="{% url 'UserRegSave'%}" method="POST">
+	{% csrf_token %}
+
+                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>User Registration Form</center></h3>
+
+
+
+
+  <table align="center" cellpadding = "10">
+
+    <tr>
+      <td><B>User Name</td>
+<!--      <td>  </td>-->
+        <td><input name="user_name" type="text" value=" " required /></td>
+        </tr>
+      <tr>
+
+     <tr>
+      <td><B>First Name</td>
+<!--      <td>  </td>-->
+        <td><input name="first_name" type="text" value=" " required /></td>
+        </tr>
+      <tr>
+     <tr>
+      <td><B>Last Name</td>
+<!--      <td>  </td>-->
+        <td><input name="last_name" type="text" value=" " required /></td>
+        </tr>
+      <tr>
+      <td><B>Email</td>
+      <td><input type="email" name="email" value="" required></td>
+    </tr>
+
+
+  <tr>
+      <td><B>User Types</td>
+          <td>
+      <select name="user_types" id="user_types">
+          <option value="" selected>--Select--</option>
+                <option value="1" >Owner</option>
+                <option value="0">Staff</option>
+
+      </select>&emsp;&emsp;
+          </td>
+      </tr>
+
+
+      <tr>
+    <td><B>Admin Pannel Access</td>
+    <td>
+<input type="radio" id="yes" name="access" value="1" required>
+<label for="yes"><b>Yes</b></label>&emsp;
+<input type="radio" id="no" name="access" value="0">
+<label for="no"><b>No</b></label>&emsp;
+</tr>
+
+
+  <tr>
+      <td><B>Password</td>
+      <td><input type="password" name="password1" value="" required></td>
+      </tr>
+  <tr>
+
+  <tr>
+      <td><B>Confirm Password </td>
+      <td><input type="password" name="password2" value="" required></td>
+  </tr>
+
+
+    <tr>
+      <td></td>
+      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
+    </tr>
+
+
+  </table>
+
+<!--{% for msg in messages %}-->
+<!--                        <div class="alert alert-success" role="alert">-->
+<!--  <h4 class="alert-heading">Well done!</h4>-->
+<!--  <p> {{ msg }}</p>-->
+
+<!--</div>-->
+
+<!--{% endfor %}-->
+
+
+    </form>
+
+
+ </div>
+                </div>

@@ -31,7 +31,7 @@
         <div  class="container-fluid" style="overflow-x:auto;">
 
 
-                    <table id="tickets" style="width:100%">
+        <table id="tickets" style="width:100%">
 <!--    <tr>-->
         <td>ID</td>
         <td>Date</td>
@@ -39,14 +39,25 @@
     {% for item in report %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{ item.3 }}</td>
-        <td>{{ item.1 }}</td>
-
-
+        <td>{{ item.31 }}</td>
+        <td>{{ item.30 }}</td>
     </tr>
     {% endfor %}
+        </table>
+<!--            <table id="tickets" style="width:100%">-->
+<!--&lt;!&ndash;    <tr>&ndash;&gt;-->
+<!--        <td>ID</td>-->
+<!--        <td>Date</td>-->
+<!--        <td>Update</td>-->
+<!--    {% for item in data %}-->
+<!--    <tr>-->
+<!--        <td>{{forloop.counter}}</td>-->
+<!--        <td>{{ item.32 }}</td>-->
+<!--        <td>{{ item.31 }}</td>-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--        </table>-->
 
-</table>
 </div>
 
 

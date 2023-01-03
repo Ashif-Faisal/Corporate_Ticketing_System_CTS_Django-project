@@ -140,7 +140,8 @@ def lastupdate(request):
         # cursor.execute('SELECT username FROM auth_user')
         # x = cursor.fetchall()
 
-        cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
+        # cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE Updated_task_id= %s', [task_id])
         report = cursor.fetchall()
         print(report)
 
@@ -181,8 +182,12 @@ def updateinfo(request):
         # print(update_date)
 
         if value=='Save':
+            # cursor = connection.cursor()
+            # y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            # if y:
+            #     messages.success(request, "Last update entry successfully..!!")
             cursor = connection.cursor()
-            y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            y = cursor.execute("INSERT INTO support_portal_userprofile (latest_update, Updated_task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
             if y:
                 messages.success(request, "Last update entry successfully..!!")
 
@@ -470,7 +475,7 @@ def report(request):
     context = {'data': userlist}
     return render(request, 'report3.html', context)
 
-@login_required
+
 def regview(request):
     form = createUserForm()
 
@@ -478,9 +483,38 @@ def regview(request):
         form = createUserForm(request.POST)
         if form.is_valid():
             form.save()
+            if form.save():
+                messages.success(request, "User Create Successfully..!!")
+            return redirect('regview')
 
-    context = {'form': form}
+    cursor = connection.cursor()
+    cursor.execute('select id from auth_user order by id DESC limit  1 ')
+    last_user = cursor.fetchall()
+    print(last_user)
+    for i in last_user:
+        print(i[0])
+    lastCreatedUserId = i[0]
+    print(lastCreatedUserId)
+
+
+    group_id = request.POST.get("group_id")
+    print(group_id)
+
+    # group_id='1'
+    # cursor = connection.cursor()
+    # x = cursor.execute(
+    #     "INSERT INTO auth_user_groups(user_id, group_id) VALUES (%s, %s)",
+    #     [lastCreatedUserId, group_id])
+
+    cursor = connection.cursor()
+    cursor.execute('select * from auth_user order by id DESC')
+    # cursor.execute('select * from auth_user')
+    Alluser = cursor.fetchall()
+    print(Alluser)
+
+    context = {'form': form, 'Alluser': Alluser}
     return render(request, 'userReg.html', context)
+    # return redirect('login')
 
 
 def loginview(request):
@@ -540,7 +574,11 @@ def newticket(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
-    context = {'current_datetime': current_datetime}
+    cursor = connection.cursor()
+    cursor.execute('select name from auth_group order by id ASC')
+    get_group = cursor.fetchall()
+
+    context = {'current_datetime': current_datetime,'get_group': get_group}
     return render(request, 'newticket.html',context)
 
 
@@ -849,7 +887,12 @@ def sysnewticket(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
-    context = {'current_datetime': current_datetime}
+    cursor = connection.cursor()
+    cursor.execute('select name from auth_group order by id ASC')
+    get_group = cursor.fetchall()
+
+
+    context = {'current_datetime': current_datetime,'get_group':get_group}
     return render(request, 'sysnewticket.html', context)
 
 
@@ -1413,14 +1456,43 @@ def searchResultV2(request):
 
 
 def companyReg(request):
-    return render(request, 'companyReg.html')
+    currentdate = datetime.now()
+    current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+    context = {'current_datetime': current_datetime}
+    return render(request, 'companyReg.html', context)
+
+
+def companyInfoSave(request):
+    if request.method == 'POST':
+        company_name = request.POST.get("company_name")
+        email = request.POST.get("email")
+        phonenumber = request.POST.get("phonenumber")
+        print(company_name)
+        print(email)
+        print(phonenumber)
+
+        cursor = connection.cursor()
+        # data = cursor.execute('create table abccc (id int auto_increment primary key, ticketaname varchar(50))')
+        y = cursor.execute(
+            "INSERT INTO support_portal_companyinfo (company_name, email, phonenumber) VALUES (%s, %s, %s)",
+            [company_name, email, phonenumber])
+
+        if y:
+            print("OK")
+
+        return redirect('regview')
 
 
 def dbAccess(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
-    context = {'current_datetime': current_datetime}
+    cursor = connection.cursor()
+    cursor.execute('select name from auth_group order by id ASC')
+    get_group = cursor.fetchall()
+
+    context = {'current_datetime': current_datetime, 'get_group': get_group}
     return render(request, 'dbaccess.html', context)
 
 
@@ -1489,7 +1561,11 @@ def DBaccessRequestForm(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
-    context = {'current_datetime': current_datetime}
+    cursor = connection.cursor()
+    cursor.execute('select name from auth_group order by id ASC')
+    get_group = cursor.fetchall()
+
+    context = {'current_datetime': current_datetime,'get_group': get_group}
     return render(request, 'DBaccessRequestForm.html', context)
 
 
@@ -1559,3 +1635,191 @@ def tableFormate(request):
 
 def ticketDashBoard(request):
     return render(request, 'ticketDashBoard.html')
+
+
+def UserRegForm(request):
+    return render(request, 'UserRegForm.html')
+
+
+def UserRegSave(request):
+    if request.method == 'POST':
+        user_name = request.POST.get("user_name")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        user_types = request.POST.get("user_types")
+        access = request.POST.get("access")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+        active="1"
+        print(user_name)
+        print(first_name)
+        print(last_name)
+        print(email)
+        print(user_types)
+        print(access)
+        print(active)
+        print(password1)
+        print(password2)
+
+        currentdate = datetime.now()
+        current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
+
+
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO auth_user (username, first_name,last_name, email, is_superuser,is_staff,is_active,date_joined, password) VALUES (%s,%s, %s,%s, %s, %s,%s,%s, %s)",
+            [user_name,first_name,last_name, email, user_types,access,active,current_datetime, password2])
+
+        return redirect('login')
+        # return render(request, 'UserRegForm.html')
+
+
+def CreateGroup(request):
+    cursor = connection.cursor()
+    cursor.execute('select * from auth_group order by id DESC')
+    AllGroup = cursor.fetchall()
+    print(AllGroup)
+
+    context = {'AllGroup': AllGroup}
+    return render(request, 'CreateGroup.html', context)
+    #
+    # return render(request, 'CreateGroup.html')
+
+
+def UserAssignToTeam(request):
+    if request.method == 'POST':
+        user_id = request.POST.get("id")
+        print(user_id)
+        cursor = connection.cursor()
+        cursor.execute('select username from auth_user where id= %s', [user_id])
+        username = cursor.fetchall()
+        print(username)
+
+        cursor = connection.cursor()
+        cursor.execute('select * from auth_group order by id asc')
+        get_group = cursor.fetchall()
+
+        context = {'username': username,'get_group': get_group}
+        return render(request, 'UserAssignToTeam.html', context)
+
+        # group_id='1'
+        # cursor = connection.cursor()
+        # x = cursor.execute(
+        #     "INSERT INTO auth_user_groups(user_id, group_id) VALUES (%s, %s)",
+        #     [lastCreatedUserId, group_id])
+    # return render(request, 'UserAssignToTeam.html')
+
+
+def UserAssignToTeamName(request):
+    if request.method == 'POST':
+        user_name = request.POST.get("username")
+        group_id = request.POST.get("group_id")
+
+        cursor = connection.cursor()
+        cursor.execute('select id from auth_user where username= %s', [user_name])
+        user_id = cursor.fetchall()
+        print(user_id)
+        for i in user_id:
+            print(i[0])
+        user_id = i[0]
+        print(user_id)
+
+        print(user_id)
+        print(group_id)
+
+        cursor = connection.cursor()
+        x = cursor.execute(
+            "INSERT INTO auth_user_groups(user_id, group_id) VALUES (%s, %s)",
+            [user_id, group_id])
+        if x:
+            messages.success(request, "Team assign successfully..!!")
+
+        return redirect('regview')
+        # return render(request, 'UserAssignToTeam.html')
+
+
+
+def UserDelete(request):
+    if request.method == 'POST':
+        id = request.POST.get("id")
+        print(id)
+
+        cursor = connection.cursor()
+        x = cursor.execute('DELETE FROM auth_user WHERE id= %s', [id])
+        # cursor = connection.cursor()
+        # cursor.execute('DELETE FROM auth_user_groups WHERE user_id= %s', [id])
+        # x= cursor.execute ('DELETE auth_user, auth_user_groups FROM auth_user INNER JOIN auth_user_groups on auth_user_groups.user_id = auth_user.id and auth_user.id=%s',[id])
+
+
+
+        if x:
+            messages.success(request, "User Deleted Successfully..!!")
+
+
+        return redirect('regview')
+
+
+
+def CreateGroupSave(request):
+    if request.method == 'POST':
+        group_name = request.POST.get("group_name")
+        print(group_name)
+
+        cursor = connection.cursor()
+        y = cursor.execute(
+            "INSERT INTO auth_group (name) VALUES (%s)",
+            [group_name])
+
+        if y:
+            messages.success(request, "Group Created Successfully..!!")
+        return redirect('CreateGroup')
+
+
+
+def GroupEdit(request):
+    if request.method == 'POST':
+        group_id = request.POST.get("id")
+        print(group_id)
+        cursor = connection.cursor()
+        cursor.execute('select * from auth_group where id= %s', [group_id])
+        group_name_id = cursor.fetchall()
+        print(group_name_id)
+
+
+        cursor = connection.cursor()
+        cursor.execute('select * from auth_group order by id DESC')
+        AllGroup = cursor.fetchall()
+        print(AllGroup)
+
+        context = {'group_name_id': group_name_id, 'AllGroup': AllGroup}
+        return render(request, 'GroupEdit.html', context)
+
+    # return render(request, 'GroupEdit.html')
+
+def GroupEditSave(request):
+    if request.method == 'POST':
+        group_name = request.POST.get("group_name")
+        group_id = request.POST.get("group_id")
+        print(group_name)
+        print(group_id)
+
+        cursor = connection.cursor()
+        y = cursor.execute("UPDATE auth_group SET name= %s WHERE id= %s", [group_name,group_id])
+        if y:
+            messages.success(request, "Group Edit Successfully..!!")
+        return redirect('CreateGroup')
+
+
+def GroupDelete(request):
+    if request.method == 'POST':
+        id = request.POST.get("id")
+        print(id)
+
+        cursor = connection.cursor()
+        x = cursor.execute('DELETE FROM auth_group WHERE id= %s', [id])
+        if x:
+            messages.success(request, "Group Deleted Successfully..!!")
+
+
+        return redirect('CreateGroup')

@@ -1,4 +1,5 @@
 
+
 <style>
 .button {
   background-color: #325288; /* Green */
@@ -54,36 +55,32 @@ width: 100%;
 <div class="column">
 
 	{% csrf_token %}
-<h3 class="button button2">Create user</h3>
+<h3 class="button button2">Create group</h3>
 
 
-    <form method="POST" action="" align="center">
-<!--       <br> <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 2px;border-radius: 3px;cursor: pointer;">User create form</h3>-->
-<!--        <br>-->
+    <form action="{% url 'CreateGroupSave' %}" method="POST">
+	{% csrf_token %}
 
-<!--        {% for msg in messages %}-->
-<!--          <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>-->
-<!--          <center><p style="color:green;"> {{ msg }}</p></center>-->
-<!--        {% endfor %}-->
 
-        <table align="center"cellpadding = "8">
-        {% csrf_token %}
-       <tr><td> User Name*  </td><td>       {{form.username}}</td></tr>
-       <tr><td> First Name  </td><td>       {{form.first_name}}</td></tr>
-       <tr><td> Last Name  </td><td>       {{form.last_name}}</td></tr>
-        <tr><td>Email     </td><td>         {{form.email}}</td></tr>
-        <tr><td>Password*   </td><td>        {{form.password1}}</td></tr>
-        <tr><td>Confirm Password*</td><td>   {{form.password2}}</td></tr>
-        <tr>
-            <tr><td><B>Super user  </td><td>    {{form.is_superuser}}</B></td></tr>
-            <tr><td><B>Admin Pannel Access     </td><td>   {{form.is_staff}}</B></td></tr>
+
+
+  <table align="center" cellpadding = "10">
+
+    <tr>
+        <td><B>Group Name</B></td>
+<!--      <td>  </td>-->
+        <td><input name="group_name" type="text" value="" required /></td>
         </tr>
+      <tr>
 
-<!--        -->
 
-        <tr><td></td><td> <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" type="submit" name="Create User"></td></tr>
-        {{form.errors}}
-            </table>
+    <tr>
+      <td></td>
+      <td ><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
+    </tr>
+
+  </table>
+
     </form>
 
 </div>
@@ -93,7 +90,7 @@ width: 100%;
 
 <div class="column2">
 
-<h3  class="button button3">All user</h3>
+<h3  class="button button3">All group</h3>
 
 <!--{% for msg in msg %}-->
 <!--  <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>-->
@@ -105,27 +102,25 @@ width: 100%;
 <table id="tickets" style="width:100%">
     <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
         <td>ID</td>
-        <td>User</td>
-        <td>Team</td>
+        <td>Group name</td>
         <td>Action</td>
         <td>Delete</td>
 
     </tr>
-    {% for item in Alluser %}
+    {% for item in AllGroup %}
     <tr>
         <td>{{forloop.counter}}</td>
-        <td>{{ item.4 }}</td>
-        <td></td>
+        <td>{{ item.1 }}</td>
 
 
         <td>
-        <form action="{% url 'UserAssignToTeam'%}" method="post">
+        <form action="{% url 'GroupEdit'%}" method="post">
             {% csrf_token %}
             <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Edit</button>
         </form>
         </td>
         <td>
-        <form action="{% url 'UserDelete'%}" method="post">
+        <form action="{% url 'GroupDelete'%}" method="post">
             {% csrf_token %}
             <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Delete</button>
             </form>
@@ -143,4 +138,5 @@ width: 100%;
 
 <!--  </table>-->
   {% endblock %}
+
 

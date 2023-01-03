@@ -4,11 +4,10 @@ from django.contrib.auth.models import User
 
 from .models import userprofile, infoUpdate
 
-
 class createUserForm(UserCreationForm):
     class Meta:
         model = User #python User models
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2','first_name','last_name','is_superuser','is_staff']
 
 
 class userProfileForm(forms.ModelForm):
@@ -54,8 +53,6 @@ class newticket(forms.ModelForm):
             "access_Duaration",
             "why_access_needed",
             "approved_by",
-
-
         ]
 
 
@@ -66,5 +63,25 @@ class infoUpdate(forms.ModelForm):
             "latest_update",
             "update_date",
             "task_id",
-
         ]
+
+
+# class infoUpdate(forms.ModelForm):
+#     class Meta:
+#         model = infoUpdate
+#         fields = [
+#             "latest_update",
+#             "update_date",
+#             "task_id",
+#         ]
+
+
+#
+# class customerinfo(forms.ModelForm):
+#     class Meta:
+#         model = customerReg
+#         fields = [
+#             "company_name",
+#             "email",
+#             "phonenumber",
+#         ]

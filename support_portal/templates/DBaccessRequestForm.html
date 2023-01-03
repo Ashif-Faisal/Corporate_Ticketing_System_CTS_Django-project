@@ -216,13 +216,20 @@ width: 100%;
     <td>
     Ticket Send For
     </td>
-    <td >
-<input type="radio" id="systems" name="team" value="systems" required>
-<label for="systems"><b>Systems</b></label>&emsp;
-<input type="radio" id="TechOps" name="team" value="TechOps">
-<label for="TechOps"><b>TechOps</b></label>&emsp;
-<input type="radio" id="DataTeam" name="team" value="DataTeam">
-<label for="DataTeam"><b>DataTeam</b></label>
+<!--    <td >-->
+<!--<input type="radio" id="systems" name="team" value="systems" required>-->
+<!--<label for="systems"><b>Systems</b></label>&emsp;-->
+<!--<input type="radio" id="TechOps" name="team" value="TechOps">-->
+<!--<label for="TechOps"><b>TechOps</b></label>&emsp;-->
+<!--<input type="radio" id="DataTeam" name="team" value="DataTeam">-->
+<!--<label for="DataTeam"><b>DataTeam</b></label>-->
+<!--    </td>-->
+    <td>
+        {% for item in get_group %}
+        <input type="radio" id="{{ item.0 }}" name="team" value="{{ item.0 }}" required>
+            <label for="{{ item.0 }}"><b>{{ item.0 }}</b></label>&emsp;
+        {% endfor %}
+    </td>
 </tr>
       <tr>
       <td></td>
