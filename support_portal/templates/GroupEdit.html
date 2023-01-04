@@ -64,10 +64,17 @@ width: 100%;
   <table align="center" cellpadding = "10">
 {% for data in group_name_id %}
     <tr>
-      <td><B>Group Name</td>
+        <td><B>Group Name</B></td>
 <!--      <td>  </td>-->
         <td><input name="group_name" type="text" value="{{ data.1 }}" required /></td>
         <td><input hidden name="group_id" type="text" value="{{ data.0 }}" required /></td>
+        </tr>
+      <tr>
+
+      <tr>
+      <td><B>Group Name</B></td>
+<!--      <td>  </td>-->
+        <td><input name="group_email" type="text" value="{{ data.2 }}" required /></td>
         </tr>
       <tr>
 

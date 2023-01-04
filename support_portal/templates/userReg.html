@@ -69,9 +69,9 @@ width: 100%;
         <table align="center"cellpadding = "8">
         {% csrf_token %}
        <tr><td> User Name*  </td><td>       {{form.username}}</td></tr>
-       <tr><td> First Name  </td><td>       {{form.first_name}}</td></tr>
+       <tr><td> First Name  </td><td>       {{form.first_name}} </td></tr>
        <tr><td> Last Name  </td><td>       {{form.last_name}}</td></tr>
-        <tr><td>Email     </td><td>         {{form.email}}</td></tr>
+        <tr><td>Email*     </td><td>         {{form.email}}</td></tr>
         <tr><td>Password*   </td><td>        {{form.password1}}</td></tr>
         <tr><td>Confirm Password*</td><td>   {{form.password2}}</td></tr>
         <tr>

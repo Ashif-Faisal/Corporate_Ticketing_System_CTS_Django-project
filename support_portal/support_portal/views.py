@@ -671,12 +671,24 @@ def saveticket(request):
         latest_update=''
 
         messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'systems@surecash.net'
-        elif team=='TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team=='DataTeam':
-            team = 'data@surecash.net'
+
+        cursor.execute('select email from auth_group where name= %s', [team])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        teamEmail = email[0]
+        print(f"TeamEmail" + teamEmail)
+
+        team = teamEmail
+
+        # if team == 'systems':
+        #     team = 'systems@surecash.net'
+        # elif team=='TechOps':
+        #     team = 'tech_ops@surecash.net'
+        # elif team=='DataTeam':
+        #     team = 'data@surecash.net'
+
         _send_mail(task, employee_id, comment, id, team,creatoremail,latest_update)
         return render(request, 'newticket.html')
 
@@ -935,12 +947,24 @@ def SysTicketSaved(request):
         print("creatoremailll" + creatoremail)
 
         messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'ashif.faisal0@gmail.com'
-        elif team == 'TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team == 'DataTeam':
-            team = 'data@surecash.net'
+
+        cursor.execute('select email from auth_group where name= %s', [team])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        teamEmail = email[0]
+        print(f"TeamEmail" + teamEmail)
+
+
+        team = teamEmail
+
+        # if team == 'systems':
+        #     team = 'ashif.faisal0@gmail.com'
+        # elif team == 'TechOps':
+        #     team = 'faisal@surecash.net'
+        # elif team == 'DataTeam':
+        #     team = 'fahimm@surecash.net'
 
         latest_update=''
         currentdate = datetime.now()
@@ -1544,12 +1568,23 @@ def DbTicketSaved(request):
         print("creatoremailll" + creatoremail)
 
         messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'ashif.faisal0@gmail.com'
-        elif team == 'TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team == 'DataTeam':
-            team = 'data@surecash.net'
+
+        cursor.execute('select email from auth_group where name= %s', [team])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        teamEmail = email[0]
+        print(f"TeamEmail" + teamEmail)
+
+        team = teamEmail
+
+        # if team == 'systems':
+        #     team = 'ashif.faisal0@gmail.com'
+        # elif team == 'TechOps':
+        #     team = 'tech_ops@surecash.net'
+        # elif team == 'DataTeam':
+        #     team = 'data@surecash.net'
 
         latest_update=''
         _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
@@ -1616,13 +1651,22 @@ def NewDbTicketSaved(request):
         creatoremail = email[0]
         print("creatoremailll" + creatoremail)
 
-        messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'systems@surecash.net'
-        elif team == 'TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team == 'DataTeam':
-            team = 'data@surecash.net'
+        cursor.execute('select email from auth_group where name= %s', [team])
+        email = cursor.fetchall()
+        for email in email:
+            print(email[0])
+
+        teamEmail = email[0]
+        print(f"TeamEmail" + teamEmail)
+        team = teamEmail
+
+        # messages.success(request, "Ticket entry successfully..!!")
+        # if team == 'systems':
+        #     team = 'systems@surecash.net'
+        # elif team == 'TechOps':
+        #     team = 'tech_ops@surecash.net'
+        # elif team == 'DataTeam':
+        #     team = 'data@surecash.net'
 
         latest_update=''
         _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
@@ -1764,12 +1808,14 @@ def UserDelete(request):
 def CreateGroupSave(request):
     if request.method == 'POST':
         group_name = request.POST.get("group_name")
+        group_email = request.POST.get("group_email")
         print(group_name)
+        print(group_email)
 
         cursor = connection.cursor()
         y = cursor.execute(
-            "INSERT INTO auth_group (name) VALUES (%s)",
-            [group_name])
+            "INSERT INTO auth_group (name,email) VALUES (%s, %s)",
+            [group_name,group_email])
 
         if y:
             messages.success(request, "Group Created Successfully..!!")
@@ -1801,11 +1847,13 @@ def GroupEditSave(request):
     if request.method == 'POST':
         group_name = request.POST.get("group_name")
         group_id = request.POST.get("group_id")
+        group_email = request.POST.get("group_email")
         print(group_name)
         print(group_id)
+        print(group_email)
 
         cursor = connection.cursor()
-        y = cursor.execute("UPDATE auth_group SET name= %s WHERE id= %s", [group_name,group_id])
+        y = cursor.execute("UPDATE auth_group SET name= %s,email= %s WHERE id= %s", [group_name,group_email,group_id])
         if y:
             messages.success(request, "Group Edit Successfully..!!")
         return redirect('CreateGroup')
