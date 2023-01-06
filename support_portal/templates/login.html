@@ -107,6 +107,10 @@ body {
 <body>
 <!-- partial:index.partial.html -->
 <div class="login-page">
+    {% for msg in messages %}
+  <center><h4 style="color:green;" class="alert-heading">Sorry :(</h4></center>
+  <center><p style="color:red;"> {{ msg }}</p></center>
+{% endfor %}
   <div class="form">
     <form class="register-form">
 

@@ -42,7 +42,8 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update)
         creatorEmail= creatoremail
         task_id = id
         message['Subject'] = '[TT- '+str(task_id)+'] ''' +require_chars
-        message['From'] = 'sys.support@progoti.com'
+        # message['From'] = 'ashif.faisal0gmail.com'
+        message['From'] = ''
         To_receiver = [team]
         Cc_receiver = [creatoremail]
         message['To'] = ";".join(To_receiver)
@@ -56,7 +57,8 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update)
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login(message['From'], 'dzyofyvrmljnseby')
+        # server.login(message['From'], 'bauveombvnuckhqi')
+        server.login(message['From'], '')
         server.sendmail(message['From'], receiver, msg_body)
         server.quit()
         return "Mail sent successfully."
@@ -124,6 +126,8 @@ def editupdate(request):
         if x:
             messages.success(request, "Assigned successfully..!!")
         print(x)
+        # return redirect('unassignTaskV2')
+
         return render(request, 'edit.html')
 
 
@@ -189,7 +193,7 @@ def updateinfo(request):
             cursor = connection.cursor()
             y = cursor.execute("INSERT INTO support_portal_userprofile (latest_update, Updated_task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
             if y:
-                messages.success(request, "Last update entry successfully..!!")
+                messages.success(request, "Last update entry successfully and this update send via Email..!!")
 
             cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', maker1= '%s', status= 'Pending' WHERE id= %s""" % (user, task_id))
 
@@ -211,6 +215,7 @@ def updateinfo(request):
             print(comment)
 
             _send_mail(task, user, comment, task_id, team, creatoremail, latest_update)
+
             context = {'updatedata': y}
             return render(request, 'unassignTaskV2.html', context)
 
@@ -544,7 +549,7 @@ def loginview(request):
             return redirect('newticket')
 
         else:
-            messages.success(request, "Incorrect Username or Password..")
+            messages.success(request, "Incorrect Username or Password")
 
     if request.user.is_authenticated:
         user = request.user
@@ -946,7 +951,7 @@ def SysTicketSaved(request):
         creatoremail = email[0]
         print("creatoremailll" + creatoremail)
 
-        messages.success(request, "Ticket entry successfully..!!")
+        # messages.success(request, "Ticket entry successfully..!!")
 
         cursor.execute('select email from auth_group where name= %s', [team])
         email = cursor.fetchall()
@@ -971,6 +976,10 @@ def SysTicketSaved(request):
         current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
         _send_mail(task, employee_id, comment, id, team, creatoremail, latest_update)
+
+        if x:
+            messages.success(request, "Ticket entry successfully..!!")
+            return redirect('sysnewticket')
 
         context = {'current_datetime': current_datetime}
         return render(request, 'sysnewticket.html', context)
@@ -1502,9 +1511,6 @@ def companyInfoSave(request):
             "INSERT INTO support_portal_companyinfo (company_name, email, phonenumber) VALUES (%s, %s, %s)",
             [company_name, email, phonenumber])
 
-        if y:
-            print("OK")
-
         return redirect('regview')
 
 
@@ -1588,6 +1594,10 @@ def DbTicketSaved(request):
 
         latest_update=''
         _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
+        # if x:
+        #     messages.success(request, "Ticket entry successfully..!!")
+        #     return redirect('dbAccess')
+
         return render(request, 'sysnewticket.html')
 
 
@@ -1778,6 +1788,8 @@ def UserAssignToTeamName(request):
             [user_id, group_id])
         if x:
             messages.success(request, "Team assign successfully..!!")
+        else:
+            messages.success(request, "Thanks! user already assigned this team..!!")
 
         return redirect('regview')
         # return render(request, 'UserAssignToTeam.html')

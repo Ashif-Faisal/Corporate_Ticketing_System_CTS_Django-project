@@ -37,6 +37,7 @@ class userprofile(models.Model):
     latest_update = models.CharField(max_length=500, null=True)
     Updated_task_id = models.CharField(max_length=50, null=True)
     update_date = models.DateTimeField(max_length=50, null=True)
+    company_id = models.IntegerField(max_length=50, null=True)
 
 
     def __str__(self):
