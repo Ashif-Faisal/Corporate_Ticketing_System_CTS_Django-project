@@ -2,32 +2,38 @@
                 <!-- Page content-->
 
 
-
-                <div class="container-fluid">            <!-- info start -->
+<div  style="background-image: url('static/assets/featureImage.jpg');background-repeat: no-repeat, repeat;background-size: cover;background-position: center; float: left;width: 100%;height:100%;">
+          <!-- info start -->
 <!--                    <form action="{% url 'SysTicketSaved'%}" method="POST">-->
-                     <div class="con">
+<div style=" width: 50%; height: 100%;float:left; ">
+<!--    <img src="static/assets/featureImage.png" alt="" width="100%" height="100%">-->
+
+
+</div>
+    <div style="float:right; width: 49.5%; height: 100%;">
                     <form action="{% url 'companyInfoSave'%}" method="POST">
 	{% csrf_token %}
 
-                        <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;"><center>Company Registration</center></h3>
+                        <h1 style="color: white"><center>Company Registration</center></h1>
+                        <hr>
 
 
 
 
-  <table align="center" cellpadding = "10">
+  <table align="center" cellpadding = "10" >
 
     <tr>
-      <td><B>Company Name</td>
+        <td  style="color: white"><B>Company Name</B></td>
 <!--      <td>  </td>-->
-        <td><input name="company_name" type="text" value=" " required /></td>
+        <td><input name="company_name"  type="text" value="" required /></td>
         </tr>
       <tr>
-      <td><B>Email</td>
+      <td  style="color: white"><B>Email</B></td>
       <td><input type="email" name="email" value="" required></td>
     </tr>
 
   <tr>
-      <td><B>Phone Number </td>
+      <td  style="color: white"><B>Phone Number</B> </td>
       <td><input type="text" name="phonenumber" value="" required></td>
       </tr>
   <tr>
@@ -38,25 +44,16 @@
 
     <tr>
       <td></td>
-      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
+      <td colspan="4"><input style="background-color: #325288;color: white;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>
 
     </tr>
 
 
   </table>
 <br>
-<!--{% for msg in messages %}-->
-<!--                        <div class="alert alert-success" role="alert">-->
-<!--  <h4 class="alert-heading">Well done!</h4>-->
-<!--  <p> {{ msg }}</p>-->
-
-<!--</div>-->
-
-<!--{% endfor %}-->
 
 
     </form>
 
-
+</div>
  </div>
-                </div>

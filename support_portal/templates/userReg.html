@@ -1,45 +1,45 @@
 
-<style>
-.button {
-  background-color: #325288; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-  clear: both;
-  float: left;
+<!--<style>-->
+<!--.button {-->
+<!--  background-color: #325288; /* Green */-->
+<!--  border: none;-->
+<!--  color: white;-->
+<!--  padding: 15px 32px;-->
+<!--  text-align: center;-->
+<!--  text-decoration: none;-->
+<!--  display: inline-block;-->
+<!--  font-size: 16px;-->
+<!--  cursor: pointer;-->
+<!--  clear: both;-->
+<!--  float: left;-->
 
-}
-.column {
-  float: left;
-  width: 50%;
-  padding: 5px;
-}
+<!--}-->
+<!--.column {-->
+<!--  float: left;-->
+<!--  width: 50%;-->
+<!--  padding: 5px;-->
+<!--}-->
 
-.column2 {
-  float: left;
-  width: 50%;
-  padding: 5px;
-}
+<!--.column2 {-->
+<!--  float: left;-->
+<!--  width: 50%;-->
+<!--  padding: 5px;-->
+<!--}-->
 
-.button2 {
-width: 100%;
-}
+<!--.button2 {-->
+<!--width: 100%;-->
+<!--}-->
 
-.button3 {
-width: 100%;
-}
+<!--.button3 {-->
+<!--width: 100%;-->
+<!--}-->
 
-.button2:hover {
-  background-color: green;
-}
+<!--.button2:hover {-->
+<!--  background-color: green;-->
+<!--}-->
 
 
-</style>
+<!--</style>-->
 
 {% extends 'base.html' %}
 {% block main %}
@@ -51,13 +51,14 @@ width: 100%;
     {% endfor %}
 </ul>
 {% endif %}
-<div class="column">
+<div style="float: left;width: 50%;padding: 5px;">
 
 	{% csrf_token %}
-<h3 class="button button2">Create user</h3>
+<h3 style=" background-color: #325288;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;clear: both;float: left;width: 100%;">Create user</h3>
 
 
     <form method="POST" action="" align="center">
+        {% csrf_token %}
 <!--       <br> <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 2px;border-radius: 3px;cursor: pointer;">User create form</h3>-->
 <!--        <br>-->
 
@@ -75,8 +76,8 @@ width: 100%;
         <tr><td>Password*   </td><td>        {{form.password1}}</td></tr>
         <tr><td>Confirm Password*</td><td>   {{form.password2}}</td></tr>
         <tr>
-            <tr><td><B>Super user  </td><td>    {{form.is_superuser}}</B></td></tr>
-            <tr><td><B>Admin Pannel Access     </td><td>   {{form.is_staff}}</B></td></tr>
+            <tr><td><B>Super user  </B></td><td>    {{form.is_superuser}}</B></td></tr>
+            <tr><td><B>Admin Pannel Access     </B></td><td>   {{form.is_staff}}</B></td></tr>
         </tr>
 
 <!--        -->
@@ -91,9 +92,9 @@ width: 100%;
 
                                                                     <!-- left column start -->
 
-<div class="column2">
+<div style="float: left;width: 50%;padding: 5px;">
 
-<h3  class="button button3">All user</h3>
+<h3 style=" background-color: #325288;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;clear: both;float: left;width: 100%;">All user</h3>
 
 <!--{% for msg in msg %}-->
 <!--  <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>-->
@@ -103,7 +104,7 @@ width: 100%;
 
 
 <table id="tickets" style="width:100%">
-    <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;">
+    <tr style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;text-align: center">
         <td>ID</td>
         <td>User</td>
         <td>Team</td>
@@ -125,7 +126,7 @@ width: 100%;
         </td>
 
         <td>
-        <form action="{% url 'UserAssignToTeam'%}" method="post">
+        <form action="{% url 'profileEdit'%}" method="post">
             {% csrf_token %}
            <center> <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Edit</button></center>
         </form>
@@ -134,7 +135,7 @@ width: 100%;
         <td>
         <form action="{% url 'UserDelete'%}" method="post">
             {% csrf_token %}
-           <center> <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Delete</button></center>
+           <center> <button onclick="return confirm('Are you sure you want to delete this user?');" style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" name="id" type="submit" value="{{ item.0 }}">Delete</button></center>
             </form>
         </td>
     </tr>

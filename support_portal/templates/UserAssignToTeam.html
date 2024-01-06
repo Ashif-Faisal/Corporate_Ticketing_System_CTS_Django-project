@@ -35,7 +35,7 @@
           <td>
         {% for item in get_group %}
         <input type="radio" id="{{ item.0 }}" name="group_id" value="{{ item.0 }}" required>
-            <label for="{{ item.0 }}"><b>{{ item.1 }}</b></label>&ensp;
+            <label for="{{ item.0 }}"><b>{{ item.1 }}</b></label>&ensp;<br>
         {% endfor %}
     </td>
     </tr>

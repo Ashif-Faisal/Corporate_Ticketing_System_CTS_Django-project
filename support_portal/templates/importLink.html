@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<style>
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #29ADB2;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #0766AD;
+  margin-top: 1%;
+
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #0766AD;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  text-decoration: none;
+}
+.a:link, a:visited{
+text-decoration: none;
+}
+</style>
+
+<!--<button class="button" ><a href="https://www.youtube.com/" target="_blank">Bubt Annex</button>-->
+<!--<button class="button">Bubt Website</button>-->
+<!--<button class="button">CSE Faculty</button>-->
+<!--<button class="button">Bubt Libary</button>-->
+
+ <a href="https://annex.bubt.edu.bd/" target="_blank" class="button">Bubt Annex</a>
+ <a href="https://www.bubt.edu.bd/"target="_blank" class="button">Bubt Website</a>
+ <a href="https://cse.bubt.edu.bd/"target="_blank" class="button">CSE Faculty</a>
+ <a href="http://103.15.140.180:8001/"target="_blank" class="button">Bubt Library</a>
+
+
+
+{% endblock %}

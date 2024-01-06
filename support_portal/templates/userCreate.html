@@ -1,0 +1,62 @@
+
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+   <br><center> <h4  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </h4></center>
+    {% endfor %}
+</ul>
+{% endif %}
+<div style="background-image: url('static/assets/featureImage.jpg');background-repeat: no-repeat, repeat;background-size: cover;background-position: center; float: left;width: 100%;height:100%;">
+    <div  style=" float: left;width: 50%;height:100%;">
+<!--        <img src="static/assets/featureImage.png" alt="" width="100%" height="100%">-->
+    </div>
+<div style="float:right; width: 49.5%; height: 100%;">
+	{% csrf_token %}
+<!--<h3 style=" background-color: #325288;border: none;color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;clear: both;float: left;width: 100%;">Create user</h3>-->
+<h1  style="color: white"><center>User Registration</center></h1>
+                        <hr>
+
+    <form method="POST" action="" align="center">
+        {% csrf_token %}
+<!--       <br> <h3 style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 2px;border-radius: 3px;cursor: pointer;">User create form</h3>-->
+<!--        <br>-->
+
+<!--        {% for msg in messages %}-->
+<!--          <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>-->
+<!--          <center><p style="color:green;"> {{ msg }}</p></center>-->
+<!--        {% endfor %}-->
+
+        <table align="center"cellpadding = "8">
+        {% csrf_token %}
+       <tr><td  style="color: white"><B> User Name* </B> </td><td>       {{form.username}}</td></tr>
+       <tr><td  style="color: white"><B> First Name </B> </td><td>       {{form.first_name}} </td></tr>
+       <tr><td  style="color: white"><B> Last Name </B> </td><td>       {{form.last_name}}</td></tr>
+        <tr><td  style="color: white"><B>Email*    </B> </td><td>         {{form.email}}</td></tr>
+        <tr><td  style="color: white"><B>Password*  </B> </td><td>        {{form.password1}}</td></tr>
+        <tr><td  style="color: white"><B>Confirm Password*</B></td><td>   {{form.password2}}</td></tr>
+        <tr>
+            <tr><td  style="color: white"><B>Super user  </B></td><td>    {{form.is_superuser}}</B></td></tr>
+            <tr><td  style="color: white"> <B>Admin Pannel Access     </B></td><td>   {{form.is_staff}}</B></td></tr>
+<!--            <tr><td  style="color: white"> <B>company_id     </B></td><td>   {{company_id}}</B></td></tr>-->
+        </tr>
+
+
+
+<!--        -->
+
+        <tr><td></td><td> <input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" type="submit" name="Create User"></td></tr>
+            <h5 style="color: red">{{form.errors}}</h5>
+            </table>
+    </form>
+</div>
+</div>
+
+
+                                                                    <!-- left column start -->
+
+
+
+
+
+

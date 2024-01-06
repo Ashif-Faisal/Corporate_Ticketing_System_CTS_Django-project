@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block main %}
+
+             <!-- Page content-->
+
+
+
+                          <!-- info start -->
+
+<style>
+
+.column {
+  float: left;
+  width: 30%;
+  padding: 5px;
+}
+
+
+
+.button2:hover {
+  background-color: green;
+}
+
+
+</style>
+
+
+
+<div>
+
+<div class="column">
+  <form action="{% url 'regview'%}">
+	{% csrf_token %}
+<button style="background-color: #6F38C5;border: none;color: white;padding: 40px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin-top: 16px; margin-left: 50px;cursor: pointer;clear: both;float: left;border-radius: 8px;width: 100%">User Management</button>
+
+  </form>
+</div>
+
+<div class="column">
+    <form action="{% url 'CreateGroup'%}" method="POST">
+	{% csrf_token %}
+<button  style="background-color: #009EFF;border: none;color: white;padding: 40px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin-top: 16px; margin-left: 50px;cursor: pointer;clear: both;float: left;border-radius: 8px;width:100%">Group Management</button>
+    </form>
+</div>
+
+    <div class="column">
+        {% for user_id in user_id %}
+    <form action="{% url 'profileEdit'%}" method="POST">
+
+<!--        <button style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" >Edit</button>-->
+
+	{% csrf_token %}
+<button  style="background-color: #F96666;border: none;color: white;padding: 40px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin-top: 16px; margin-left: 50px;cursor: pointer;clear: both;float: left;border-radius: 8px;width:100%;"  name="id" type="submit" value="{{ user_id.0 }}">Profile Management</button>
+    </form>
+        {% endfor %}
+</div>
+
+    <div class="column">
+    <form action="{% url 'importLink'%}" method="POST">
+	{% csrf_token %}
+<button  style="background-color: #80558C;border: none;color: white;padding: 40px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin-top: 16px; margin-left: 50px;cursor: pointer;clear: both;float: left;border-radius: 8px;width:100%">Important Link</button>
+    </form>
+</div>
+</div>
+
+
+{% for msg in messages %}
+  <center><h4 style="color:green;" class="alert-heading">Well done!</h4></center>
+  <center><p style="color:green;"> {{ msg }}</p></center>
+{% endfor %}
+
+                    <form action="{% url 'SysTicketSaved'%}" method="POST">
+	{% csrf_token %}
+
+
+  <div class="con">
+<!--  <table  align="center" cellpadding = "10" style="width:45%">-->
+
+<!--    <tr>-->
+<!--      <td>Employee ID</td>-->
+<!--&lt;!&ndash;      <td>  </td>&ndash;&gt;-->
+<!--        <td><input name="employee_id" type="text" value="{{ user }}" readonly /></td>-->
+<!--        </tr>-->
+<!--      <tr>-->
+<!--      <td>Ticket Name</td>-->
+<!--      <td><textarea name="task" type="text" rows="2" cols="54" required></textarea></td>-->
+<!--    </tr>-->
+
+<!--  <tr>-->
+<!--      <td>Comment </td>-->
+<!--      <td><textarea name="comment" type="text" rows="2" cols="54"></textarea></td>-->
+<!--      <td><input type="hidden" name="approval" type="text" value="Not Started yet" readonly /></td>-->
+<!--      </tr>-->
+<!--  <tr>-->
+
+<!--      <td><input type="hidden" name="request_date" type="datetime-local" value="{{current_datetime}}"/></td>-->
+<!--      </tr>-->
+<!--<tr>-->
+<!--    <td>-->
+<!--    Ticket Send For-->
+<!--    </td>-->
+<!--&lt;!&ndash;    <td >&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" id="systems" name="team" value="systems" required>&ndash;&gt;-->
+<!--&lt;!&ndash;<label for="systems"><b>Systems</b></label>&emsp;&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" id="TechOps" name="team" value="TechOps">&ndash;&gt;-->
+<!--&lt;!&ndash;<label for="TechOps"><b>TechOps</b></label>&emsp;&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="radio" id="DataTeam" name="team" value="DataTeam">&ndash;&gt;-->
+<!--&lt;!&ndash;<label for="DataTeam"><b>DataTeam</b></label>&ndash;&gt;-->
+<!--&lt;!&ndash;    </td>&ndash;&gt;-->
+
+<!--    <td>-->
+<!--        {% for item in get_group %}-->
+<!--        <input type="radio" id="{{ item.0 }}" name="team" value="{{ item.0 }}" required>-->
+<!--            <label for="{{ item.0 }}"><b>{{ item.0 }}</b></label>&emsp;-->
+<!--        {% endfor %}-->
+<!--    </td>-->
+
+<!--</tr>-->
+<!--      <tr>-->
+<!--      <td></td>-->
+<!--      <td colspan="4"><input style="background-color: #325288;color: white;border: 1px solid #e4e4e4;padding: 4px;border-radius: 3px;cursor: pointer;" type="submit" value="Submit" class="submit"></td>-->
+
+<!--    </tr>-->
+
+
+<!--  </table>-->
+<br>
+
+ </div>
+
+ </form>
+
+                                                        <!-- Db Access Form Start -->
+
+<!--<table align="center" cellpadding = "10">-->
+<!--<form action="{% url 'dbAccess'%}" method="POST">-->
+<!--    {% csrf_token %}-->
+<!--<button class="button button2" style="background-color: #325288; border: none;color: white;padding: 7px;text-align: center;text-decoration: none;display: inline-block;font-size: 20px;margin: -25px 5px; margin-left: 27%;border-radius: 8px;" type="submit">Request to Database access</button>-->
+<!--</form>-->
+<!--</table>-->
+
+{% endblock %}

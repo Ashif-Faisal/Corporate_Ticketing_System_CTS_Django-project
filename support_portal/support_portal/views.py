@@ -24,7 +24,8 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render
 from django.db.models import Q
-
+from django.contrib.auth.forms import PasswordChangeForm
+from django.http import HttpResponseRedirect
 
 def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update):
         message = MIMEMultipart()
@@ -42,8 +43,7 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update)
         creatorEmail= creatoremail
         task_id = id
         message['Subject'] = '[TT- '+str(task_id)+'] ''' +require_chars
-        # message['From'] = 'ashif.faisal0gmail.com'
-        message['From'] = ''
+        message['From'] = 'cropticket@gmail.com'
         To_receiver = [team]
         Cc_receiver = [creatoremail]
         message['To'] = ";".join(To_receiver)
@@ -57,8 +57,8 @@ def _send_mail(my_body, employee, comment, id, team, creatoremail,latest_update)
 
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        # server.login(message['From'], 'bauveombvnuckhqi')
-        server.login(message['From'], '')
+        server.login(message['From'], 'lcoxoewiawemqbip')
+        # server.login(message['From'], '')
         server.sendmail(message['From'], receiver, msg_body)
         server.quit()
         return "Mail sent successfully."
@@ -141,10 +141,6 @@ def lastupdate(request):
         cursor.execute('SELECT * FROM support_portal_userprofile WHERE id= %s ORDER BY request_date DESC limit 1', [id])
         data = cursor.fetchall()
 
-        # cursor.execute('SELECT username FROM auth_user')
-        # x = cursor.fetchall()
-
-        # cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
         cursor.execute('SELECT * FROM support_portal_userprofile WHERE Updated_task_id= %s', [task_id])
         report = cursor.fetchall()
         print(report)
@@ -176,26 +172,19 @@ def updateinfo(request):
         task_id = request.POST.get("id")
         update_date = request.POST.get("update_Date")
         comment = request.POST.get("comment")
+        Creator_email = request.POST.get("Creator_email")
+        UpdateMakers = request.POST.get("UpdateMakers")
 
         user=  request.user
         print(user)
-        # user = request.POST.get("{{ user }}")
-        # print("Ok"+user)
-        # print(latest_update)
-        # print(task_id)
-        # print(update_date)
 
         if value=='Save':
-            # cursor = connection.cursor()
-            # y= cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
-            # if y:
-            #     messages.success(request, "Last update entry successfully..!!")
             cursor = connection.cursor()
-            y = cursor.execute("INSERT INTO support_portal_userprofile (latest_update, Updated_task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            y = cursor.execute("INSERT INTO support_portal_userprofile (latest_update, Updated_task_id, update_Date, UpdateMakers) VALUES (%s, %s, %s, %s)",[latest_update, task_id, update_date, UpdateMakers])
             if y:
                 messages.success(request, "Last update entry successfully and this update send via Email..!!")
 
-            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', maker1= '%s', status= 'Pending' WHERE id= %s""" % (user, task_id))
+            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'On Going', status= 'Pending' WHERE id= %s""" % (task_id))
 
             user = request.user
             print(user)
@@ -207,7 +196,7 @@ def updateinfo(request):
             creatoremail = email[0]
             print("creatoremailll" + creatoremail)
 
-            team = 'systems@surecash.net'
+            team = Creator_email
             print(latest_update)
             print(user)
             print(task_id)
@@ -221,11 +210,11 @@ def updateinfo(request):
 
         elif value=='Save & Closed':
             cursor = connection.cursor()
-            y = cursor.execute("INSERT INTO support_portal_infoupdate (latest_update, task_id, update_Date) VALUES (%s, %s, %s)",[latest_update, task_id, update_date])
+            y = cursor.execute("INSERT INTO support_portal_userprofile (latest_update, Updated_task_id, update_Date,UpdateMakers) VALUES (%s, %s, %s,%s)",[latest_update, task_id, update_date,UpdateMakers])
             if y:
                 messages.success(request, "Last update entry successfully..!!")
 
-            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'Complete', maker1= '%s', status= 'Done' WHERE id= %s""" % (user, task_id))
+            cursor.execute("""UPDATE support_portal_userprofile SET approval= 'Complete', status= 'Done' WHERE id= %s""" % (task_id))
 
             user = request.user
             print(user)
@@ -237,7 +226,7 @@ def updateinfo(request):
             creatoremail = email[0]
             print("creatoremailll" + creatoremail)
 
-            team='systems@surecash.net'
+            team= Creator_email
             print(latest_update)
             print(user)
             print(task_id)
@@ -534,7 +523,7 @@ def loginview(request):
             if user.groups.exists():
                 group = user.groups.all()[0].name
             # if group == 'systems':
-                return redirect('sysnewticket')
+                return redirect('testpage')
 
             # if group == 'DataTeam':
             #     return redirect('sysnewticket')
@@ -565,10 +554,15 @@ def bootstrap(request):
     return render(request, 'boot.html')
 
 
-def testpage(request):
-    # cursor = connection.cursor()
-    # cursor.execute('SELECT username FROM auth_user')
-    return render(request, 'base.html')
+# def testpage(request):
+#     # cursor = connection.cursor()
+#     # cursor.execute('SELECT username FROM auth_user')
+#
+#     getGroupName = request.user.groups.values_list('name', flat=True).first()
+#     CurrentUserGroup = getGroupName
+#
+#     context = {'CurrentUserGroup':CurrentUserGroup}
+#     return render(request, 'base.html', context)
 
 
 def errorpage(request):
@@ -579,11 +573,22 @@ def newticket(request):
     currentdate = datetime.now()
     current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
+    user = request.user
+    print(user)
+
+    cursor = connection.cursor()
+    cursor.execute('select email from auth_user where username= %s',[user])
+    get_email = cursor.fetchall()
+    for get_email in get_email:
+        print(get_email[0])
+    get_email = get_email[0]
+    print(f"TeamEmail" + get_email)
+
     cursor = connection.cursor()
     cursor.execute('select name from auth_group order by id ASC')
     get_group = cursor.fetchall()
 
-    context = {'current_datetime': current_datetime,'get_group': get_group}
+    context = {'current_datetime': current_datetime,'get_group': get_group,'get_email':get_email}
     return render(request, 'newticket.html',context)
 
 
@@ -647,6 +652,8 @@ def saveticket(request):
         request_date = request.POST.get("request_date")
         approval = request.POST.get("approval")
         team = request.POST.get("team")
+        Creator_email = request.POST.get("Creator_email")
+        print(Creator_email)
         print(team)
         print(employee_id)
         print(task)
@@ -655,7 +662,7 @@ def saveticket(request):
         print(request_date)
         print(approval)
         cursor = connection.cursor()
-        x= cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",[employee_id, task, comment,request_date,approval, team])
+        x= cursor.execute("INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team, Creator_email) VALUES (%s, %s,  %s, %s, %s, %s, %s)",[employee_id, task, comment,request_date,approval, team, Creator_email])
 
         cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
         thistuple = cursor.fetchall()
@@ -816,16 +823,22 @@ def customerTaskView(request):
         data = cursor.fetchall()
         cursor.execute('SELECT username FROM auth_user')
         x = cursor.fetchall()
-        cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
-        report = cursor.fetchall()
-        print(report)
+        # cursor.execute('SELECT * FROM support_portal_infoupdate WHERE task_id= %s', [task_id])
+        # report = cursor.fetchall()
+        # print(report)
         currentdate = datetime.now()
         current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
-        context = {'data': data,'user':x, 'report': report, 'current_datetime': current_datetime}
+
         #cursor.execute("UPDATE support_portal_userprofile SET sr_name='sr_name' WHERE task_id= %s", [task_id])
 
+        cursor.execute('SELECT * FROM support_portal_userprofile WHERE Updated_task_id= %s', [task_id])
+        report = cursor.fetchall()
+        print(report)
+
+
+        context = {'data': data, 'user': x, 'report': report, 'current_datetime': current_datetime}
+        # context = {'data': data, 'report': report, 'current_datetime': current_datetime}
         return render(request, 'customerTaskView.html', context)
-       # return render(request,'customerTaskView.html')
 
 
 @login_required
@@ -908,8 +921,18 @@ def sysnewticket(request):
     cursor.execute('select name from auth_group order by id ASC')
     get_group = cursor.fetchall()
 
+    user = request.user
+    print(user)
 
-    context = {'current_datetime': current_datetime,'get_group':get_group}
+    cursor = connection.cursor()
+    cursor.execute('select email from auth_user where username= %s', [user])
+    get_email = cursor.fetchall()
+    for get_email in get_email:
+        print(get_email[0])
+    get_email = get_email[0]
+    print(f"TeamEmail" + get_email)
+
+    context = {'current_datetime': current_datetime,'get_group':get_group,'get_email':get_email}
     return render(request, 'sysnewticket.html', context)
 
 
@@ -923,6 +946,7 @@ def SysTicketSaved(request):
         request_date = request.POST.get("request_date")
         approval = request.POST.get("approval")
         team = request.POST.get("team")
+        Creator_email = request.POST.get("Creator_email")
         print(team)
         print(employee_id)
         print(task)
@@ -932,8 +956,8 @@ def SysTicketSaved(request):
         print(approval)
         cursor = connection.cursor()
         x = cursor.execute(
-            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
-            [employee_id, task, comment, request_date, approval, team])
+            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team, Creator_email) VALUES (%s, %s,  %s, %s, %s, %s, %s)",
+            [employee_id, task, comment, request_date, approval, team, Creator_email])
 
         cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
         thistuple = cursor.fetchall()
@@ -995,7 +1019,11 @@ def logout_view(request):
 
 
 def test(request):
-    return render(request, 'base.html')
+    getGroupName = request.user.groups.values_list('name', flat=True).first()
+    CurrentUserGroup = getGroupName
+
+    context = {'CurrentUserGroup': CurrentUserGroup}
+    return render(request, 'base.html', context)
 
 
 def techTicketStatus(request):
@@ -1038,53 +1066,53 @@ def techticket(request):
     context = {'current_datetime': current_datetime}
     return render(request, 'techticket.html', context)
 
-
-def techTicketsave(request):
-    if request.method == 'POST':
-        employee_id = request.POST.get("employee_id")
-        task = request.POST.get("task")
-        comment = request.POST.get("comment")
-        # attachment = request.POST.get("attachment")
-        request_date = request.POST.get("request_date")
-        approval = request.POST.get("approval")
-        team = request.POST.get("team")
-        print(team)
-        print(employee_id)
-        print(task)
-        print(comment)
-        # print(attachment)
-        print(request_date)
-        print(approval)
-        cursor = connection.cursor()
-        x = cursor.execute(
-            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
-            [employee_id, task, comment, request_date, approval, team])
-
-        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
-        thistuple = cursor.fetchall()
-        for i in thistuple:
-            print(i[0])
-
-        id = i[0]
-        print(id)
-
-        cursor.execute('select email from auth_user where username= %s', [employee_id])
-        email = cursor.fetchall()
-        for email in email:
-            print(email[0])
-
-        creatoremail = email[0]
-        print("creatoremailll" + creatoremail)
-
-        messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'systems@surecash.net'
-        elif team == 'TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team == 'DataTeam':
-            team = 'data@surecash.net'
-        _send_mail(task, employee_id, comment, id, team, creatoremail)
-        return render(request, 'techticket.html')
+#
+# def techTicketsave(request):
+#     if request.method == 'POST':
+#         employee_id = request.POST.get("employee_id")
+#         task = request.POST.get("task")
+#         comment = request.POST.get("comment")
+#         # attachment = request.POST.get("attachment")
+#         request_date = request.POST.get("request_date")
+#         approval = request.POST.get("approval")
+#         team = request.POST.get("team")
+#         print(team)
+#         print(employee_id)
+#         print(task)
+#         print(comment)
+#         # print(attachment)
+#         print(request_date)
+#         print(approval)
+#         cursor = connection.cursor()
+#         x = cursor.execute(
+#             "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
+#             [employee_id, task, comment, request_date, approval, team])
+#
+#         cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+#         thistuple = cursor.fetchall()
+#         for i in thistuple:
+#             print(i[0])
+#
+#         id = i[0]
+#         print(id)
+#
+#         cursor.execute('select email from auth_user where username= %s', [employee_id])
+#         email = cursor.fetchall()
+#         for email in email:
+#             print(email[0])
+#
+#         creatoremail = email[0]
+#         print("creatoremailll" + creatoremail)
+#
+#         messages.success(request, "Ticket entry successfully..!!")
+#         if team == 'systems':
+#             team = 'systems@surecash.net'
+#         elif team == 'TechOps':
+#             team = 'tech_ops@surecash.net'
+#         elif team == 'DataTeam':
+#             team = 'data@surecash.net'
+#         _send_mail(task, employee_id, comment, id, team, creatoremail)
+#         return render(request, 'techticket.html')
 
 def techEdit(request):
     if request.method == 'POST':
@@ -1194,55 +1222,55 @@ def techUpdatePage(request):
         context = {'updatedata': y}
         return render(request, 'techTicketStatus.html', context)
 
-
-def dataTicketSave(request):
-    if request.method == 'POST':
-        employee_id = request.POST.get("employee_id")
-        task = request.POST.get("task")
-        comment = request.POST.get("comment")
-        # attachment = request.POST.get("attachment")
-        request_date = request.POST.get("request_date")
-        approval = request.POST.get("approval")
-        team = request.POST.get("team")
-        print(team)
-        print(employee_id)
-        print(task)
-        print(comment)
-        # print(attachment)
-        print(request_date)
-        print(approval)
-        cursor = connection.cursor()
-        x = cursor.execute(
-            "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
-            [employee_id, task, comment, request_date, approval, team])
-
-        cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
-        thistuple = cursor.fetchall()
-        for i in thistuple:
-            print(i[0])
-
-        id = i[0]
-        print(id)
-
-        cursor.execute('select email from auth_user where username= %s', [employee_id])
-        email = cursor.fetchall()
-        for email in email:
-            print(email[0])
-
-        creatoremail = email[0]
-        print("creatoremailll" + creatoremail)
-
-        messages.success(request, "Ticket entry successfully..!!")
-        if team == 'systems':
-            team = 'systems@surecash.net'
-        elif team == 'TechOps':
-            team = 'tech_ops@surecash.net'
-        elif team == 'DataTeam':
-            team = 'data@surecash.net'
-        _send_mail(task, employee_id, comment, id, team, creatoremail)
-        return render(request, 'dataticket.html')
-
-
+#
+# def dataTicketSave(request):
+#     if request.method == 'POST':
+#         employee_id = request.POST.get("employee_id")
+#         task = request.POST.get("task")
+#         comment = request.POST.get("comment")
+#         # attachment = request.POST.get("attachment")
+#         request_date = request.POST.get("request_date")
+#         approval = request.POST.get("approval")
+#         team = request.POST.get("team")
+#         print(team)
+#         print(employee_id)
+#         print(task)
+#         print(comment)
+#         # print(attachment)
+#         print(request_date)
+#         print(approval)
+#         cursor = connection.cursor()
+#         x = cursor.execute(
+#             "INSERT INTO support_portal_userprofile(employee_id, task, comment,request_date, approval, team) VALUES (%s, %s,  %s, %s, %s, %s)",
+#             [employee_id, task, comment, request_date, approval, team])
+#
+#         cursor.execute('select id from myappdb.support_portal_userprofile order by request_date DESC limit  1')
+#         thistuple = cursor.fetchall()
+#         for i in thistuple:
+#             print(i[0])
+#
+#         id = i[0]
+#         print(id)
+#
+#         cursor.execute('select email from auth_user where username= %s', [employee_id])
+#         email = cursor.fetchall()
+#         for email in email:
+#             print(email[0])
+#
+#         creatoremail = email[0]
+#         print("creatoremailll" + creatoremail)
+#
+#         messages.success(request, "Ticket entry successfully..!!")
+#         if team == 'systems':
+#             team = 'systems@surecash.net'
+#         elif team == 'TechOps':
+#             team = 'tech_ops@surecash.net'
+#         elif team == 'DataTeam':
+#             team = 'data@surecash.net'
+#         _send_mail(task, employee_id, comment, id, team, creatoremail)
+#         return render(request, 'dataticket.html')
+#
+#
 
 def dataTicketStatus(request):
     user = request.POST.get("employee_id")
@@ -1436,6 +1464,7 @@ def actionForData(request):
         if x:
             messages.success(request, "Task Closed Successfully..!!")
     return render(request, 'dataTicketStatus.html')
+    # return render(request, 'dataTicketStatus.html')
 
 
 def actionForTech(request):
@@ -1511,7 +1540,22 @@ def companyInfoSave(request):
             "INSERT INTO support_portal_companyinfo (company_name, email, phonenumber) VALUES (%s, %s, %s)",
             [company_name, email, phonenumber])
 
-        return redirect('regview')
+
+
+        company_id =cursor.execute ('select id from support_portal_companyinfo where company_name= %s',[company_name])
+
+        company_id = cursor.fetchall()
+        print(company_id)
+        for i in company_id:
+            print(i[0])
+        company_id = i[0]
+        print(company_id)
+
+
+        context = {'company_id': company_id}
+        return render(request, 'userCreate.html', context)
+
+        # return redirect(userCreate)
 
 
 def dbAccess(request):
@@ -1670,14 +1714,6 @@ def NewDbTicketSaved(request):
         print(f"TeamEmail" + teamEmail)
         team = teamEmail
 
-        # messages.success(request, "Ticket entry successfully..!!")
-        # if team == 'systems':
-        #     team = 'systems@surecash.net'
-        # elif team == 'TechOps':
-        #     team = 'tech_ops@surecash.net'
-        # elif team == 'DataTeam':
-        #     team = 'data@surecash.net'
-
         latest_update=''
         _send_mail(task, employee_id, comment, id, team, creatoremail,latest_update)
         return render(request, 'newticket.html')
@@ -1706,19 +1742,18 @@ def UserRegSave(request):
         password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
         active="1"
-        print(user_name)
-        print(first_name)
-        print(last_name)
-        print(email)
-        print(user_types)
-        print(access)
-        print(active)
-        print(password1)
-        print(password2)
 
         currentdate = datetime.now()
         current_datetime = currentdate.strftime("%Y-%m-%d %H:%M:%S")
 
+        # form = createUserForm()
+        # if request.method == 'POST':
+        #     form = createUserForm(request.POST)
+        #     if form.is_valid():
+        #         form.save()
+        #         if form.save():
+        #             messages.success(request, "User Create Successfully..!!")
+        #         return redirect('login')
 
         cursor = connection.cursor()
         cursor.execute(
@@ -1883,3 +1918,182 @@ def GroupDelete(request):
 
 
         return redirect('CreateGroup')
+
+
+def settings(request):
+    user = request.user
+    print(user)
+
+    cursor = connection.cursor()
+    cursor.execute('select * from auth_user where username = %s',[user])
+    user_id = cursor.fetchall()
+
+    print(user_id)
+
+    context = {'user_id': user_id}
+    return render(request, 'settings.html',context)
+
+
+def userManagementPage(request):
+
+    return render(request, 'userManagementPage.html')
+
+
+def changePassword(request):
+    fm = PasswordChangeForm(request.user)
+    if request.method == "POST":
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+            fm.save()
+            if fm.save():
+                messages.success(request, "Changed Successfully..!!")
+            return redirect('login')
+    context = {'form': fm}
+    return render(request, 'changePassword.html', context)
+
+
+def changePasswordUser(request):
+    fm = PasswordChangeForm(request.user)
+    if request.method == "POST":
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+            fm.save()
+            if fm.save():
+                messages.success(request, "Changed Successfully..!!")
+            return redirect('login')
+    context = {'form': fm}
+    return render(request, 'changePasswordUser.html', context)
+
+
+def userCreate(request):
+
+    form = createUserForm()
+    print(form)
+
+    # print(f("id"+company_id))
+
+    if request.method == 'POST':
+        form = createUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if form.save():
+                messages.success(request, "User Create Successfully..!!")
+            return redirect('login')
+
+    cursor = connection.cursor()
+    cursor.execute('select id from auth_user order by id DESC limit  1 ')
+    last_user = cursor.fetchall()
+    print(last_user)
+    for i in last_user:
+        print(i[0])
+    lastCreatedUserId = i[0]
+    print(lastCreatedUserId)
+
+
+    group_id = request.POST.get("group_id")
+    print(group_id)
+
+    # group_id='1'
+    # cursor = connection.cursor() 
+    # x = cursor.execute(
+    #     "INSERT INTO auth_user_groups(user_id, group_id) VALUES (%s, %s)",
+    #     [lastCreatedUserId, group_id])
+
+    cursor = connection.cursor()
+    cursor.execute('select * from auth_user order by id DESC')
+    # cursor.execute('select * from auth_user')
+    Alluser = cursor.fetchall()
+    print(Alluser)
+
+    context = {'form': form, 'Alluser': Alluser}
+    return render(request, 'userCreate.html', context)
+
+
+def CompanyCreatePage(request):
+    return render(request, 'CompanyCreatePage.html')
+
+
+def copy_userCreate(request):
+    return render(request, 'copy_userCreate.html')
+
+def userRegistration(request):
+    form = createUserForm()
+
+    if request.method == 'POST':
+        form = createUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if form.save():
+                messages.success(request, "User Create Successfully..!!")
+            return redirect('regview')
+
+    return render(request, 'userRegistration.html')
+
+
+def AssignedTask(request):
+    user = request.user
+    print(user)
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE maker1= %s ORDER BY request_date DESC', [user])
+    data = cursor.fetchall()
+
+    context = {'data': data}
+    return render(request, 'AssignedTask.html', context)
+
+
+def OwnTask(request):
+    user = request.user
+    print(user)
+
+    cursor = connection.cursor()
+    cursor.execute(
+        'SELECT *,datediff(etd,current_date) as pending_days FROM support_portal_userprofile WHERE employee_id= %s ORDER BY request_date DESC', [user])
+    data = cursor.fetchall()
+
+    context = {'data': data}
+    return render(request, 'OwnTask.html', context)
+
+
+def profileEdit(request):
+    if request.method == 'POST':
+        user_id = request.POST.get("id")
+        print(user_id)
+        cursor = connection.cursor()
+        cursor.execute('select * from auth_user where id= %s', [user_id])
+        user_info = cursor.fetchall()
+        print(user_info)
+
+
+        # cursor = connection.cursor()
+        # cursor.execute('select * from auth_user order by id DESC')
+        # AllGroup = cursor.fetchall()
+        # print(AllGroup)
+
+        context = {'user_info': user_info}
+        return render(request, 'profileEdit.html',context)
+
+
+def profileUpdate(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        userid = request.POST.get("id")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        print(username)
+        print(userid)
+        print(first_name)
+        print(last_name)
+        print(email)
+
+        cursor = connection.cursor()
+        y = cursor.execute("UPDATE auth_user SET username= %s,email= %s,first_name= %s,last_name= %s WHERE id= %s", [username, email, first_name,last_name,userid ])
+        if y:
+            messages.success(request, "User Edit Successfully..!!")
+        #return redirect('profileUpdate')
+        return render(request, 'profileUpdate.html')
+
+
+def importLink(request):
+    return render(request, 'importLink.html')

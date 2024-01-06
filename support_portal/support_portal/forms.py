@@ -66,6 +66,9 @@ class infoUpdate(forms.ModelForm):
         ]
 
 
+
+
+
 # class infoUpdate(forms.ModelForm):
 #     class Meta:
 #         model = infoUpdate

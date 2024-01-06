@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
 
 class userprofile(models.Model):
 
@@ -56,8 +57,48 @@ class companyinfo(models.Model):
     company_name = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=50, null=True)
     phonenumber = models.CharField(max_length=16, null=True)
+    # comp_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    comp_user_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+
 
 
 
     def __str__(self):
-        return self.company_name
+        return self.comp_user_id.id
+
+
+
+class userReg(models.Model):
+    username = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=50, null=True)
+    password1 = models.CharField(max_length=128, null=True)
+    password2 = models.CharField(max_length=16, null=True)
+    first_name = models.CharField(max_length=16, null=True)
+    last_name = models.CharField(max_length=16, null=True)
+    is_superuser = models.CharField(max_length=16, null=True)
+    is_staff = models.CharField(max_length=16, null=True)
+    comp_user_id = models.CharField(max_length=16, null=True)
+
+
+class User(models.Model):
+    username = models.CharField(max_length=100, null=True)
+    password1 = models.CharField(max_length=128, null=True)
+    password2 = models.CharField(max_length=16, null=True)
+
+    email = models.EmailField(unique=True, max_length=255, blank=False)
+    first_name = models.CharField('first name', max_length=150, blank=True)
+    last_name = models.CharField('last name', max_length=150, blank=True)
+    mobile = models.PositiveBigIntegerField('mobile', null=True, blank=True)
+    is_staff = models.BooleanField('staff status', default=False)
+    is_active = models.BooleanField('active', default=False)
+    is_superuser = models.BooleanField('superuser', default=False)
+    date_joined = models.DateTimeField('date joined', default=timezone.now)
+
+    comp_user_id = models.CharField(max_length=16, null=True)
+
+
+    def __str__(self):
+        return self.email
+
+    def full_name(self):
+        return self.first_name + " " + self.last_name

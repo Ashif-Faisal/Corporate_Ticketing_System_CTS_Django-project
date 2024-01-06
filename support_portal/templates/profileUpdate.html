@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block main %}
+
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+   <br><center> <h4  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </h4></center>
+    {% endfor %}
+</ul>
+
+
+{% endif %}
+
+
+{% endblock %}
