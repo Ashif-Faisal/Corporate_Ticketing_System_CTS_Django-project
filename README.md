@@ -1,6 +1,6 @@
 # CTS - Corporate Ticketing System
 
-I want to make this project for the purpose of making a Corporate Ticketing
+This project for the purpose of making a Corporate Ticketing
 Management system easier. We know that managing a Corporate ticketing in old
 tradition is very time consuming and has some risk of data loss .To make the overall
 system efficient we want to make this management system. Here I want to serve
